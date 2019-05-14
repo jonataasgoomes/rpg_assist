@@ -20,10 +20,10 @@ class UserModel extends Model {
     _gSignIn.signOut();
     _auth.signOut();
     print('Signed out');
+    isLoading = false;
   }
 
   Future<Null> signInGoogle(BuildContext context) async {
-    isLoading = true;
 
     GoogleSignInAccount googleSignInAccount = _gSignIn.currentUser;
 
