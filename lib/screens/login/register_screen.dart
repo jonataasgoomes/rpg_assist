@@ -18,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage (
-            image: AssetImage("images/background.png"),
+            image: AssetImage("images/background_min.png"),
           fit: BoxFit.cover),
         ),
         child: ListView(

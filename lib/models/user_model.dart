@@ -8,7 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 class UserModel extends Model {
   FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _gSignIn = new GoogleSignIn();
-  FirebaseUser _firebaseUser;
+  FirebaseUser firebaseUser;
+  String userId = "";
 
   final googleSignIn = GoogleSignIn();
 
@@ -17,29 +18,36 @@ class UserModel extends Model {
   bool isLoading = false;
 
   void signOutGoogle() {
+
+    firebaseUser = null;
+    userData = Map();
+
+    print('Signed out');
+
+
+    this.userId = "";
+
+
     _gSignIn.signOut();
     _auth.signOut();
-    print('Signed out');
+
     isLoading = false;
+    notifyListeners();
   }
 
+//login com o google
   Future<Null> signInGoogle(BuildContext context) async {
-
     GoogleSignInAccount googleSignInAccount = _gSignIn.currentUser;
 
     if (googleSignInAccount == null) {
-      googleSignInAccount = await _gSignIn.signIn();
-      if (googleSignInAccount != null) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
-      }
-      print("signINGOOGLE2");
+      googleSignInAccount = await _gSignIn.signInSilently();
     }
     if (await _auth.currentUser() != null) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
-      print("signFIREBASE");
+      googleSignInAccount = await _gSignIn.signIn();
+      print("Fazendo login com firebase");
       GoogleSignInAuthentication authentication =
           await googleSignInAccount.authentication;
 
@@ -47,30 +55,29 @@ class UserModel extends Model {
           accessToken: authentication.accessToken,
           idToken: authentication.idToken);
 
-      _firebaseUser =
-          await _auth.signInWithCredential(credential).then((user) async {
-        _firebaseUser = user;
+      firebaseUser = await _auth.signInWithCredential(credential).then((user) async {
+        firebaseUser = user;
+        this.userId = user.uid;
 
-        print(user.displayName);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
 
-        if (_auth != null) {
-          final QuerySnapshot result = await Firestore.instance
-              .collection("users")
-              .where("id", isEqualTo: user.uid)
-              .getDocuments();
-          final List<DocumentSnapshot> documents = result.documents;
-          if (documents.length == 0) {
-            Map<String, dynamic> userData = {
-              "providerId": user.providerId,
-              "id": user.uid,
-              "name": user.displayName,
-              "photoUrl": user.photoUrl,
-              "email": user.email,
-              "isAnonymous": user.isAnonymous,
-              "isEmailVerified": user.isEmailVerified,
-            };
-            await _saveUserData(userData);
-          }
+        final QuerySnapshot result = await Firestore.instance
+            .collection("users")
+            .where("id", isEqualTo: user.uid)
+            .getDocuments();
+        final List<DocumentSnapshot> documents = result.documents;
+        if (documents.length == 0) {
+          Map<String, dynamic> userData = {
+            "providerId": user.providerId,
+            "id": user.uid,
+            "name": user.displayName,
+            "photoUrl": user.photoUrl,
+            "email": user.email,
+            "isAnonymous": user.isAnonymous,
+            "isEmailVerified": user.isEmailVerified,
+          };
+          await _saveUserData(userData);
         }
         isLoading = false;
         notifyListeners();
@@ -81,6 +88,7 @@ class UserModel extends Model {
     }
   }
 
+  //registro do usuário no firebase
   void signUp(
       {@required Map<String, dynamic> userData,
       @required String password,
@@ -92,7 +100,7 @@ class UserModel extends Model {
         .createUserWithEmailAndPassword(
             email: userData["email"], password: password)
         .then((user) async {
-      _firebaseUser = user;
+      firebaseUser = user;
       await _saveUserData(userData);
       onSucess();
       isLoading = false;
@@ -104,6 +112,12 @@ class UserModel extends Model {
     });
   }
 
+//usuário logado?
+  bool isLoggedIn() {
+    return firebaseUser != null;
+  }
+
+  //login com facebook
   void signInFacebook() async {
     isLoading = true;
     notifyListeners();
@@ -114,6 +128,7 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  //login usando credenciais do firebase : email e senha
   void signIn() async {
     isLoading = true;
     notifyListeners();
@@ -124,14 +139,16 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  //recuperação de senha
   void recoverPass() {}
 
+//salvar usuário no bando.
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
     print("SALVANDO");
     await Firestore.instance
         .collection("users")
-        .document(_firebaseUser.uid)
+        .document(firebaseUser.uid)
         .setData(userData);
   }
 }

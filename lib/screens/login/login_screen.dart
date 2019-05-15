@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                    "images/background.png"),
+                    "images/background_min.png"),
                 fit: BoxFit.cover)
         ),
         child: ListView(
