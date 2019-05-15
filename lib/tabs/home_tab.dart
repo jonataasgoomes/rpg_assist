@@ -72,14 +72,32 @@ class _HomeTabState extends State<HomeTab> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return SliverToBoxAdapter(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 150),
-                            width: 100,
-                            height: 100,
-                            alignment: Alignment.center,
-                            child: FlareActor("assets/Dice_Loading.flr",
-                                animation: "loading"),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(top: 70),
+                                  child: Text("Loading ...",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "IndieFlower",
+                                        color: Color.fromARGB(255, 234, 205, 125),
+                                        fontSize: 20
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  )
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                width: 100,
+                                height: 100,
+                                alignment: Alignment.center,
+                                child: FlareActor("assets/Dice_Loading.flr",
+                                    animation: "loading"),
 
+                              )
+                            ],
                           )
                       );
                     }if(snapshot.data.documents.length == 0) {
@@ -108,7 +126,6 @@ class _HomeTabState extends State<HomeTab> {
 
                     }else{
 
-                      print(snapshot.data.documents.length);
                       return SliverList(
                           delegate: SliverChildBuilderDelegate((context, index) {
                             return AdventureCard(snapshot.data.documents[index], index);
