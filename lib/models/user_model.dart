@@ -6,16 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserModel extends Model {
-  FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _gSignIn = new GoogleSignIn();
-  FirebaseUser firebaseUser;
-  String userId = "";
-
   final googleSignIn = GoogleSignIn();
-
   Map<String, dynamic> userData = Map();
-
+  FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = false;
+  FirebaseUser firebaseUser;
+  String userId;
 
   void signOutGoogle() {
 
@@ -37,12 +34,17 @@ class UserModel extends Model {
 
 //login com o google
   Future<Null> signInGoogle(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
     GoogleSignInAccount googleSignInAccount = _gSignIn.currentUser;
 
     if (googleSignInAccount == null) {
       googleSignInAccount = await _gSignIn.signInSilently();
     }
     if (await _auth.currentUser() != null) {
+      firebaseUser = await _auth.currentUser();
+      userId = firebaseUser.uid;
+
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
@@ -78,6 +80,8 @@ class UserModel extends Model {
             "isEmailVerified": user.isEmailVerified,
           };
           await _saveUserData(userData);
+          isLoading = false;
+          notifyListeners();
         }
         isLoading = false;
         notifyListeners();

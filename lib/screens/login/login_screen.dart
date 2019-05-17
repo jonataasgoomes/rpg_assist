@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fit: BoxFit.fitWidth
                           ),
                     ),
-
                     SignInButton(),
                     FormSignInContainer(),
                     SizedBox(
