@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 class AdventureCard extends StatelessWidget {
   DocumentSnapshot document;
   int index;
-
   AdventureCard(this.document, this.index);
 
   @override

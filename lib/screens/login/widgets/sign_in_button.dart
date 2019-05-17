@@ -5,90 +5,96 @@ import 'package:scoped_model/scoped_model.dart';
 
 
 
-class SignInButton extends StatelessWidget {
+class SignInButton extends StatefulWidget {
+  @override
+  _SignInButtonState createState() => _SignInButtonState();
+}
+
+class _SignInButtonState extends State<SignInButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ScopedModelDescendant<UserModel>(
-        builder: (context,child,model){
-          if(model.isLoading)
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 50.0),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                width: 250.0,
-                child: RaisedButton(
-                  onPressed: () {
-                    model.signInGoogle(context);
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: Color.fromRGBO(221,75,57,1.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.google,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        "Sign in with Google",
-                        style: TextStyle(color: Colors.white,
-                            fontSize: 18.0),
-                      ),
-                    ],
-                  ),
+        child: ScopedModelDescendant<UserModel>(
+          builder: (context,child,model){
+            if(model.isLoading)
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 50.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
                 ),
-
-              ),
-              Container(
-                width: 250.0,
-                child: Align(
-                  alignment: Alignment.center,
+              );
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  width: 250.0,
                   child: RaisedButton(
                     onPressed: () {
-                      model.signOutGoogle();
+                      model.signInGoogle(context);
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    color: Color.fromRGBO(59, 89, 152, 1.0),
+                    color: Color.fromRGBO(221,75,57,1.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          FontAwesomeIcons.facebook,
+                          FontAwesomeIcons.google,
                           color: Colors.white,
                         ),
                         SizedBox(
                           width: 10.0,
                         ),
                         Text(
-                          "Sign in with Facebook",
-                          style: TextStyle(color: Colors.white, fontSize: 18.0),
+                          "Sign in with Google",
+                          style: TextStyle(color: Colors.white,
+                              fontSize: 18.0),
                         ),
                       ],
                     ),
                   ),
+
                 ),
-              )
-            ],
-          );
-        },
-      )
+                Container(
+                  width: 250.0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: RaisedButton(
+                      onPressed: () {
+                          model.signOutGoogle();
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      color: Color.fromRGBO(59, 89, 152, 1.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            FontAwesomeIcons.facebook,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "Sign in with Facebook",
+                            style: TextStyle(color: Colors.white, fontSize: 18.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        )
     );
   }
-}
+  }
+

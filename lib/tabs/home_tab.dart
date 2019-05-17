@@ -16,6 +16,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   @override
   Widget build(BuildContext context) {
+    int count = 0;
     Widget _buildBodyBack() => Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -49,7 +50,7 @@ class _HomeTabState extends State<HomeTab> {
                   expandedHeight: 150,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    titlePadding: EdgeInsets.all(50),
+                    titlePadding: EdgeInsets.all(60),
                     background: Image.asset(
                       "images/background_sliver_bar.png",
                       fit: BoxFit.cover,
@@ -102,7 +103,6 @@ class _HomeTabState extends State<HomeTab> {
                       );
                     }if(snapshot.data.documents.length == 0) {
                       print(snapshot.data.documents.length);
-
                       return SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,11 +125,16 @@ class _HomeTabState extends State<HomeTab> {
                     );
 
                     }else{
-
                       return SliverList(
                           delegate: SliverChildBuilderDelegate((context, index) {
-                            return AdventureCard(snapshot.data.documents[index], index);
-                          }, childCount: snapshot.data.documents.length)
+                            if(count >= 5){
+                              count = 0;
+                            }
+                            count++;
+                            return
+                              AdventureCard(snapshot.data.documents[index], count-1);
+                          },
+                              childCount: snapshot.data.documents.length)
                       );
                     }
                   },

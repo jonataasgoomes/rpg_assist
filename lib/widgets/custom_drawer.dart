@@ -33,6 +33,7 @@ class CustomDrawer extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(left: 15.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         DrawerTile(
                             Icons.view_list, "Adventures", pageController, 0),
@@ -45,28 +46,38 @@ class CustomDrawer extends StatelessWidget {
                         DrawerTile(
                             Icons.settings, "Settings", pageController, 4),
                         Container(
-                            alignment: Alignment.centerLeft,
-                            child: FlatButton.icon(
-                              icon: Icon(
-                                FontAwesomeIcons.signOutAlt,
-                                color: Color.fromARGB(255, 198, 54, 81),
-                              ),
-                              label: Text(
-                                "Sign Out",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Color.fromARGB(255, 198, 54, 81),
-                                ),
-                              ),
-                              //`Text` to display
-                              onPressed: () {
+                          padding: EdgeInsets.only(top: 15),
+                            child: InkWell(
+                              onTap: (){
                                 model.signOutGoogle();
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             LoginScreen()));
                               },
-                            )),
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.signOutAlt,
+                                    color: Color.fromARGB(255, 198, 54, 81),
+                                  ),
+                                  SizedBox(
+                                    width: 35,
+                                  ),
+                                  Text(
+                                    "Sign Out",
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Color.fromARGB(255, 198, 54, 81),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                        ),
                       ],
                     ),
                   ),
