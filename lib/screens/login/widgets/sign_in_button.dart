@@ -3,6 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../home_screen.dart';
+import 'form_sign_in_container.dart';
+
 
 
 class SignInButton extends StatefulWidget {
@@ -33,7 +36,8 @@ class _SignInButtonState extends State<SignInButton> {
                   width: 250.0,
                   child: RaisedButton(
                     onPressed: () {
-                      model.signInGoogle(context);
+                      model.signInGoogle(context: context,
+                      onFail: _onFail, onSuccess: _onSuccess);
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -89,12 +93,30 @@ class _SignInButtonState extends State<SignInButton> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             );
           },
         )
     );
   }
+
+
+
+
+
+
+  void _onFail() {
+    Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text("failed to Sign In"),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),)
+    );
   }
+
+  void _onSuccess() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+}
 

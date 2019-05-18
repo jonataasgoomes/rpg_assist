@@ -6,69 +6,75 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserModel extends Model {
-  final GoogleSignIn _gSignIn = new GoogleSignIn();
-  final googleSignIn = GoogleSignIn();
-  Map<String, dynamic> userData = Map();
+  final GoogleSignIn _gSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  bool isLoading = false;
   FirebaseUser firebaseUser;
-  String userId;
+  Map<String, dynamic> userData = Map();
 
-  void signOutGoogle() {
+  bool isLoading = false;
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _loadCurrentUser();
+  }
+
+  void signOutGoogle() async {
+
+    await _gSignIn.signOut();
+    await _auth.signOut();
 
     firebaseUser = null;
     userData = Map();
 
     print('Signed out');
 
-
-    this.userId = "";
-
-
-    _gSignIn.signOut();
-    _auth.signOut();
-
     isLoading = false;
     notifyListeners();
   }
 
 //login com o google
-  Future<Null> signInGoogle(BuildContext context) async {
+  Future<Null> signInGoogle(
+      {@required context,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
+
     isLoading = true;
     notifyListeners();
-    GoogleSignInAccount googleSignInAccount = _gSignIn.currentUser;
 
-    if (googleSignInAccount == null) {
-      googleSignInAccount = await _gSignIn.signInSilently();
+    GoogleSignInAccount user = _gSignIn.currentUser;
+
+    if (user == null) {
+      user = await _gSignIn.signInSilently();
     }
-    if (await _auth.currentUser() != null) {
-      firebaseUser = await _auth.currentUser();
-      userId = firebaseUser.uid;
-
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()));
-    } else {
-      googleSignInAccount = await _gSignIn.signIn();
-      print("Fazendo login com firebase");
-      GoogleSignInAuthentication authentication =
-          await googleSignInAccount.authentication;
+    if (user == null) {
+      user = await _gSignIn.signIn();
+    }
+    if(await _auth.currentUser() != null){
+      isLoading = false;
+      notifyListeners();
+      await _loadCurrentUser();
+    }
+    if (await _auth.currentUser() == null) {
+      GoogleSignInAuthentication authentication = await user.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           accessToken: authentication.accessToken,
           idToken: authentication.idToken);
 
-      firebaseUser = await _auth.signInWithCredential(credential).then((user) async {
+      firebaseUser =
+          await _auth.signInWithCredential(credential).then((user) async {
         firebaseUser = user;
-        this.userId = user.uid;
 
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
+        await _loadCurrentUser();
 
         final QuerySnapshot result = await Firestore.instance
             .collection("users")
             .where("id", isEqualTo: user.uid)
             .getDocuments();
+
         final List<DocumentSnapshot> documents = result.documents;
+
         if (documents.length == 0) {
           Map<String, dynamic> userData = {
             "providerId": user.providerId,
@@ -80,15 +86,27 @@ class UserModel extends Model {
             "isEmailVerified": user.isEmailVerified,
           };
           await _saveUserData(userData);
+
+          await _loadCurrentUser();
+
+          onSuccess();
+
           isLoading = false;
+
           notifyListeners();
         }
+        onSuccess();
+        await _loadCurrentUser();
         isLoading = false;
         notifyListeners();
       }).catchError((e) {
+        onFail();
         isLoading = false;
         notifyListeners();
       });
+    }else{
+      onSuccess();
+      isLoading = false;
     }
   }
 
@@ -100,11 +118,19 @@ class UserModel extends Model {
       @required VoidCallback onFail}) {
     isLoading = true;
     notifyListeners();
+
     _auth
         .createUserWithEmailAndPassword(
             email: userData["email"], password: password)
         .then((user) async {
       firebaseUser = user;
+
+      userData['id'] = firebaseUser.uid;
+      userData['isEmailVerified'] = firebaseUser.isEmailVerified;
+      userData['photoUrl'] = firebaseUser.photoUrl;
+      userData['providerId'] = firebaseUser.providerId;
+      userData['isAnonymous'] = firebaseUser.isAnonymous;
+
       await _saveUserData(userData);
       onSucess();
       isLoading = false;
@@ -133,14 +159,29 @@ class UserModel extends Model {
   }
 
   //login usando credenciais do firebase : email e senha
-  void signIn() async {
+  void signIn(
+      {@required String email,
+      @required String password,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     isLoading = true;
     notifyListeners();
 
-    await Future.delayed(Duration(seconds: 3));
+    _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((user) async {
+      firebaseUser = user;
 
-    isLoading = false;
-    notifyListeners();
+      await _loadCurrentUser();
+
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e) {
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   //recuperação de senha
@@ -149,10 +190,26 @@ class UserModel extends Model {
 //salvar usuário no bando.
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
-    print("SALVANDO");
     await Firestore.instance
         .collection("users")
         .document(firebaseUser.uid)
         .setData(userData);
+  }
+
+  // recuperando dados usuário
+  Future<Null> _loadCurrentUser() async {
+    if (firebaseUser == null) firebaseUser = await _auth.currentUser();
+    if (firebaseUser != null) {
+      if (userData["id"] == null) {
+        DocumentSnapshot docUser = await Firestore.instance
+            .collection("users")
+            .document(firebaseUser.uid)
+            .get();
+
+        userData = docUser.data;
+      }
+    }
+
+    notifyListeners();
   }
 }

@@ -12,10 +12,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -38,10 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                     ),
                     SignInButton(),
-                    FormSignInContainer(),
                     SizedBox(
                       height: 30.0,
                     ),
+        FormSignInContainer(),
                     SignUpButton(),
                     SizedBox(
                       height: 50.0,
