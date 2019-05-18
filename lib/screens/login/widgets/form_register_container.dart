@@ -10,6 +10,7 @@ class FormRegisterContainer extends StatefulWidget {
 }
 
 class _FormRegisterContainerState extends State<FormRegisterContainer> {
+
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -28,7 +29,7 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
         builder: (context, child, model) {
           if (model.isLoading) {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 83),
+              width: 250,
               child: Column(
                 children: <Widget>[
                   Text("SIGNING UP",
@@ -44,9 +45,7 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
                     child: Image.asset("images/logo1.png",
                         width: 100, fit: BoxFit.fitWidth),
                   ),
-                  Container(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
+
                 ],
               ),
             );
@@ -164,7 +163,20 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
     );
   }
 
-  void _onSuccess() {}
+  void _onSuccess() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(content: Text("your account has been successfully created!"),
+      duration: Duration(seconds: 5),)
+    );
+    Navigator.of(context).pop();
+  }
 
-  void _onFail() {}
+  void _onFail() {
+    Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text("failed to create user"),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),)
+    );
+
+  }
 }
