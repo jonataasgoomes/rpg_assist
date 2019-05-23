@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/tabs/home_tab.dart';
-import 'package:rpg_assist_app/tabs/new_adventure_tab.dart';
+import 'package:rpg_assist_app/screens/adventure/new_adventure_screen.dart';
 import 'package:rpg_assist_app/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,41 +9,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _imageFloatingButton = "";
   final _pageController = PageController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-  VoidCallback _showNewAdventureBottomSheetCallBack;
 
-  @override
-  void initState() {
-    super.initState();
-    _imageFloatingButton = "new_adventure.png";
-    _showNewAdventureBottomSheetCallBack = _showBottomSheet;
-  }
-
-  void _showBottomSheet() {
-    setState(() {
-      _imageFloatingButton = "exit_adventure.png";
-      _showNewAdventureBottomSheetCallBack = _closeBottomSheet;
-    });
-    _scaffoldKey.currentState
-        .showBottomSheet((context) {
-          return NewAdventureTab();
-        })
-        .closed
-        .whenComplete(() {
-          setState(() {
-            _imageFloatingButton = "new_adventure.png";
-          });
-
-          if (mounted) {
-            _showNewAdventureBottomSheetCallBack = _showBottomSheet;
-          }
-        });
-  }
-  void _closeBottomSheet() {
-    Navigator.of(context).pop();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 80.0,
               child: FloatingActionButton(
                 backgroundColor: Colors.transparent,
-                onPressed: _showNewAdventureBottomSheetCallBack,
+                onPressed: (){
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context)=>NewAdventureScreen()));
+                },
                 child: Container(
-                  child: Image.asset("images/$_imageFloatingButton"),
+                  child: Image.asset("images/new_adventure.png"),
                 ),
-              )),
+              )
+          ),
         ),
         Scaffold(
           appBar: AppBar(
