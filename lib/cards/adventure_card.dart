@@ -23,6 +23,7 @@ class _AdventureCardState extends State<AdventureCard> {
     return Stack(
       children: <Widget>[
         Container(
+            margin: EdgeInsets.only(top: 5),
             height: 150,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -31,7 +32,7 @@ class _AdventureCardState extends State<AdventureCard> {
                     fit: BoxFit.cover)),
     ),
             Container(
-              margin: EdgeInsets.only(bottom: 5),
+              margin: EdgeInsets.only(top: 5),
               height: 150,
                 child: Material(
                     color: Colors.transparent,

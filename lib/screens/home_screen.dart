@@ -1,116 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:rpg_assist_app/tabs/home_tab.dart';
 import 'package:rpg_assist_app/screens/adventure/new_adventure_screen.dart';
-import 'package:rpg_assist_app/widgets/custom_drawer.dart';
+import 'package:rpg_assist_app/tiles/drawer_tile.dart';
+import 'package:rpg_assist_app/widgets/custom_navigation_drawer.dart';
+import 'fragments/account_fragment.dart';
+import 'fragments/books_fragment.dart';
+import 'fragments/home_fragment.dart';
+import 'fragments/notifications_fragments.dart';
+import 'fragments/settings_fragments.dart';
+
+
+class InfoTile{
+  String title;
+  IconData icon;
+  InfoTile(this.icon,this.title);
+}
 
 class HomeScreen extends StatefulWidget {
+  final drawerItems = [
+    InfoTile(Icons.view_list, "Adventures"),
+    InfoTile(Icons.library_books, "Books"),
+    InfoTile(Icons.person_outline, "Account"),
+    InfoTile(Icons.notifications, "Notifications"),
+    InfoTile(Icons.settings, "Settings"),
+  ];
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _pageController = PageController();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  int _selectedDrawerIndex = 0;
 
+  _getDrawerItemWidget(int pos) {
+    switch (pos) {
+      case 0:
+        return HomeFragment();
+      case 1:
+        return BooksFragment();
+      case 2:
+        return AccountFragment();
+      case 3:
+        return NotificationsFragment();
+      case 4:
+        return SettingsFragment();
+
+      default:
+        return new Text("Error");
+    }
+  }
+
+  _onSelectItem(int index){
+    setState(() => _selectedDrawerIndex = index);
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller: _pageController,
-      physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        Scaffold(
+
+    var drawerOptions = <Widget>[];
+    for (var i = 0; i < widget.drawerItems.length; i++) {
+      var d = widget.drawerItems[i];
+      drawerOptions.add(
+        DrawerTile(d.icon,d.title,() => _onSelectItem(i),i,_selectedDrawerIndex)
+      );
+    }
+    return Scaffold(
           key: _scaffoldKey,
-          body: HomeTab(),
-          drawer: CustomDrawer(_pageController),
-          floatingActionButton: Container(
-              width: 80.0,
-              height: 80.0,
-              child: FloatingActionButton(
-                backgroundColor: Colors.transparent,
-                onPressed: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context)=>NewAdventureScreen()));
-                },
-                child: Container(
-                  child: Image.asset("images/new_adventure.png"),
-                ),
-              )
-          ),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
+          appBar: (AppBar(
+            actions: <Widget>[
+              PopupMenuButton(itemBuilder: (_){})
+            ],
             backgroundColor: Color.fromARGB(255, 34, 17, 51),
-            title: const Text(
-              "Books",
-              style: TextStyle(
-                  fontFamily: "IndieFlower",
-                  color: Color.fromARGB(255, 234, 205, 125),
-                  fontSize: 20.0),
+            title: Image.asset(
+              "images/logo.png",
+              height: 20,
             ),
             centerTitle: true,
-          ),
-          drawer: CustomDrawer(_pageController),
-          body: Container(
-            color: Color.fromARGB(255, 34, 17, 51),
-          ),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
-            backgroundColor: Color.fromARGB(255, 34, 17, 51),
-            title: const Text(
-              "Account",
-              style: TextStyle(
-                  fontFamily: "IndieFlower",
-                  color: Color.fromARGB(255, 234, 205, 125),
-                  fontSize: 20.0),
-            ),
-            centerTitle: true,
-          ),
-          drawer: CustomDrawer(_pageController),
-          body: Container(
-            color: Color.fromARGB(255, 34, 17, 51),
-          ),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
-            backgroundColor: Color.fromARGB(255, 34, 17, 51),
-            title: const Text(
-              "Notifications",
-              style: TextStyle(
-                  fontFamily: "IndieFlower",
-                  color: Color.fromARGB(255, 234, 205, 125),
-                  fontSize: 20.0),
-            ),
-            centerTitle: true,
-          ),
-          drawer: CustomDrawer(_pageController),
-          body: Container(
-            color: Color.fromARGB(255, 34, 17, 51),
-          ),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
-            backgroundColor: Color.fromARGB(255, 34, 17, 51),
-            title: const Text(
-              "Settings",
-              style: TextStyle(
-                  fontFamily: "IndieFlower",
-                  color: Color.fromARGB(255, 234, 205, 125),
-                  fontSize: 20.0),
-            ),
-            centerTitle: true,
-          ),
-          drawer: CustomDrawer(_pageController),
-          body: Container(
-            color: Color.fromARGB(255, 34, 17, 51),
-          ),
-        ),
-      ],
-    );
+            iconTheme:
+            IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
+          )),
+          body: _getDrawerItemWidget(_selectedDrawerIndex),
+          drawer: CustomNavigationDrawer(drawerOptions),
+        );
+
   }
 }

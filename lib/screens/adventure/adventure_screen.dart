@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/tabs/players_tab.dart';
-import 'package:rpg_assist_app/widgets/custom_drawer.dart';
+import 'package:rpg_assist_app/tabs/progress_tab.dart';
 
 class AdventureScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
@@ -108,10 +108,26 @@ class _AdventureScreenState extends State<AdventureScreen>
                                     ),
                                   )),
                               body: Container(
+                                child: ProgressTab(user, adventureDoc),
                                   color: Color.fromARGB(255, 226, 226, 225)
                               ),
                             ),
-                            PlayersTab(user, adventureDoc),
+                            Scaffold(
+                              floatingActionButton: Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  child: FloatingActionButton(
+                                    backgroundColor: Colors.transparent,
+                                    onPressed: () {},
+                                    child: Container(
+                                      child: Image.asset("images/add_player.png"),
+                                    ),
+                                  )),
+                              body: Container(
+                                  child: PlayersTab(user, adventureDoc),
+                                  color: Color.fromARGB(255, 226, 226, 225)
+                              ),
+                            ),
                           ],
                         ),
                       ),

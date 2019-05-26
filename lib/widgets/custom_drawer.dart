@@ -35,16 +35,6 @@ class CustomDrawer extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        DrawerTile(
-                            Icons.view_list, "Adventures", pageController, 0),
-                        DrawerTile(
-                            Icons.library_books, "Books", pageController, 1),
-                        DrawerTile(
-                            Icons.person_outline, "Account", pageController, 2),
-                        DrawerTile(Icons.notifications, "Notifications",
-                            pageController, 3),
-                        DrawerTile(
-                            Icons.settings, "Settings", pageController, 4),
                         Container(
                           padding: EdgeInsets.only(top: 15),
                             child: InkWell(

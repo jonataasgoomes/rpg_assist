@@ -96,8 +96,7 @@ class _PlayersTabState extends State<PlayersTab> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
-                                Card(
-                                  child: Container(
+                               Container(
                                     decoration: BoxDecoration(
                                         border: Border(
                                             bottom: BorderSide(width: 0.5
@@ -122,7 +121,6 @@ class _PlayersTabState extends State<PlayersTab> {
                                         ),
                                         Expanded(
                                           child: Container(
-
                                             margin: EdgeInsets.only(right: 10),
                                             child: Column(
                                               crossAxisAlignment:
@@ -158,7 +156,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                       ],
                                     ),
                                   ),
-                                ),
+
                               ],
                             ),
                           ),
