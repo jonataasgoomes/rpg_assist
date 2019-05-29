@@ -116,7 +116,7 @@ class _FormSignInContainerState extends State<FormSignInContainer> {
   void _onFail() {
 
     Scaffold.of(context).showSnackBar(
-        SnackBar(content: Text("failed to Sign In"),
+        SnackBar(content: Text("Failed to Sign In"),
           backgroundColor: Colors.redAccent,
           duration: Duration(seconds: 2),)
     );

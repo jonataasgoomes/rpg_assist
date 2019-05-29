@@ -1,4 +1,3 @@
-import 'package:rpg_assist_app/screens/home_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ class UserModel extends Model {
   final GoogleSignIn _gSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
+
   Map<String, dynamic> userData = Map();
 
   bool isLoading = false;
@@ -170,6 +170,7 @@ class UserModel extends Model {
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((user) async {
+
       firebaseUser = user;
 
       await _loadCurrentUser();
