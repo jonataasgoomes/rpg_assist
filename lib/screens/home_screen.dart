@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rpg_assist_app/screens/adventure/new_adventure_screen.dart';
 import 'package:rpg_assist_app/tiles/drawer_tile.dart';
 import 'package:rpg_assist_app/widgets/custom_navigation_drawer.dart';
 import 'fragments/account_fragment.dart';

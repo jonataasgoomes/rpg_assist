@@ -121,7 +121,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                         ),
                                         Expanded(
                                           child: Container(
-                                            margin: EdgeInsets.only(right: 10),
+                                            margin: EdgeInsets.only(right: 25),
                                             child: Column(
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -148,6 +148,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                                   snapshot.data.documents[0]
                                                   ["masterTitle"],
                                                   maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ],
                                             ),

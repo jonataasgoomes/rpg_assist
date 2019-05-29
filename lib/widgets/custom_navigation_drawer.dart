@@ -5,7 +5,7 @@ import 'package:rpg_assist_app/screens/login/login_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CustomNavigationDrawer extends StatelessWidget {
-  List<Widget> drawerOptions;
+  final List<Widget> drawerOptions;
 
   CustomNavigationDrawer(this.drawerOptions);
 

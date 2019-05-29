@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:rpg_assist_app/screens/login/login_screen.dart';
-import 'package:rpg_assist_app/tiles/drawer_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {

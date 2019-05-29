@@ -1,17 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 
-class NewAdventureScreen extends StatefulWidget {
+class NewSessionScreen extends StatefulWidget {
+  DocumentSnapshot adventureDoc;
+
+  NewSessionScreen(this.adventureDoc);
+
   @override
-  _NewAdventureScreenState createState() => _NewAdventureScreenState();
+  _NewSessionScreenState createState() => _NewSessionScreenState(adventureDoc);
 }
 
-class _NewAdventureScreenState extends State<NewAdventureScreen> {
+class _NewSessionScreenState extends State<NewSessionScreen> {
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final _adventureTitleControler = TextEditingController();
+  final _sessionTitleControler = TextEditingController();
+
+  final DocumentSnapshot adventureDoc;
+
+  _NewSessionScreenState(this.adventureDoc);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                   Navigator.of(context).pop();
                 },
                 child: Container(
-                  child: Image.asset("images/exit_adventure.png"),
+                  child: Image.asset("images/new_session.png"),
                 ),
               ),
             ),
@@ -57,7 +66,7 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Text(
-                                  "Create adventure",
+                                  "Create Session",
                                   style: TextStyle(
                                       fontFamily: "IndieFlower",
                                       color: Color.fromARGB(255, 84, 166, 145),
@@ -69,10 +78,10 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                                   child: Container(
                                     margin: EdgeInsets.only(left: 20, right: 20),
                                     child: TextFormField(
-                                      controller: _adventureTitleControler,
+                                      controller: _sessionTitleControler,
                                       style: TextStyle(),
                                       decoration: InputDecoration(
-                                          labelText: "Choose a name for adventure",
+                                          labelText: "Choose a name for Session",
                                           hintStyle: TextStyle(
                                             fontSize: 15,
                                           ),
@@ -80,7 +89,7 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                                               top: 30, right: 30, bottom: 10, left: 5)),
                                       validator: (text){
                                         if(text.isEmpty){
-                                          return "enter the name of the adventure";
+                                          return "enter the name of the Session";
                                         }
                                       },
                                     ),
@@ -91,14 +100,14 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                                   child: RaisedButton(
                                     onPressed: () {
                                       if(_formKey.currentState.validate()){
-                                        Map<String, dynamic> adventureData = {
-                                          "title": _adventureTitleControler.text,
+                                        Map<String, dynamic> sessionData = {
+                                          "title": _sessionTitleControler.text,
                                         };
-                                        model.registerAdventure(
-                                            adventureData: adventureData,
+                                        model.registerSession(
+                                            sessionData: sessionData,
                                             onSuccess: (){},
                                             onFail: (){},
-                                            userId: userModel.userData["id"]);
+                                            adventureId: adventureDoc["adventureId"]);
                                         Navigator.of(context).pop();
                                       }
 

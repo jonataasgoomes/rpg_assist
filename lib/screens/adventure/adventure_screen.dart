@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/tabs/players_tab.dart';
 import 'package:rpg_assist_app/tabs/progress_tab.dart';
 
+import 'new_session_screen.dart';
+
 class AdventureScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> user;
@@ -102,7 +104,10 @@ class _AdventureScreenState extends State<AdventureScreen>
                                   height: 80.0,
                                   child: FloatingActionButton(
                                     backgroundColor: Colors.transparent,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(builder: (context)=>NewSessionScreen(adventureDoc)));
+                                    },
                                     child: Container(
                                       child: Image.asset("images/new_session.png"),
                                     ),
@@ -118,7 +123,9 @@ class _AdventureScreenState extends State<AdventureScreen>
                                   height: 80.0,
                                   child: FloatingActionButton(
                                     backgroundColor: Colors.transparent,
-                                    onPressed: () {},
+                                    onPressed: () {
+
+                                    },
                                     child: Container(
                                       child: Image.asset("images/add_player.png"),
                                     ),

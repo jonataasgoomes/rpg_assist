@@ -8,6 +8,7 @@ class UserModel extends Model {
   final GoogleSignIn _gSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
+
   Map<String, dynamic> userData = Map();
 
   bool isLoading = false;
