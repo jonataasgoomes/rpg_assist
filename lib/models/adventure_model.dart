@@ -60,8 +60,10 @@ class AdventureModel extends Model {
     isLoading = true;
     notifyListeners();
     sessionData["adventure"] = adventureId;
-    sessionData["date"] = null;
     sessionData["timestamp"] = FieldValue.serverTimestamp();
+
+    if(sessionData["date"] == null) sessionData["date"] = DateTime.now();
+
 
     _sessionReference = Firestore.instance.collection("sessions").document();
 

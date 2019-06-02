@@ -85,51 +85,76 @@ class _ProgressTabState extends State<ProgressTab> {
             ],
           ),
           ScopedModelDescendant<AdventureModel>(
-            builder: (context,child,adventureModel){
+            builder: (context, child, adventureModel) {
               return StreamBuilder<QuerySnapshot>(
                   stream: adventureModel.sessionsAdventure(adventureDoc),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Center(
-                          child: CircularProgressIndicator(),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                child: Text(
+                              "Loading ...",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "IndieFlower",
+                                  color: Color.fromARGB(255, 234, 205, 125),
+                                  fontSize: 20),
+                              textAlign: TextAlign.center,
+                            )),
+                            Container(
+                              width: 50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: FlareActor("assets/Dice_Loading.flr",
+                                  animation: "loading"),
+                            )
+                          ],
                         );
                       default:
                         return Column(
                             children: snapshot.data.documents.map((document) {
-                              return Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                child: Column(
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Column(
+                              children: <Widget>[
+                                Divider(
+                                  color: Colors.black,
+                                ),
+                                Row(
                                   children: <Widget>[
-                                    Divider(
-                                      color: Colors.black,
+                                    Text(
+                                      document["date"] != null
+                                          ? DateFormat.Md()
+                                              .format(document["date"])
+                                          : "",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          document["date"] != null ? DateFormat.Md().format(document["date"]): "",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          document["title"] != null ? document["title"]: "No title session",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        )
-                                      ],
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      document["title"] != null
+                                          ? document["title"]
+                                          : "No title session",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
                                     )
                                   ],
-                                ),
-                              );
-                            }).toList());
+                                )
+                              ],
+                            ),
+                          );
+                        }).toList());
                     }
                   });
             },
