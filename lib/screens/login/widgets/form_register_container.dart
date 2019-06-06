@@ -120,7 +120,7 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
                         if (_formKey.currentState.validate()) {
                           Map<String, dynamic> userData = {
                             "email": _emailController.text,
-                            "username": _usernameController.text,
+                            "name": _usernameController.text,
                             "birthday": _birthdayController.text,
                             "Sex": _sexController.text
                           };

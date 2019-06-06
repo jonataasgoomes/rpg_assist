@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/screens/login/login_screen.dart';
+import 'package:rpg_assist_app/screens/splash_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'models/adventure_model.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             title: 'RPG Assistant',
             debugShowCheckedModeBanner: false,
-            home: LoginScreen(),
+            home: SplashScreen(),
           ),)
     );
   }

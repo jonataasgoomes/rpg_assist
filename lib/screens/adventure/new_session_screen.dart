@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -17,8 +18,24 @@ class NewSessionScreen extends StatefulWidget {
 class _NewSessionScreenState extends State<NewSessionScreen> {
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final _sessionTitleControler = TextEditingController();
-
   final DocumentSnapshot adventureDoc;
+
+  String _value = DateFormat.Md().format(DateTime.now());
+  DateTime _dateTime;
+
+  Future _selectDate() async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015),
+        lastDate: DateTime(3000)
+    );
+    if(picked != null){
+      setState((){
+        _dateTime = picked;
+      });
+    }
+  }
 
   _NewSessionScreenState(this.adventureDoc);
 
@@ -95,42 +112,68 @@ class _NewSessionScreenState extends State<NewSessionScreen> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      if(_formKey.currentState.validate()){
-                                        Map<String, dynamic> sessionData = {
-                                          "title": _sessionTitleControler.text,
-                                        };
-                                        model.registerSession(
-                                            sessionData: sessionData,
-                                            onSuccess: (){},
-                                            onFail: (){},
-                                            adventureId: adventureDoc["adventureId"]);
-                                        Navigator.of(context).pop();
-                                      }
-
-                                    },
-                                    color: Color.fromRGBO(0, 226, 186, 1.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 10.0,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          _selectDate();
+                                        },
+                                        color: Color.fromRGBO(0, 226, 186, 1.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              _dateTime != null? DateFormat.Md().format(_dateTime) : _value,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 1.0,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          "READY",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: 1.0,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          if(_formKey.currentState.validate()){
+                                            Map<String, dynamic> sessionData = {
+                                              "title": _sessionTitleControler.text,
+                                              "date" : _dateTime,
+                                            };
+                                            model.registerSession(
+                                                sessionData: sessionData,
+                                                onSuccess: (){},
+                                                onFail: (){},
+                                                adventureId: adventureDoc["adventureId"],);
+                                            Navigator.of(context).pop();
+                                          }
+
+                                        },
+                                        color: Color.fromRGBO(0, 226, 186, 1.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "READY",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 1.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

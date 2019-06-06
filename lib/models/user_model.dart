@@ -3,11 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:async/async.dart';
 
 class UserModel extends Model {
   final GoogleSignIn _gSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
+  DocumentReference _requestReference;
+
+  Map<String, dynamic> requestFriend;
 
   Map<String, dynamic> userData = Map();
 
@@ -20,7 +24,6 @@ class UserModel extends Model {
   }
 
   void signOutGoogle() async {
-
     await _gSignIn.signOut();
     await _auth.signOut();
 
@@ -38,7 +41,6 @@ class UserModel extends Model {
       {@required context,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-
     isLoading = true;
     notifyListeners();
 
@@ -50,7 +52,7 @@ class UserModel extends Model {
     if (user == null) {
       user = await _gSignIn.signIn();
     }
-    if(await _auth.currentUser() != null){
+    if (await _auth.currentUser() != null) {
       isLoading = false;
       notifyListeners();
       await _loadCurrentUser();
@@ -104,7 +106,7 @@ class UserModel extends Model {
         isLoading = false;
         notifyListeners();
       });
-    }else{
+    } else {
       onSuccess();
       isLoading = false;
     }
@@ -170,7 +172,6 @@ class UserModel extends Model {
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((user) async {
-
       firebaseUser = user;
 
       await _loadCurrentUser();
@@ -210,7 +211,67 @@ class UserModel extends Model {
         userData = docUser.data;
       }
     }
-
     notifyListeners();
   }
+
+  //Busca todos os amigos
+  nFriends() {
+    return Firestore.instance
+        .collection("friendships")
+        .where("receiver", isEqualTo: userData["id"])
+        .where("status", isEqualTo: 0)
+        .snapshots();
+  }
+
+  Stream<List<QuerySnapshot>> userFriends() {
+    Stream stream1 = Firestore.instance
+        .collection("friendships")
+        .where("receiver", isEqualTo: userData["id"])
+        .where("status", isEqualTo: 2)
+        .snapshots();
+    Stream stream2 = Firestore.instance
+        .collection("friendships")
+        .where("requester", isEqualTo: userData["id"])
+        .where("status", isEqualTo: 2)
+        .snapshots();
+
+    return StreamZip([stream1, stream2]);
+  }
+
+  Future<DocumentSnapshot> userTeste(String userId) async {
+    return await Firestore.instance.collection("users").document(userId).get();
+  }
+
+  Future<Null> registerRequest(
+      {@required Map<String, dynamic> requestData}) async {
+
+    this.requestFriend= requestData;
+
+    isLoading = true;
+    notifyListeners();
+    requestData["status"] = 0;
+
+    _requestReference = Firestore.instance.collection("friendships").document();
+
+    requestData["requestId"] = _requestReference.documentID;
+
+    await _requestReference.setData(requestData)
+        .catchError((e) {
+      isLoading = false;
+      notifyListeners();
+    });
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+
+ acceptRequest(int i, String friend) async {
+    await Firestore.instance.collection("friendships").document(friend).updateData({"status":i});
+ }
+
+ Future<QuerySnapshot>allUsers() async {
+    return await Firestore.instance.collection("users").getDocuments();
+ }
+
 }
