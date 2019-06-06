@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
+        padding: EdgeInsets.only(top: 150),
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
@@ -29,36 +30,29 @@ class _LoginScreenState extends State<LoginScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            Stack(
+            Column(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                    padding: EdgeInsets.only(top: 50, bottom: 30),
-                    child: Image.asset("images/logo1.png",
-                        width: 100,
-                        fit: BoxFit.fitWidth
-                          ),
-                    ),
-                    SignInButton(),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-        FormSignInContainer(),
-                    SignUpButton(),
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                        Padding(
-                    padding: EdgeInsets.only(bottom:10),
-                    child: Image.asset("images/logo.png",
-                    width: 80,
+                Image.asset("images/logo1.png",
+                    width: 100,
                     fit: BoxFit.fitWidth
-                    ),
-                    ),
+                      ),
+                SignInButton(),
+                SizedBox(
+                  height: 30.0,
+                ),
+        FormSignInContainer(),
+                SignUpButton(),
+                SizedBox(
+                  height: 50.0,
+                ),
+                    Padding(
+                padding: EdgeInsets.only(bottom:10),
+                child: Image.asset("images/logo.png",
+                width: 80,
+                fit: BoxFit.fitWidth
+                ),
+                ),
 
-                  ],
-                )
               ],
             )
           ],

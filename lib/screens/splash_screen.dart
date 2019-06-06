@@ -32,7 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 100,
                 child:
                     FlareActor("assets/Dice_Loading.flr", animation: "loading"),
-              )
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: Image.asset("images/logo.png",
+                    width: 80,
+                    fit: BoxFit.fitWidth
+                ),
+              ),
             ],
           ),
         ),

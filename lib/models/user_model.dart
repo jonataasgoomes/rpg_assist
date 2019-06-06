@@ -9,6 +9,9 @@ class UserModel extends Model {
   final GoogleSignIn _gSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
+  DocumentReference _requestReference;
+
+  Map<String, dynamic> requestFriend;
 
   Map<String, dynamic> userData = Map();
 
@@ -238,5 +241,37 @@ class UserModel extends Model {
   Future<DocumentSnapshot> userTeste(String userId) async {
     return await Firestore.instance.collection("users").document(userId).get();
   }
+
+  Future<Null> registerRequest(
+      {@required Map<String, dynamic> requestData}) async {
+
+    this.requestFriend= requestData;
+
+    isLoading = true;
+    notifyListeners();
+    requestData["status"] = 0;
+
+    _requestReference = Firestore.instance.collection("friendships").document();
+
+    requestData["requestId"] = _requestReference.documentID;
+
+    await _requestReference.setData(requestData)
+        .catchError((e) {
+      isLoading = false;
+      notifyListeners();
+    });
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+
+ acceptRequest(int i, String friend) async {
+    await Firestore.instance.collection("friendships").document(friend).updateData({"status":i});
+ }
+
+ Future<QuerySnapshot>allUsers() async {
+    return await Firestore.instance.collection("users").getDocuments();
+ }
 
 }
