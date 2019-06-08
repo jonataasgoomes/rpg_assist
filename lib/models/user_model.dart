@@ -215,48 +215,56 @@ class UserModel extends Model {
   }
 
   //Busca todos os amigos
-  nFriends() {
+  nFriends(String userId) {
     return Firestore.instance
+        .collection("users")
+        .document(userId)
         .collection("friendships")
-        .where("receiver", isEqualTo: userData["id"])
         .where("status", isEqualTo: 0)
         .snapshots();
   }
 
-  Stream<List<QuerySnapshot>> userFriends() {
-    Stream stream1 = Firestore.instance
+  userFriendsLive(String userId) {
+    return Firestore.instance
+        .collection("users")
+        .document(userId)
         .collection("friendships")
-        .where("receiver", isEqualTo: userData["id"])
         .where("status", isEqualTo: 2)
         .snapshots();
-    Stream stream2 = Firestore.instance
-        .collection("friendships")
-        .where("requester", isEqualTo: userData["id"])
-        .where("status", isEqualTo: 2)
-        .snapshots();
-
-    return StreamZip([stream1, stream2]);
   }
+
+  Future<QuerySnapshot>getUserFriends (String userId) async{
+    return await Firestore.instance
+        .collection("users")
+        .document(userId)
+        .collection("friendships")
+        .where("status", isEqualTo: 2).getDocuments();
+  }
+
 
   Future<DocumentSnapshot> userTeste(String userId) async {
     return await Firestore.instance.collection("users").document(userId).get();
   }
 
   Future<Null> registerRequest(
-      {@required Map<String, dynamic> requestData}) async {
-
-    this.requestFriend= requestData;
+      {@required Map<String, dynamic> requestData,
+      @required String receiverId}) async {
+    this.requestFriend = requestData;
 
     isLoading = true;
     notifyListeners();
+
     requestData["status"] = 0;
 
-    _requestReference = Firestore.instance.collection("friendships").document();
+    _requestReference = Firestore.instance
+        .collection("users")
+        .document(receiverId)
+        .collection("friendships")
+        .document();
 
     requestData["requestId"] = _requestReference.documentID;
 
-    await _requestReference.setData(requestData)
-        .catchError((e) {
+    await _requestReference.setData(requestData).catchError((e) {
       isLoading = false;
       notifyListeners();
     });
@@ -265,13 +273,31 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  acceptRequest(
+      {@required String userId,
+      @required requesterId,
+      @required requestId,
+      @required Map<String, dynamic> friendReceiver}) async {
 
- acceptRequest(int i, String friend) async {
-    await Firestore.instance.collection("friendships").document(friend).updateData({"status":i});
- }
+    Map<String, dynamic>
+    friendRequester = {"friend": requesterId, "status": 2};
 
- Future<QuerySnapshot>allUsers() async {
+    await Firestore.instance
+        .collection("users")
+        .document(userId)
+        .collection("friendships")
+        .document(requestId)
+        .updateData(friendRequester);
+
+    await Firestore.instance
+        .collection("users")
+        .document(requesterId)
+        .collection("friendships")
+        .document()
+        .setData(friendReceiver);
+  }
+
+  Future<QuerySnapshot> allUsers() async {
     return await Firestore.instance.collection("users").getDocuments();
- }
-
+  }
 }

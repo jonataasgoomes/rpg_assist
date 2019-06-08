@@ -72,7 +72,7 @@ class _UsersScreenState extends State<UsersScreen> {
                           'Error to loading: ${snapshot.error}',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ));
-                      } else if (snapshot.data.documents.length == 0) {
+                      } else if (snapshot.data.documents.length <= 1) {
                         return Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -80,7 +80,7 @@ class _UsersScreenState extends State<UsersScreen> {
                               Container(
                                   margin: EdgeInsets.only(top: 120),
                                   child: Text(
-                                    "Register an adventure!",
+                                    "No found users",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontFamily: "IndieFlower",
@@ -105,24 +105,21 @@ class _UsersScreenState extends State<UsersScreen> {
                           shrinkWrap: true,
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-
                             if (snapshot.data.documents[index]["id"] !=
                                 userModel.userData["id"]) {
                               return Material(
                                 color: Colors.transparent,
                                 child: InkWell(
                                   onTap: () {
-
                                     Map<String, dynamic> requestData = {
-                                      "requester": userModel.userData["id"],
-                                      "receiver": snapshot.data.documents[index]
-                                          ["id"],
+                                      "friend": userModel.userData["id"],
                                     };
-
                                     userModel.registerRequest(
-                                        requestData: requestData);
+                                        requestData: requestData,
+                                        receiverId: snapshot
+                                            .data.documents[index]["id"]);
                                     setState(() {
-                                     snapshot.data.documents.removeAt(index);
+                                      snapshot.data.documents.removeAt(index);
                                     });
 
                                     if (snapshot.data.documents.length == 0) {

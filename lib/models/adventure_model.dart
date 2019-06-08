@@ -106,6 +106,23 @@ class AdventureModel extends Model {
   sessionsAdventure(adventureData) {
     return Firestore.instance.collection("sessions").where("adventure",isEqualTo: adventureData["adventureId"] ).snapshots();
 }
+
+  Future<Null>addPlayersOnAdventure({@required String adventureId, @required userId}) async{
+
+    Map<String,dynamic> playerData = Map();
+    playerData["userId"] = userId;
+
+    await Firestore.instance
+        .collection("adventures").document(adventureId)
+        .collection("players").document().setData(playerData);
+
+  }
+
+  adventuresPlayers({@required String adventureId}){
+    return Firestore.instance
+        .collection("adventures").document(adventureId)
+        .collection("players").snapshots();
+  }
  
 
 }

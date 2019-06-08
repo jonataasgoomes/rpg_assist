@@ -70,13 +70,14 @@ class CustomNavigationDrawer extends StatelessWidget {
                                   color: Color.fromARGB(255, 198, 54, 81),
                                 ),
                                 SizedBox(
-                                  width: 35,
+                                  width: 29,
                                 ),
                                 Text(
                                   "Sign Out",
                                   style: TextStyle(
                                     fontSize: 15.0,
                                     color: Color.fromARGB(255, 198, 54, 81),
+                                    fontWeight:  FontWeight.bold
                                   ),
                                 ),
                               ],

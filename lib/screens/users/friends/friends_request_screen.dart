@@ -9,10 +9,16 @@ class FriendsRequestScreen extends StatefulWidget {
   FriendsRequestScreen(this.friends);
 
   @override
-  _FriendsRequestScreenState createState() => _FriendsRequestScreenState();
+  _FriendsRequestScreenState createState() => _FriendsRequestScreenState(friends);
 }
 
 class _FriendsRequestScreenState extends State<FriendsRequestScreen> {
+
+
+  final List<DocumentSnapshot> friends;
+
+  _FriendsRequestScreenState(this.friends);
+
   Widget _buildBodyBack() => Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -41,14 +47,14 @@ class _FriendsRequestScreenState extends State<FriendsRequestScreen> {
             _buildBodyBack(),
             ListView.builder(
                 shrinkWrap: true,
-                itemCount: widget.friends.length,
+                itemCount: friends.length,
                 itemBuilder: (context, index) {
                   return
                     ScopedModelDescendant<UserModel>(
                     builder: (context, child, userModel) {
                       return FutureBuilder<DocumentSnapshot>(
                         future:
-                            userModel.userTeste(widget.friends[index]["requester"]),
+                            userModel.userTeste(friends[index]["friend"]),
                         builder: (context, snapshot) {
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting:
@@ -140,11 +146,23 @@ class _FriendsRequestScreenState extends State<FriendsRequestScreen> {
                                                     ),
                                                     color: Color.fromARGB(255, 6, 223, 176),
                                                     onPressed: () {
-                                                      userModel.acceptRequest(2,widget.friends[index]["requestId"]);
+                                                      Map<String,dynamic> receiverData = {
+                                                        "friend" : userModel.userData["id"],
+                                                        "status" : 2,
+                                                        "requestId" : friends[index].documentID
+                                                      };
+
+
+
+                                                      userModel.acceptRequest
+                                                        ( requesterId: snapshot.data["id"],
+                                                          userId: userModel.userData["id"],
+                                                          requestId: friends[index].documentID,
+                                                          friendReceiver: receiverData);
                                                       setState(() {
-                                                        widget.friends.removeAt(index);
+                                                        friends.removeAt(index);
                                                       });
-                                                      if(widget.friends.length == 0){
+                                                      if(friends.length == 0){
                                                         Navigator.pop(context);
                                                       }
 

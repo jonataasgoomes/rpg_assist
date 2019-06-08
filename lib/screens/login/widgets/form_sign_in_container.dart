@@ -29,10 +29,10 @@ class _FormSignInContainerState extends State<FormSignInContainer> {
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 75),
                     child:Center(
-                      child: Text("Signing in",
+                      child: Text("Signing...",
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Colors.yellow
+                          color: Color.fromARGB(255, 234, 205, 125)
                         ),)
                     ),
                 );

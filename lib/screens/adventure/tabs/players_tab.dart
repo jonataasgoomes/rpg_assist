@@ -24,16 +24,7 @@ class _PlayersTabState extends State<PlayersTab> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 226, 226, 225),
-        floatingActionButton: Container(
-            width: 80.0,
-            height: 80.0,
-            child: FloatingActionButton(
-              backgroundColor: Colors.transparent,
-              onPressed: () {},
-              child: Container(
-                child: Image.asset("images/add_player.png"),
-              ),
-            )),
+
         body: ScopedModelDescendant<AdventureModel>(
           builder: (context, child, adventureModel) {
             return FutureBuilder<QuerySnapshot>(

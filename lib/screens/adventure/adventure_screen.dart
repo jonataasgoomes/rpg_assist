@@ -1,17 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rpg_assist_app/tabs/players_tab.dart';
-import 'package:rpg_assist_app/tabs/progress_tab.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/players_tab.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/progress_tab.dart';
+import 'package:rpg_assist_app/screens/users/friends/friends_list.dart';
 
 import 'new_session_screen.dart';
 
 class AdventureScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> user;
+
   AdventureScreen(this.adventureDoc, this.user);
 
   @override
-  _AdventureScreenState createState() => _AdventureScreenState(adventureDoc,user);
+  _AdventureScreenState createState() =>
+      _AdventureScreenState(adventureDoc, user);
 }
 
 class _AdventureScreenState extends State<AdventureScreen>
@@ -55,20 +58,16 @@ class _AdventureScreenState extends State<AdventureScreen>
                     ),
                   ),
                 )),
-
             Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(255, 156, 183, 182),
-                        blurRadius: 5.0,
-                        spreadRadius: 1.0,
-                        offset: Offset(3, 3)
-                    )
-                  ]
-              ),
-              margin: EdgeInsets.only(
-                  top: 120, left: 10, right: 10, bottom: 40),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Color.fromARGB(255, 156, 183, 182),
+                    blurRadius: 5.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(3, 3))
+              ]),
+              margin:
+                  EdgeInsets.only(top: 120, left: 10, right: 10, bottom: 40),
               child: DefaultTabController(
                 length: 2,
                 child: Column(
@@ -86,12 +85,10 @@ class _AdventureScreenState extends State<AdventureScreen>
                             alignment: Alignment.center,
                             child: Text("PLAYERS"),
                           )
-
                         ],
                         indicator: ShapeDecoration(
                             shape: BeveledRectangleBorder(),
-                            color: Color.fromARGB(255, 226, 226, 225)
-                        ),
+                            color: Color.fromARGB(255, 226, 226, 225)),
                       ),
                     ),
                     Expanded(
@@ -105,17 +102,20 @@ class _AdventureScreenState extends State<AdventureScreen>
                                   child: FloatingActionButton(
                                     backgroundColor: Colors.transparent,
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(builder: (context)=>NewSessionScreen(adventureDoc)));
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewSessionScreen(
+                                                      adventureDoc)));
                                     },
                                     child: Container(
-                                      child: Image.asset("images/new_session.png"),
+                                      child:
+                                          Image.asset("images/new_session.png"),
                                     ),
                                   )),
                               body: Container(
-                                child: ProgressTab(user, adventureDoc),
-                                  color: Color.fromARGB(255, 226, 226, 225)
-                              ),
+                                  child: ProgressTab(user, adventureDoc),
+                                  color: Color.fromARGB(255, 226, 226, 225)),
                             ),
                             Scaffold(
                               floatingActionButton: Container(
@@ -124,16 +124,19 @@ class _AdventureScreenState extends State<AdventureScreen>
                                   child: FloatingActionButton(
                                     backgroundColor: Colors.transparent,
                                     onPressed: () {
-
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FriendList(adventureDoc["adventureId"])));
                                     },
                                     child: Container(
-                                      child: Image.asset("images/add_player.png"),
+                                      child:
+                                          Image.asset("images/add_player.png"),
                                     ),
                                   )),
                               body: Container(
                                   child: PlayersTab(user, adventureDoc),
-                                  color: Color.fromARGB(255, 226, 226, 225)
-                              ),
+                                  color: Color.fromARGB(255, 226, 226, 225)),
                             ),
                           ],
                         ),
