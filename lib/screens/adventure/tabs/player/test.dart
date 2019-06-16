@@ -8,13 +8,10 @@ class Test extends StatefulWidget {
 class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        _buildBodyBack(),
-        Center(
-          child: Text("Test"),
-        )
-      ],
+    return Container(
+      child: Center(
+        child: Text("Test"),
+      ),
     );
   }
 }
