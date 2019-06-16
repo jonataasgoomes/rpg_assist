@@ -13,17 +13,6 @@ class CharacterCard extends StatefulWidget {
 }
 
 class _CharacterCardState extends State<CharacterCard> {
-  Widget _buildBodyBack() => Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 34, 130, 124),
-            Color.fromARGB(255, 154, 52, 79)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
-      );
   final DocumentSnapshot adventureDoc, playerData;
   final Map<String, dynamic> userLogged;
 
@@ -32,44 +21,32 @@ class _CharacterCardState extends State<CharacterCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      child: Stack(
+      backgroundColor: Colors.transparent,
+      body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/adventure_start" +
-                        adventureDoc["photoNumber"] +
-                        ".png"),
-                    fit: BoxFit.cover)),
-          ),
-          Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 100),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 25),
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: playerData["photoUrl"] != null
-                                ? NetworkImage(playerData["photoUrl"])
-                                : AssetImage("images/rpg_icon.png"),
-                          )),
-                    ),
-                  ],
+            margin: EdgeInsets.only(top: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  width: 100.0,
+                  height: 100.0,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: playerData["photoUrl"] != null
+                            ? NetworkImage(playerData["photoUrl"])
+                            : AssetImage("images/rpg_icon.png"),
+                      )),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 200),
+            margin: EdgeInsets.only(top: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -420,26 +397,30 @@ class _CharacterCardState extends State<CharacterCard> {
                                   ),
                                 ),
                                 Container(
-                                    child: Center(
-                                        child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "50",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 50),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "50",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 50),
+                                        ),
+                                        Text(
+                                          "WIS",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 2,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "WIS",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 2,
-                                      ),
-                                    ),
-                                  ],
-                                ))),
+                                  ),
+                                ),
                               ],
                             ),
                             color: Colors.transparent,
@@ -448,12 +429,12 @@ class _CharacterCardState extends State<CharacterCard> {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
-    ));
+    );
   }
 }

@@ -8,10 +8,8 @@ class Glossary extends StatefulWidget {
 class _GlossaryState extends State<Glossary> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("Glossary"),
-      ),
+    return Center(
+      child: Text("Glossary"),
     );
   }
 }
