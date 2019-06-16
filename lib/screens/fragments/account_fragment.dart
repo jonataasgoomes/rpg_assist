@@ -231,7 +231,7 @@ class AccountFragment extends StatelessWidget {
                                                           color: Colors.white,
                                                           fontSize: 15)),
                                                   SizedBox(
-                                                    width: 25,
+                                                    width: 20,
                                                   ),
                                                   Text("Adventures: ",
                                                       style: TextStyle(

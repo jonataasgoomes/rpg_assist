@@ -191,6 +191,8 @@ class _FriendListState extends State<FriendList> {
                                                                 adventureModel.addPlayersOnAdventure(adventureId: adventureId,
                                                                 userId: snapshot.data["id"]);
 
+                                                                Navigator.pop(context);
+
 
                                                               },
                                                               child: Text(

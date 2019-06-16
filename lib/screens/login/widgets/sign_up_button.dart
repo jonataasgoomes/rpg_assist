@@ -8,7 +8,7 @@ class SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 62),
+        padding: EdgeInsets.symmetric(horizontal: 60),
           child:  ScopedModelDescendant<UserModel>(
             builder: (context,child,model){
               if(model.isLoading)
@@ -33,6 +33,7 @@ class SignUpButton extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       "Forgot your password?",
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           color: Colors.white, fontSize: 10, letterSpacing: 0.4),

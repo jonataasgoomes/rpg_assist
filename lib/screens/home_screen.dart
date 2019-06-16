@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/tiles/drawer_tile.dart';
 import 'package:rpg_assist_app/widgets/custom_navigation_drawer.dart';
+import 'package:rpg_assist_app/widgets/popup_menu.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'fragments/account_fragment.dart';
 import 'fragments/books_fragment.dart';
 import 'fragments/home_fragment.dart';
 import 'fragments/notifications_fragments.dart';
 import 'fragments/settings_fragments.dart';
 
-
-class InfoTile{
+class InfoTile {
   String title;
   IconData icon;
-  InfoTile(this.icon,this.title);
+
+  InfoTile(this.icon, this.title);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -49,26 +52,37 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _onSelectItem(int index){
+  _onSelectItem(int index) {
     setState(() => _selectedDrawerIndex = index);
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-
     var drawerOptions = <Widget>[];
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
-      drawerOptions.add(
-        DrawerTile(d.icon,d.title,() => _onSelectItem(i),i,_selectedDrawerIndex)
-      );
+      drawerOptions.add(DrawerTile(
+          d.icon, d.title, () => _onSelectItem(i), i, _selectedDrawerIndex));
     }
-    return Scaffold(
+    return ScopedModelDescendant<AdventureModel>(
+      builder: (context, child, adventureModel) {
+        return Scaffold(
           key: _scaffoldKey,
           appBar: (AppBar(
             actions: <Widget>[
-              PopupMenuButton(itemBuilder: (_){})
+              PopupMenuButton<String>(onSelected: (String choice) {
+                setState(() {
+                  adventureModel.choiceAction(choice);
+                });
+              }, itemBuilder: (context) {
+                return PopupMenu.choices.map((choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              })
             ],
             backgroundColor: Color.fromARGB(255, 34, 17, 51),
             title: Image.asset(
@@ -76,12 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             centerTitle: true,
-            iconTheme:
-            IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
+            iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
           )),
           body: _getDrawerItemWidget(_selectedDrawerIndex),
           drawer: CustomNavigationDrawer(drawerOptions),
         );
-
+      },
+    );
   }
 }

@@ -2,14 +2,36 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AdventureModel extends Model {
   DocumentReference _adventureReference, _sessionReference;
   bool isLoading = false;
+  bool editMode = false;
+  bool isDescending = false;
 
   Map<String, dynamic> adventureData;
   Map<String, dynamic> sessionData;
+
+
+
+  void choiceAction(String choice){
+    if(choice == PopupMenu.Edit){
+      if(editMode == false){
+        editMode = true;
+      }else{
+        editMode = false;
+      }
+    }else if (choice == PopupMenu.Order){
+      if(isDescending == false){
+        isDescending = true;
+      }else{
+        isDescending = false;
+      }
+
+    }
+  }
 
   Future<Null> registerAdventure(
       {@required Map<String, dynamic> adventureData,
@@ -18,6 +40,11 @@ class AdventureModel extends Model {
       @required String userId}) async {
 
     this.adventureData = adventureData;
+    Map<String,dynamic> playerDataAdventure = Map();
+
+
+
+
 
     Random seed = Random();
     const int MAX_VALUE = 4;
@@ -36,6 +63,8 @@ class AdventureModel extends Model {
 
     adventureData["adventureId"] = _adventureReference.documentID;
 
+
+
     await _adventureReference.setData(adventureData)
         .catchError((e) {
       onFail();
@@ -46,6 +75,13 @@ class AdventureModel extends Model {
     onSuccess();
     isLoading = false;
     notifyListeners();
+
+    playerDataAdventure["adventureId"] = adventureData["adventureId"];
+    playerDataAdventure["timestamp"] = adventureData["timestamp"];
+
+    await Firestore.instance
+        .collection("users").document(userId)
+        .collection("adventures").document().setData(playerDataAdventure);
   }
 
 
@@ -82,16 +118,17 @@ class AdventureModel extends Model {
   }
 
 
-
-
+  adventureCardsId(String userId) {
+    return Firestore.instance
+        .collection("users").document(userId)
+        .collection("adventures").orderBy("timestamp",descending: isDescending).snapshots();
+  }
 
   //Busca todos os cards em que o usuário é mestre
-  Future<QuerySnapshot> adventuresCards(String id, {bool descending = true}) async {
+  Future<DocumentSnapshot> adventuresCard(String adventureId) async {
     return await Firestore.instance
         .collection("adventures")
-        .where("master", isEqualTo: id)
-        .orderBy("timestamp",descending: descending)
-        .getDocuments();
+        .document(adventureId).get();
   }
 
   //Busca quem é o mestre da aventura;
@@ -111,6 +148,14 @@ class AdventureModel extends Model {
 
     Map<String,dynamic> playerData = Map();
     playerData["userId"] = userId;
+
+    Map<String,dynamic> playerDataAdventure = Map();
+    playerDataAdventure["adventureId"] = adventureId;
+    playerDataAdventure["timestamp"] = FieldValue.serverTimestamp();
+
+    await Firestore.instance
+          .collection("users").document(userId)
+          .collection("adventures").document().setData(playerDataAdventure);
 
     await Firestore.instance
         .collection("adventures").document(adventureId)

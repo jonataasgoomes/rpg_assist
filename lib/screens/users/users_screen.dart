@@ -26,6 +26,10 @@ class _UsersScreenState extends State<UsersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Add friends ",
+          style: TextStyle(color: Color.fromARGB(255, 234, 205, 125)),
+        ),
         backgroundColor: Color.fromARGB(255, 34, 17, 51),
         iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
       ),
@@ -125,6 +129,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                     if (snapshot.data.documents.length == 0) {
                                       Navigator.pop(context);
                                     }
+                                    Navigator.pop(context);
                                   },
                                   child: Container(
                                     margin:

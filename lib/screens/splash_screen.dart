@@ -3,6 +3,8 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:rpg_assist_app/screens/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -51,9 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 4)).then((_) {
-
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => LoginScreen()));
     });
   }
 }

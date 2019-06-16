@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rpg_assist_app/screens/adventure/tabs/players_tab.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/players_tab.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/progress_tab.dart';
 import 'package:rpg_assist_app/screens/users/friends/friends_list.dart';
 
@@ -57,7 +57,8 @@ class _AdventureScreenState extends State<AdventureScreen>
                       fontSize: 25,
                     ),
                   ),
-                )),
+                )
+            ),
             Container(
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
@@ -135,7 +136,7 @@ class _AdventureScreenState extends State<AdventureScreen>
                                     ),
                                   )),
                               body: Container(
-                                  child: PlayersTab(user, adventureDoc),
+                                  child: PlayersTab(user, adventureDoc,),
                                   color: Color.fromARGB(255, 226, 226, 225)),
                             ),
                           ],

@@ -99,7 +99,7 @@ class _FriendsRequestScreenState extends State<FriendsRequestScreen> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Container(
-                                                      width: 180,
+                                                      width: 120,
                                                       margin: EdgeInsets.only(left: 5),
                                                       child: Text(snapshot.data["name"] != null ? snapshot.data["name"]:
                                                       snapshot.data["username"] != null ? snapshot.data["username"]:snapshot.data["email"],
@@ -114,7 +114,7 @@ class _FriendsRequestScreenState extends State<FriendsRequestScreen> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      width: 180,
+                                                      width: 120,
                                                       margin: EdgeInsets.only(left: 5),
                                                       child: Text(snapshot.data["email"] != null ? snapshot.data["email"]:"",
                                                         maxLines: 1,

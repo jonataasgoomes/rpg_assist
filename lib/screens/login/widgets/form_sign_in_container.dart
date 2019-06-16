@@ -67,12 +67,13 @@ class _FormSignInContainerState extends State<FormSignInContainer> {
                           child: RaisedButton(
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-
+                                model.signOutGoogle();
+                                model.signIn(email: _emailController.text,
+                                    password: _passwordController.text,
+                                    onSuccess: _onSuccess,
+                                    onFail: _onFail);
                               }
-                              model.signIn(email: _emailController.text,
-                                  password: _passwordController.text,
-                                  onSuccess: _onSuccess,
-                                  onFail: _onFail);
+
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
