@@ -238,7 +238,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                 return InkWell(
                                                                   onTap: (){
                                                                     return Navigator.push(context, MaterialPageRoute(
-                                                                        builder: (context)=> PlayerScreen(adventureDoc,user,snapshot.data)));
+                                                                        builder: (context)=> PlayerScreen()));
                                                                   },
                                                                   child: Container(
                                                                     child: Column(
