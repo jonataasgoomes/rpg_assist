@@ -17,8 +17,8 @@ class _CharacterCardState extends State<CharacterCard> {
         decoration: BoxDecoration(
             gradient: LinearGradient(
           colors: [
-            Color.fromARGB(255, 34, 17, 51),
-            Color.fromARGB(255, 44, 100, 124)
+            Color.fromARGB(255, 34, 130, 124),
+            Color.fromARGB(255, 154, 52, 79)
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

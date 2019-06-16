@@ -5,6 +5,9 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'character_card.dart';
 import 'combat.dart';
+import 'glossary.dart';
+import 'messages.dart';
+import 'test.dart';
 
 class PlayerScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc, playerData;
@@ -25,22 +28,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
       body: PageView(
         children: <Widget>[
           CharacterCard(adventureDoc,playerData,userLogged),
-          Container(
-            child: Center(
-              child: Text("Messages"),
-            ),
-          ),
-          Container(
-            child: Center(
-              child: Text("Glossary"),
-            ),
-          ),
-          Container(
-            child: Center(
-              child: Text("Test"),
-            ),
-          ),
-          Combat()
+          Messages(),
+          Glossary(),
+          Test(),
+          Combat(),
         ],
       ),
     );
