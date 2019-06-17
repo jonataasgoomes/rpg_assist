@@ -55,8 +55,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
             children: <Widget>[
               CharacterCard(adventureDoc, playerData, userLogged),
               Messages(),
-              Glossary(),
-              Test(),
               Container(
                   child: Combat()),
             ],

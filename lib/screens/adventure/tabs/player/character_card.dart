@@ -49,7 +49,7 @@ class _CharacterCardState extends State<CharacterCard> {
             padding: EdgeInsets.all(0),
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 200),
+                margin: EdgeInsets.only(top: 120),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[

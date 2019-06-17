@@ -9,7 +9,7 @@ class Combat extends StatefulWidget {
 
 class _CombatState extends State<Combat> {
   Random seed = Random();
-  String anim = "Spin1";
+  String anim = "Spin20";
   bool isPaused = true;
   bool animating = false;
 
