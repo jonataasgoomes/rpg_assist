@@ -162,40 +162,36 @@ class _UsersScreenState extends State<UsersScreen> {
                                             SizedBox(
                                               width: 10,
                                             ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  snapshot.data.documents[index]
-                                                              ["name"] !=
-                                                          null
-                                                      ? snapshot.data
-                                                              .documents[index]
-                                                          ["name"]
-                                                      : snapshot.data.documents[index]
-                                                                  [
-                                                                  "username"] !=
-                                                              null
-                                                          ? snapshot.data
-                                                                  .documents[index]
-                                                              ["username"]
-                                                          : snapshot.data
-                                                                  .documents[
-                                                              index]["email"],
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 15),
-                                                ),
-                                              ],
+                                            Flexible(
+                                              child: Text(
+                                                snapshot.data.documents[index]
+                                                            ["name"] !=
+                                                        null
+                                                    ? snapshot.data
+                                                            .documents[index]
+                                                        ["name"]
+                                                    : snapshot.data.documents[index]
+                                                                [
+                                                                "username"] !=
+                                                            null
+                                                        ? snapshot.data
+                                                                .documents[index]
+                                                            ["username"]
+                                                        : snapshot.data
+                                                                .documents[
+                                                            index]["email"],
+                                                maxLines: 1,
+                                                overflow:
+                                                    TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    fontSize: 15),
+                                              ),
                                             ),
                                             SizedBox(
-                                              height: 10,
+                                              height: 20,
                                             ),
                                             SizedBox(
                                               height: 0.3,

@@ -136,37 +136,32 @@ class _FriendListState extends State<FriendList> {
                                                                               "images/rpg_icon.png"),
                                                                     )),
                                                           ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: <Widget>[
-                                                              Text(
-                                                                snapshot.data["name"] !=
-                                                                        null
-                                                                    ? snapshot
-                                                                            .data[
-                                                                        "name"]
-                                                                    : snapshot.data["username"] !=
-                                                                            null
-                                                                        ? snapshot.data[
-                                                                            "username"]
-                                                                        : snapshot
-                                                                            .data["email"],
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        15),
-                                                              ),
-                                                            ],
+                                                          Flexible(
+                                                            child: Text(
+                                                              snapshot.data["name"] !=
+                                                                      null
+                                                                  ? snapshot
+                                                                          .data[
+                                                                      "name"]
+                                                                  : snapshot.data["username"] !=
+                                                                          null
+                                                                      ? snapshot.data[
+                                                                          "username"]
+                                                                      : snapshot
+                                                                          .data["email"],
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      15),
+                                                            ),
                                                           ),
                                                           Container(
                                                             margin:

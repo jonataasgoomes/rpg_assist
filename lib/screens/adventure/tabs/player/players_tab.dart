@@ -89,113 +89,95 @@ class _PlayersTabState extends State<PlayersTab> {
                               ],
                             );
                           } else {
-                            return Container(
+                            return SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Expanded(
-                                    flex: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(width: 0.5))),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.all(20),
-                                            width: 60,
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  image: snapshot.data
-                                                                  .documents[0]
-                                                              ["photoUrl"] !=
-                                                          null
-                                                      ? NetworkImage(snapshot
-                                                              .data.documents[0]
-                                                          ["photoUrl"])
-                                                      : AssetImage(
-                                                          "images/rpg_icon.png"),
-                                                  fit: BoxFit.cover),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(right: 25),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Row(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Mestre",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              .5,
-                                                      child: Text(
-                                                        snapshot.data.documents[
-                                                                        0]
-                                                                    ["name"] !=
-                                                                null
-                                                            ? snapshot.data
-                                                                    .documents[
-                                                                0]["name"]
-                                                            : snapshot.data.documents[
-                                                                            0][
-                                                                        "username"] !=
-                                                                    null
-                                                                ? snapshot.data
-                                                                        .documents[0]
-                                                                    ["username"]
-                                                                : "",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .5,
-                                                  child: Text(
-                                                    snapshot.data.documents[0][
-                                                                "masterTitle"] !=
-                                                            null
-                                                        ? snapshot.data
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.all(20),
+                                          width: 60,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: snapshot.data
                                                                 .documents[0]
-                                                            ["masterTitle"]
-                                                        : "",
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                            ["photoUrl"] !=
+                                                        null
+                                                    ? NetworkImage(snapshot
+                                                            .data.documents[0]
+                                                        ["photoUrl"])
+                                                    : AssetImage(
+                                                        "images/rpg_icon.png"),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                child: MergeSemantics(
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        "Mestre ",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          snapshot.data.documents[
+                                                                          0]
+                                                                      ["name"] !=
+                                                                  null
+                                                              ? snapshot.data
+                                                                      .documents[
+                                                                  0]["name"]
+                                                              : snapshot.data.documents[
+                                                                              0][
+                                                                          "username"] !=
+                                                                      null
+                                                                  ? snapshot.data
+                                                                          .documents[0]
+                                                                      ["username"]
+                                                                  : "",
+                                                          softWrap: true,
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontStyle:
+                                                                FontStyle.italic,
+                                                            fontWeight:
+                                                                FontWeight.w200,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              Text(
+                                                snapshot.data.documents[0][
+                                                            "masterTitle"] !=
+                                                        null
+                                                    ? snapshot.data
+                                                            .documents[0]
+                                                        ["masterTitle"]
+                                                    : "",
+                                                maxLines: 2,
+                                                overflow:
+                                                    TextOverflow.ellipsis,
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   ScopedModelDescendant<UserModel>(
@@ -206,7 +188,8 @@ class _PlayersTabState extends State<PlayersTab> {
                                                   adventureId: adventureDoc[
                                                       "adventureId"]),
                                           builder: (context, playerSnapshot) {
-                                            switch (playerSnapshot.connectionState) {
+                                            switch (playerSnapshot
+                                                .connectionState) {
                                               case ConnectionState.waiting:
                                                 return Container(
                                                     child: Column(
@@ -251,8 +234,8 @@ class _PlayersTabState extends State<PlayersTab> {
                                                   ],
                                                 ));
                                               default:
-                                                if (playerSnapshot.data.documents
-                                                    .isNotEmpty) {
+                                                if (playerSnapshot.data
+                                                    .documents.isNotEmpty) {
                                                   return ListView.builder(
                                                     shrinkWrap: true,
                                                     physics:
@@ -263,9 +246,8 @@ class _PlayersTabState extends State<PlayersTab> {
                                                         (context, index) {
                                                       return FutureBuilder<
                                                           DocumentSnapshot>(
-                                                        future: userModel
-                                                            .userTeste(playerSnapshot
-                                                                    .data
+                                                        future: userModel.userTeste(
+                                                            playerSnapshot.data
                                                                     .documents[
                                                                 index]["userId"]),
                                                         builder: (context,
@@ -282,28 +264,21 @@ class _PlayersTabState extends State<PlayersTab> {
                                                               } else {
                                                                 return InkWell(
                                                                   onTap: () {
-
-                                                                    if((adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"])){
+                                                                    if ((adventureDoc["master"] ==
+                                                                            user[
+                                                                                "id"]) |
+                                                                        (user["id"] ==
+                                                                            playerSnapshot.data.documents[index]["userId"])) {
                                                                       return Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) => PlayerScreen(
-                                                                                  adventureDoc,
-                                                                                  snapshot.data,
-                                                                                  user)));
-
-                                                                    }else {
+                                                                              builder: (context) => PlayerScreen(adventureDoc, snapshot.data, user)));
+                                                                    } else {
                                                                       Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) => CharacterView(
-                                                                                  adventureDoc,
-                                                                                  snapshot.data,
-                                                                                  user)));
+                                                                              builder: (context) => CharacterView(adventureDoc, snapshot.data, user)));
                                                                     }
-
-
-
                                                                   },
                                                                   child:
                                                                       Container(
@@ -329,19 +304,13 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                                     image: snapshot.data["photoUrl"] != null ? NetworkImage(snapshot.data["photoUrl"]) : AssetImage("images/rpg_icon.png"),
                                                                                   )),
                                                                             ),
-                                                                            SizedBox(
-                                                                              width: 10,
-                                                                            ),
-                                                                            Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: <Widget>[
-                                                                                Text(
-                                                                                  snapshot.data["name"] != null ? snapshot.data["name"] : snapshot.data["username"] != null ? snapshot.data["username"] : snapshot.data["email"],
-                                                                                  maxLines: 1,
-                                                                                  overflow: TextOverflow.ellipsis,
-                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                                                                ),
-                                                                              ],
+                                                                            Flexible(
+                                                                              child: Text(
+                                                                                snapshot.data["name"] != null ? snapshot.data["name"] : snapshot.data["username"] != null ? snapshot.data["username"] : snapshot.data["email"],
+                                                                                maxLines: 1,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                                                              ),
                                                                             )
                                                                           ],
                                                                         ),

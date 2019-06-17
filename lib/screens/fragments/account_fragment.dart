@@ -161,7 +161,7 @@ class AccountFragment extends StatelessWidget {
                             Container(
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.all(15),
@@ -187,10 +187,9 @@ class AccountFragment extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 5,
                                         ),
                                         Container(
-                                          width: 100,
                                           child: Text(
                                             userModel.userData["name"] != null
                                                 ? userModel.userData["name"]
@@ -210,59 +209,49 @@ class AccountFragment extends StatelessWidget {
                                         userModel.userData["id"]),
                                     builder: (context, friends) {
                                       if (userModel.userData != null) {
-                                        return Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text("Friends: ",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15)),
-                                                  Text(
-                                                      friends.data != null
-                                                          ? (friends
-                                                                  .data
-                                                                  .documents
-                                                                  .length)
-                                                              .toString()
-                                                          : "0",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15)),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Text("Adventures: ",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15)),
-                                                  Text("0",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15)),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Container(
-                                                height: 25,
-                                                width: 180,
-                                                child: RaisedButton(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                  ),
-                                                  color: Color.fromARGB(
-                                                      255, 6, 223, 176),
-                                                  onPressed: () {},
-                                                  child: Text("Edit profile"),
+                                        return Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text("Friends: ",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15)),
+                                                Text(
+                                                    friends.data != null
+                                                        ? (friends
+                                                                .data
+                                                                .documents
+                                                                .length)
+                                                            .toString()
+                                                        : "0",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15)),
+                                                SizedBox(
+                                                  width: 10,
                                                 ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              child: RaisedButton(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                ),
+                                                color: Color.fromARGB(
+                                                    255, 6, 223, 176),
+                                                onPressed: () {},
+                                                child: Text("Edit profile"),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         );
                                       }
                                     },
@@ -345,86 +334,78 @@ class AccountFragment extends StatelessWidget {
                                                     if (snapshot.hasError) {
                                                       Text("Error");
                                                     } else {
-                                                      return Container(
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Row(
-                                                              children: <
-                                                                  Widget>[
-                                                                Container(
-                                                                  width: 50.0,
-                                                                  height: 50.0,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                          shape: BoxShape
-                                                                              .circle,
-                                                                          image:
-                                                                              DecorationImage(
-                                                                            fit:
-                                                                                BoxFit.fill,
-                                                                            image: snapshot.data["photoUrl"] != null
-                                                                                ? NetworkImage(snapshot.data["photoUrl"])
-                                                                                : AssetImage("images/rpg_icon.png"),
-                                                                          )),
+                                                      return Column(
+                                                        children: <Widget>[
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: <
+                                                                Widget>[
+                                                              Container(
+                                                                width: 50.0,
+                                                                height: 50.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          fit:
+                                                                              BoxFit.fill,
+                                                                          image: snapshot.data["photoUrl"] != null
+                                                                              ? NetworkImage(snapshot.data["photoUrl"])
+                                                                              : AssetImage("images/rpg_icon.png"),
+                                                                        )),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Flexible(
+                                                                child: Text(
+                                                                  snapshot.data["name"] !=
+                                                                          null
+                                                                      ? snapshot.data[
+                                                                          "name"]
+                                                                      : snapshot.data["username"] != null
+                                                                          ? snapshot.data["username"]
+                                                                          : snapshot.data["email"],
+                                                                  maxLines:
+                                                                      1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight: FontWeight
+                                                                          .bold,
+                                                                      fontSize:
+                                                                          15),
                                                                 ),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Text(
-                                                                      snapshot.data["name"] !=
-                                                                              null
-                                                                          ? snapshot.data[
-                                                                              "name"]
-                                                                          : snapshot.data["username"] != null
-                                                                              ? snapshot.data["username"]
-                                                                              : snapshot.data["email"],
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              15),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 0.3,
-                                                              child: Center(
-                                                                child:
-                                                                    Container(
-                                                                  margin: EdgeInsetsDirectional
-                                                                      .only(
-                                                                          start:
-                                                                              1.0,
-                                                                          end:
-                                                                              1.0),
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 0.3,
+                                                            child: Center(
+                                                              child:
+                                                                  Container(
+                                                                margin: EdgeInsetsDirectional
+                                                                    .only(
+                                                                        start:
+                                                                            1.0,
+                                                                        end:
+                                                                            1.0),
+                                                                color: Colors
+                                                                    .white,
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       );
                                                     }
                                                 }
