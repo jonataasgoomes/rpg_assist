@@ -206,8 +206,8 @@ class AccountFragment extends StatelessWidget {
                                     ),
                                   ),
                                   StreamBuilder<QuerySnapshot>(
-                                    stream: userModel
-                                        .userFriendsLive(userModel.userData["id"]),
+                                    stream: userModel.userFriendsLive(
+                                        userModel.userData["id"]),
                                     builder: (context, friends) {
                                       if (userModel.userData != null) {
                                         return Container(

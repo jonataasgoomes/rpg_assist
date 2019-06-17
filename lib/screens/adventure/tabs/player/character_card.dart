@@ -13,17 +13,6 @@ class CharacterCard extends StatefulWidget {
 }
 
 class _CharacterCardState extends State<CharacterCard> {
-  Widget _buildBodyBack() => Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 34, 17, 51),
-            Color.fromARGB(255, 44, 100, 124)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
-      );
   final DocumentSnapshot adventureDoc, playerData;
   final Map<String, dynamic> userLogged;
 
@@ -32,41 +21,29 @@ class _CharacterCardState extends State<CharacterCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      child: Stack(
+      backgroundColor: Colors.transparent,
+      body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/adventure_start" +
-                        adventureDoc["photoNumber"] +
-                        ".png"),
-                    fit: BoxFit.cover)),
-          ),
-          Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 100),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 25),
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: playerData["photoUrl"] != null
-                                ? NetworkImage(playerData["photoUrl"])
-                                : AssetImage("images/rpg_icon.png"),
-                          )),
-                    ),
-                  ],
+            margin: EdgeInsets.only(top: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  width: 100.0,
+                  height: 100.0,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: playerData["photoUrl"] != null
+                            ? NetworkImage(playerData["photoUrl"])
+                            : AssetImage("images/rpg_icon.png"),
+                      )),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           ListView(
             padding: EdgeInsets.all(0),
@@ -613,6 +590,6 @@ class _CharacterCardState extends State<CharacterCard> {
           )
         ],
       ),
-    ));
+    );
   }
 }
