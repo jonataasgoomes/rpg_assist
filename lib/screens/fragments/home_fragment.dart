@@ -123,6 +123,9 @@ class HomeFragment extends StatelessWidget {
                                           Text("Error");
                                         }
                                         else{
+
+
+
                                           return AdventureCard(adventureCard.data,userModel.userData);
                                         }
                                     }

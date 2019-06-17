@@ -211,7 +211,8 @@ class _PlayersTabState extends State<PlayersTab> {
                                                               animation: "loading"),
                                                         )
                                                       ],
-                                                    ));
+                                                    )
+                                                );
                                               default:
                                                 if (snapshot.data.documents.isNotEmpty) {
                                                   return ListView.builder(

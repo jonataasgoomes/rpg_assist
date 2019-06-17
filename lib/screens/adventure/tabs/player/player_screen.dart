@@ -37,29 +37,30 @@ class _PlayerScreenState extends State<PlayerScreen> {
         iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
         actions: <Widget>[PopupMenuButton(itemBuilder: (_) {})],
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 34, 17, 51),
-                  Color.fromARGB(255, 44, 100, 124),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 34, 17, 51),
+                    Color.fromARGB(255, 44, 100, 124),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
             ),
-          ),
-          PageView(
-            children: <Widget>[
-              CharacterCard(adventureDoc, playerData, userLogged),
-              Messages(),
-              Container(
-                  child: Combat()),
-            ],
-          ),
-        ],
+            PageView(
+              children: <Widget>[
+                CharacterCard(adventureDoc, playerData, userLogged),
+                Messages(),
+                Combat(adventureDoc,userLogged),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
