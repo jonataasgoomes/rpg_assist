@@ -108,7 +108,6 @@ class HomeFragment extends StatelessWidget {
                         } else {
                           return ListView.builder(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
                               itemCount:
                                   adventureSnapshot.data.documents.length,
                               itemBuilder: (context, index) {

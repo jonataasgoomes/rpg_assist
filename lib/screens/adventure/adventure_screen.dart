@@ -35,7 +35,8 @@ class _AdventureScreenState extends State<AdventureScreen>
           ),
           centerTitle: true,
           iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
-          actions: <Widget>[PopupMenuButton(itemBuilder: (_) {})],
+          actions: <Widget>[Visibility( visible: adventureDoc["master"] == user["id"],
+              child: PopupMenuButton(itemBuilder: (_) {}))],
         ),
         body: Stack(
           children: <Widget>[
@@ -97,44 +98,50 @@ class _AdventureScreenState extends State<AdventureScreen>
                         child: TabBarView(
                           children: <Widget>[
                             Scaffold(
-                              floatingActionButton: Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  child: FloatingActionButton(
-                                    backgroundColor: Colors.transparent,
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NewSessionScreen(
-                                                      adventureDoc)));
-                                    },
-                                    child: Container(
-                                      child:
-                                          Image.asset("images/new_session.png"),
-                                    ),
-                                  )),
+                              floatingActionButton: Visibility(
+                                visible: adventureDoc["master"] == user["id"],
+                                child: Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    child: FloatingActionButton(
+                                      backgroundColor: Colors.transparent,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NewSessionScreen(
+                                                        adventureDoc)));
+                                      },
+                                      child: Container(
+                                        child:
+                                            Image.asset("images/new_session.png"),
+                                      ),
+                                    )),
+                              ),
                               body: Container(
                                   child: ProgressTab(user, adventureDoc),
                                   color: Color.fromARGB(255, 226, 226, 225)),
                             ),
                             Scaffold(
-                              floatingActionButton: Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  child: FloatingActionButton(
-                                    backgroundColor: Colors.transparent,
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FriendList(adventureDoc["adventureId"])));
-                                    },
-                                    child: Container(
-                                      child:
-                                          Image.asset("images/add_player.png"),
-                                    ),
-                                  )),
+                              floatingActionButton: Visibility(
+                                visible: adventureDoc["master"] == user["id"],
+                                child: Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    child: FloatingActionButton(
+                                      backgroundColor: Colors.transparent,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FriendList(adventureDoc["adventureId"])));
+                                      },
+                                      child: Container(
+                                        child:
+                                            Image.asset("images/add_player.png"),
+                                      ),
+                                    )),
+                              ),
                               body: Container(
                                   child: PlayersTab(user, adventureDoc,),
                                   color: Color.fromARGB(255, 226, 226, 225)),

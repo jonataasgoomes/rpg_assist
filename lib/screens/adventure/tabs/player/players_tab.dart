@@ -6,6 +6,9 @@ import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/player/player_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'character_card.dart';
+import 'character_view.dart';
+
 class PlayersTab extends StatefulWidget {
   final Map<String, dynamic> user;
   final DocumentSnapshot adventureDoc;
@@ -64,7 +67,8 @@ class _PlayersTabState extends State<PlayersTab> {
                           if (snapshot.hasError)
                             return Text(
                               'Error to loading: ${snapshot.error}',
-                              style: TextStyle(color: Colors.white, fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             );
                           else if (snapshot.data.documents.length == 0) {
                             return Column(
@@ -77,7 +81,8 @@ class _PlayersTabState extends State<PlayersTab> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontFamily: "IndieFlower",
-                                          color: Color.fromARGB(255, 234, 205, 125),
+                                          color: Color.fromARGB(
+                                              255, 234, 205, 125),
                                           fontSize: 20),
                                       textAlign: TextAlign.center,
                                     )),
@@ -88,33 +93,34 @@ class _PlayersTabState extends State<PlayersTab> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(width: 0.5))),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.all(20),
-                                          width: 60,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: snapshot.data
-                                                                .documents[0]
-                                                            ["photoUrl"] !=
-                                                        null
-                                                    ? NetworkImage(snapshot
-                                                            .data.documents[0]
-                                                        ["photoUrl"])
-                                                    : AssetImage(
-                                                        "images/rpg_icon.png"),
-                                                fit: BoxFit.cover),
+                                  Expanded(
+                                    flex: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(width: 0.5))),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.all(20),
+                                            width: 60,
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: snapshot.data
+                                                                  .documents[0]
+                                                              ["photoUrl"] !=
+                                                          null
+                                                      ? NetworkImage(snapshot
+                                                              .data.documents[0]
+                                                          ["photoUrl"])
+                                                      : AssetImage(
+                                                          "images/rpg_icon.png"),
+                                                  fit: BoxFit.cover),
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
+                                          Container(
                                             margin: EdgeInsets.only(right: 25),
                                             child: Column(
                                               crossAxisAlignment:
@@ -131,121 +137,183 @@ class _PlayersTabState extends State<PlayersTab> {
                                                     SizedBox(
                                                       width: 10,
                                                     ),
-                                                    Text(
-                                                      snapshot.data.documents[0]
-                                                                  ["name"] !=
-                                                              null
-                                                          ? snapshot.data
-                                                                  .documents[0]
-                                                              ["name"]
-                                                          : snapshot.data.documents[
-                                                                          0][
-                                                                      "username"] !=
-                                                                  null
-                                                              ? snapshot.data
-                                                                      .documents[
-                                                                  0]["username"]
-                                                              : "",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontWeight:
-                                                            FontWeight.w200,
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              .5,
+                                                      child: Text(
+                                                        snapshot.data.documents[
+                                                                        0]
+                                                                    ["name"] !=
+                                                                null
+                                                            ? snapshot.data
+                                                                    .documents[
+                                                                0]["name"]
+                                                            : snapshot.data.documents[
+                                                                            0][
+                                                                        "username"] !=
+                                                                    null
+                                                                ? snapshot.data
+                                                                        .documents[0]
+                                                                    ["username"]
+                                                                : "",
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                        ),
                                                       ),
                                                     )
                                                   ],
                                                 ),
-                                                Text(
-                                                  snapshot.data.documents[0]
-                                                              ["masterTitle"] !=
-                                                          null
-                                                      ? snapshot
-                                                              .data.documents[0]
-                                                          ["masterTitle"]
-                                                      : "",
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .5,
+                                                  child: Text(
+                                                    snapshot.data.documents[0][
+                                                                "masterTitle"] !=
+                                                            null
+                                                        ? snapshot.data
+                                                                .documents[0]
+                                                            ["masterTitle"]
+                                                        : "",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   ScopedModelDescendant<UserModel>(
-                                    builder: (context,child,userModel){
+                                    builder: (context, child, userModel) {
                                       return StreamBuilder(
-                                          stream: adventureModel.adventuresPlayers(adventureId: adventureDoc["adventureId"]),
-                                          builder: (context, snapshot) {
-                                            switch (snapshot.connectionState) {
+                                          stream:
+                                              adventureModel.adventuresPlayers(
+                                                  adventureId: adventureDoc[
+                                                      "adventureId"]),
+                                          builder: (context, playerSnapshot) {
+                                            switch (playerSnapshot.connectionState) {
                                               case ConnectionState.waiting:
                                                 return Container(
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.stretch,
-                                                      mainAxisAlignment:
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  mainAxisAlignment:
                                                       MainAxisAlignment.center,
-                                                      children: <Widget>[
-                                                        Container(
-                                                            margin: EdgeInsets.only(top: 70),
-                                                            child: Text(
-                                                              "Loading ...",
-                                                              style: TextStyle(
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontFamily: "IndieFlower",
-                                                                  color: Color.fromARGB(
-                                                                      255, 234, 205, 125),
-                                                                  fontSize: 20),
-                                                              textAlign: TextAlign.center,
-                                                            )),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 20),
-                                                          width: 80,
-                                                          height: 80,
-                                                          alignment: Alignment.center,
-                                                          child: FlareActor(
-                                                              "assets/Dice_Loading.flr",
-                                                              animation: "loading"),
-                                                        )
-                                                      ],
+                                                  children: <Widget>[
+                                                    Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: 70),
+                                                        child: Text(
+                                                          "Loading ...",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "IndieFlower",
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      234,
+                                                                      205,
+                                                                      125),
+                                                              fontSize: 20),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        )),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 20),
+                                                      width: 80,
+                                                      height: 80,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: FlareActor(
+                                                          "assets/Dice_Loading.flr",
+                                                          animation: "loading"),
                                                     )
-                                                );
+                                                  ],
+                                                ));
                                               default:
-                                                if (snapshot.data.documents.isNotEmpty) {
+                                                if (playerSnapshot.data.documents
+                                                    .isNotEmpty) {
                                                   return ListView.builder(
                                                     shrinkWrap: true,
                                                     physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                    itemCount:
-                                                    snapshot.data.documents.length,
-                                                    itemBuilder: (context, index) {
+                                                        NeverScrollableScrollPhysics(),
+                                                    itemCount: playerSnapshot
+                                                        .data.documents.length,
+                                                    itemBuilder:
+                                                        (context, index) {
                                                       return FutureBuilder<
                                                           DocumentSnapshot>(
-                                                        future: userModel.userTeste(
-                                                            snapshot.data.documents[index]
-                                                            ["userId"]),
-                                                        builder: (context, snapshot) {
-                                                          switch (
-                                                          snapshot.connectionState) {
-                                                            case ConnectionState.waiting:
+                                                        future: userModel
+                                                            .userTeste(playerSnapshot
+                                                                    .data
+                                                                    .documents[
+                                                                index]["userId"]),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          switch (snapshot
+                                                              .connectionState) {
+                                                            case ConnectionState
+                                                                .waiting:
                                                               return Container();
                                                             default:
-                                                              if (snapshot.hasError) {
+                                                              if (snapshot
+                                                                  .hasError) {
                                                                 Text("Error");
                                                               } else {
                                                                 return InkWell(
-                                                                  onTap: (){
-                                                                    return Navigator.push(context, MaterialPageRoute(
-                                                                        builder: (context)=> PlayerScreen(adventureDoc,snapshot.data,user)));
+                                                                  onTap: () {
+
+                                                                    if((adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"])){
+                                                                      return Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => PlayerScreen(
+                                                                                  adventureDoc,
+                                                                                  snapshot.data,
+                                                                                  user)));
+
+                                                                    }else {
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => CharacterView(
+                                                                                  adventureDoc,
+                                                                                  snapshot.data,
+                                                                                  user)));
+                                                                    }
+
+
+
                                                                   },
-                                                                  child: Container(
-                                                                    child: Column(
-                                                                      children: <Widget>[
+                                                                  child:
+                                                                      Container(
+                                                                    child:
+                                                                        Column(
+                                                                      children: <
+                                                                          Widget>[
                                                                         SizedBox(
-                                                                          height: 10,
+                                                                          height:
+                                                                              10,
                                                                         ),
                                                                         Row(
                                                                           children: <
@@ -254,67 +322,42 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                               margin: EdgeInsets.symmetric(horizontal: 25),
                                                                               width: 45.0,
                                                                               height: 45.0,
-                                                                              decoration:
-                                                                              BoxDecoration(
-                                                                                  shape: BoxShape
-                                                                                      .circle,
-                                                                                  image:
-                                                                                  DecorationImage(
-                                                                                    fit:
-                                                                                    BoxFit.fill,
-                                                                                    image: snapshot.data["photoUrl"] != null
-                                                                                        ? NetworkImage(snapshot.data["photoUrl"])
-                                                                                        : AssetImage("images/rpg_icon.png"),
+                                                                              decoration: BoxDecoration(
+                                                                                  shape: BoxShape.circle,
+                                                                                  image: DecorationImage(
+                                                                                    fit: BoxFit.fill,
+                                                                                    image: snapshot.data["photoUrl"] != null ? NetworkImage(snapshot.data["photoUrl"]) : AssetImage("images/rpg_icon.png"),
                                                                                   )),
                                                                             ),
                                                                             SizedBox(
                                                                               width: 10,
                                                                             ),
                                                                             Column(
-                                                                              crossAxisAlignment:
-                                                                              CrossAxisAlignment
-                                                                                  .start,
-                                                                              children: <
-                                                                                  Widget>[
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: <Widget>[
                                                                                 Text(
-                                                                                  snapshot.data["name"] !=
-                                                                                      null
-                                                                                      ? snapshot.data[
-                                                                                  "name"]
-                                                                                      : snapshot.data["username"] != null
-                                                                                      ? snapshot.data["username"]
-                                                                                      : snapshot.data["email"],
-                                                                                  maxLines:
-                                                                                  1,
-                                                                                  overflow:
-                                                                                  TextOverflow
-                                                                                      .ellipsis,
-                                                                                  style: TextStyle(
-                                                                                      fontWeight: FontWeight
-                                                                                          .bold,
-                                                                                      fontSize:
-                                                                                      15),
+                                                                                  snapshot.data["name"] != null ? snapshot.data["name"] : snapshot.data["username"] != null ? snapshot.data["username"] : snapshot.data["email"],
+                                                                                  maxLines: 1,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                                                                 ),
                                                                               ],
                                                                             )
                                                                           ],
                                                                         ),
                                                                         SizedBox(
-                                                                          height: 10,
+                                                                          height:
+                                                                              10,
                                                                         ),
                                                                         SizedBox(
-                                                                          height: 0.3,
-                                                                          child: Center(
+                                                                          height:
+                                                                              0.1,
+                                                                          child:
+                                                                              Center(
                                                                             child:
-                                                                            Container(
-                                                                              margin: EdgeInsetsDirectional
-                                                                                  .only(
-                                                                                  start:
-                                                                                  1.0,
-                                                                                  end:
-                                                                                  1.0),
-                                                                              color: Colors
-                                                                                  .black,
+                                                                                Container(
+                                                                              margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+                                                                              color: Colors.black,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -334,12 +377,20 @@ class _PlayersTabState extends State<PlayersTab> {
                                                     child: Center(
                                                       child: Text(
                                                         "Adventure doesn´t have any players yet",
-                                                        textAlign: TextAlign.center,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontFamily: "IndieFlower",
-                                                            color: Color.fromARGB(255, 6, 223, 176)),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                "IndieFlower",
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    6,
+                                                                    223,
+                                                                    176)),
                                                       ),
                                                     ),
                                                   );

@@ -99,7 +99,7 @@ class _AdventureCardState extends State<AdventureCard> {
               child: Container(
                   height: 30,
                   child: Visibility(
-                    visible: adventureModel.editMode,
+                    visible: (adventureModel.editMode & (adventureDoc["master"] == user["id"])),
                     child: GestureDetector(
                       onTap: (){
                         print(adventureDoc["adventureId"]);
