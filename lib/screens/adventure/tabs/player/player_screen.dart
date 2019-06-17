@@ -4,6 +4,7 @@ import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'character_card.dart';
+import 'combat.dart';
 
 class PlayerScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc, playerData;
@@ -39,11 +40,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               child: Text("Test"),
             ),
           ),
-          Container(
-            child: Center(
-              child: Text("Combat"),
-            ),
-          ),
+          Combat()
         ],
       ),
     );
