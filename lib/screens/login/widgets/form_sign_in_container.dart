@@ -2,10 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../home_screen.dart';
 import 'input_field.dart';
 
-class FormSignInContainer extends StatelessWidget {
+class FormSignInContainer extends StatefulWidget {
+  @override
+  _FormSignInContainerState createState() => _FormSignInContainerState();
+}
+
+class _FormSignInContainerState extends State<FormSignInContainer> {
   final _formKey = GlobalKey<FormState>();
+
+
+
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +29,10 @@ class FormSignInContainer extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 75),
                     child:Center(
-                      child: Text("Signing in",
+                      child: Text("Signing...",
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Colors.yellow
+                          color: Color.fromARGB(255, 234, 205, 125)
                         ),)
                     ),
                 );
@@ -29,13 +41,15 @@ class FormSignInContainer extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       InputField(
-                        hint: "Username",
+                        controller: _emailController,
+                        hint: "Email",
                         obscure: false,
                         validator: (text) {
                           if (text.isEmpty) return "invalid user";
                         },
                       ),
                       InputField(
+                        controller: _passwordController,
                         hint: "Password",
                         obscure: true,
                         validator: (text) {
@@ -53,9 +67,13 @@ class FormSignInContainer extends StatelessWidget {
                           child: RaisedButton(
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-
+                                model.signOutGoogle();
+                                model.signIn(email: _emailController.text,
+                                    password: _passwordController.text,
+                                    onSuccess: _onSuccess,
+                                    onFail: _onFail);
                               }
-                              model.signIn();
+
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -89,5 +107,21 @@ class FormSignInContainer extends StatelessWidget {
         )
 
     );
+  }
+
+  void _onSuccess() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+
+  void _onFail() {
+
+    Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to Sign In"),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),)
+    );
+
+
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../home_screen.dart';
 import 'input_field.dart';
 
 class FormRegisterContainer extends StatefulWidget {
@@ -14,8 +16,23 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
-  final _birthdayController = TextEditingController();
   final _sexController = TextEditingController();
+
+  String _value = DateFormat.Md().format(DateTime.now());
+  DateTime _dateTime;
+
+  Future _selectDate() async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015),
+        lastDate: DateTime(3000));
+    if (picked != null) {
+      setState(() {
+        _dateTime = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +45,21 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
         builder: (context, child, model) {
           if (model.isLoading) {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 83),
+              width: 250,
               child: Column(
                 children: <Widget>[
-                  Text("SIGNING UP",
-                    style:
-                    TextStyle(
+                  Text(
+                    "SIGNING UP",
+                    style: TextStyle(
                         fontSize: 20.0,
-                      color: Colors.black,
-                        fontWeight: FontWeight.w500
-                    ),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 50, bottom: 30),
                     child: Image.asset("images/logo1.png",
                         width: 100, fit: BoxFit.fitWidth),
                   ),
-                  Container(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
                 ],
               ),
             );
@@ -87,14 +100,38 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
                           if (text.isEmpty) return "required";
                         },
                       ),
-                      InputField(
-                        controller: _birthdayController,
-                        hint: "Birthday",
-                        obscure: false,
-                        color: Colors.black,
-                        validator: (text) {
-                          if (text.isEmpty) return "required";
-                        },
+                      Container(
+                        margin: EdgeInsets.only(top: 10,left: 25,right: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Birthday"),
+                            Container(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  _selectDate();
+                                },
+                                color: Color.fromRGBO(0, 226, 186, 1.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      _dateTime != null
+                                          ? DateFormat.Md().format(_dateTime)
+                                          : _value,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       InputField(
                         controller: _sexController,
@@ -121,10 +158,11 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
                         if (_formKey.currentState.validate()) {
                           Map<String, dynamic> userData = {
                             "email": _emailController.text,
-                            "username": _usernameController.text,
-                            "birthday": _birthdayController.text,
+                            "name": _usernameController.text,
+                            "birthday": _dateTime != null? _dateTime: _value,
                             "Sex": _sexController.text
                           };
+
                           model.signUp(
                               userData: userData,
                               password: _passwordController.text,
@@ -164,7 +202,20 @@ class _FormRegisterContainerState extends State<FormRegisterContainer> {
     );
   }
 
-  void _onSuccess() {}
+  void _onSuccess() {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text("your account has been successfully created!"),
+      duration: Duration(seconds: 5),
+    ));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
 
-  void _onFail() {}
+  void _onFail() {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text("failed to create user"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+    ));
+  }
 }
