@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/widgets/status_slider.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CharacterCard extends StatefulWidget {
@@ -331,124 +332,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                   ],
                                 ),
                               ),
-                              Card(
-                                elevation: 10,
-                                color: Colors.black38,
-                                child: Container(
-                                  height: 130,
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              "HP",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "IndieFlower",
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            ),
-                                            SliderTheme(
-                                              data: Theme.of(context)
-                                                  .sliderTheme
-                                                  .copyWith(
-                                                      trackHeight: 10,
-                                                      activeTrackColor:
-                                                          Colors.red,
-                                                      inactiveTrackColor:
-                                                          Colors.white30,
-                                                      thumbColor: Colors.white,
-                                                      thumbShape:
-                                                          RoundSliderThumbShape(
-                                                              enabledThumbRadius:
-                                                                  10)),
-                                              child: Flexible(
-                                                child: Slider(
-                                                    min: 0,
-                                                    max: 100,
-                                                    value: playerCharacterData.data['hp'] != null ? playerCharacterData.data['hp'].toDouble() : 0.0,
-                                                    onChanged: (t) {}),
-                                              ),
-                                            ),
-                                            Text(
-                                              playerCharacterData.data['hp'] !=
-                                                      null
-                                                  ? playerCharacterData
-                                                      .data['hp']
-                                                      .toString()
-                                                  : "0",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "IndieFlower",
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              "XP",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "IndieFlower",
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            ),
-                                            SliderTheme(
-                                              data: Theme.of(context)
-                                                  .sliderTheme
-                                                  .copyWith(
-                                                      trackHeight: 10,
-                                                      activeTrackColor:
-                                                          Color.fromARGB(
-                                                              255, 6, 223, 176),
-                                                      inactiveTrackColor:
-                                                          Colors.white30,
-                                                      thumbColor: Colors.white,
-                                                      thumbShape:
-                                                          RoundSliderThumbShape(
-                                                              enabledThumbRadius:
-                                                                  10)),
-                                              child: Flexible(
-                                                child: Slider(
-                                                    min: 0,
-                                                    max: 100,
-                                                    value: playerCharacterData.data['xp'] != null ? playerCharacterData.data['xp'].toDouble() : 0.0,
-                                                    onChanged: (t) {}),
-                                              ),
-                                            ),
-                                            Text(
-                                              playerCharacterData.data['xp'] !=
-                                                      null
-                                                  ? playerCharacterData
-                                                      .data['xp']
-                                                      .toString()
-                                                  : "",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "IndieFlower",
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              StatusSlider(adventureDoc, playerCharacterData.data),
                               Container(
                                 height: 280,
                                 child: GridView.count(
