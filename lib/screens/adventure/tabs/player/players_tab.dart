@@ -272,12 +272,12 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                       return Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) => PlayerScreen(adventureDoc, snapshot.data, user)));
+                                                                              builder: (context) => PlayerScreen(adventureDoc, snapshot.data, user,playerSnapshot.data.documents[index] )));
                                                                     } else {
                                                                       Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) => CharacterView(adventureDoc, snapshot.data, user)));
+                                                                              builder: (context) => CharacterView(adventureDoc, snapshot.data, user,playerSnapshot.data.documents[index])));
                                                                     }
                                                                   },
                                                                   child:

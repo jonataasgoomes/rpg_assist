@@ -146,6 +146,7 @@ class UserModel extends Model {
 
 //usuário logado?
   bool isLoggedIn() {
+    _loadCurrentUser();
     return firebaseUser != null;
   }
 

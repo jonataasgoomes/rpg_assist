@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'character_card.dart';
 
 class CharacterView extends StatelessWidget {
-  final DocumentSnapshot adventureDoc, playerData;
+  final DocumentSnapshot adventureDoc, userPlayerData, playerData;
   final Map<String, dynamic> userLogged;
 
-  const CharacterView(this.adventureDoc, this.playerData, this.userLogged) ;
+  const CharacterView(this.adventureDoc, this.userPlayerData, this.userLogged, this.playerData) ;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CharacterView extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 34, 17, 51),
         iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
         centerTitle: true,
-        title: Text(playerData["name"],style: TextStyle(color: Color.fromARGB(255, 234, 205, 125)),),
+        title: Text(userPlayerData["name"],style: TextStyle(color: Color.fromARGB(255, 234, 205, 125)),),
       ),
       body: Stack(
           children: <Widget>[
@@ -32,7 +32,7 @@ class CharacterView extends StatelessWidget {
                 ),
               ),
             ),
-            CharacterCard(adventureDoc, playerData, userLogged),
+            CharacterCard(adventureDoc, userPlayerData, userLogged,playerData),
           ]
       )
     );

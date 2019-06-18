@@ -8,21 +8,21 @@ import 'messages.dart';
 import 'test.dart';
 
 class PlayerScreen extends StatefulWidget {
-  final DocumentSnapshot adventureDoc, playerData;
+  final DocumentSnapshot adventureDoc, userPlayerData, playerData;
   final Map<String, dynamic> userLogged;
 
-  PlayerScreen(this.adventureDoc, this.playerData, this.userLogged);
+  PlayerScreen(this.adventureDoc, this.userPlayerData, this.userLogged, this.playerData);
 
   @override
   _PlayerScreenState createState() =>
-      _PlayerScreenState(adventureDoc, playerData, userLogged);
+      _PlayerScreenState(adventureDoc, userPlayerData, userLogged,playerData);
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-  final DocumentSnapshot adventureDoc, playerData;
+  final DocumentSnapshot adventureDoc, userPlayerData,playerData;
   final Map<String, dynamic> userLogged;
 
-  _PlayerScreenState(this.adventureDoc, this.playerData, this.userLogged);
+  _PlayerScreenState(this.adventureDoc, this.userPlayerData, this.userLogged,this.playerData);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             PageView(
               children: <Widget>[
-                CharacterCard(adventureDoc, playerData, userLogged),
+                CharacterCard(adventureDoc, userPlayerData,userLogged,playerData),
                 Messages(),
                 Combat(adventureDoc,userLogged),
               ],

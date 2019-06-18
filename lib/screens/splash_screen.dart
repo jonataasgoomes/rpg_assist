@@ -3,9 +3,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:rpg_assist_app/screens/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-
-
-  @override
+    @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
