@@ -61,6 +61,7 @@ class _AdventureCardState extends State<AdventureCard> {
                             color: Colors.white,
                             fontSize: 25,
                           ),
+                          maxLines: 1,
                         ),
                         SizedBox(
                           height: 30.0,

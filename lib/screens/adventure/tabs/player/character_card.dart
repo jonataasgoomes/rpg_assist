@@ -477,7 +477,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["str"] != null? playerCharacterData.data["str"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
@@ -536,7 +536,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["dex"] != null? playerCharacterData.data["dex"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
@@ -596,7 +596,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["int"] != null? playerCharacterData.data["int"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
@@ -656,7 +656,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["cha"] != null? playerCharacterData.data["cha"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
@@ -716,7 +716,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["con"] != null? playerCharacterData.data["con"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
@@ -776,7 +776,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                   backgroundColor:
                                                       Colors.black54,
                                                   strokeWidth: 5,
-                                                  value: .5,
+                                                  value: playerCharacterData.data["wis"] != null? playerCharacterData.data["wis"].toDouble()/100 :0,
                                                 ),
                                               ),
                                             ),
