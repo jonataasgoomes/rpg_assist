@@ -6,7 +6,7 @@ import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AdventureModel extends Model {
-  DocumentReference _adventureReference, _sessionReference;
+  DocumentReference _adventureReference, _sessionReference, _characterReference;
   bool isLoading = false;
   bool editMode = false;
   bool isDescending = false;
@@ -139,6 +139,15 @@ class AdventureModel extends Model {
         .snapshots();
   }
 
+  playerCharacter(String adventureId,playerId) {
+    return Firestore.instance
+        .collection("adventures")
+        .document(adventureId)
+        .collection("players")
+        .document(playerId)
+        .snapshots();
+  }
+
   rollsAdventure(String adventureId) {
     return Firestore.instance
         .collection("adventures")
@@ -165,11 +174,34 @@ class AdventureModel extends Model {
   Future<Null> addPlayersOnAdventure(
       {@required String adventureId, @required userId}) async {
     Map<String, dynamic> playerData = Map();
+
     playerData["userId"] = userId;
+
+    playerData["hp"] = 0;
+    playerData["xp"] = 0;
+    playerData["level"] = 0;
+
+    playerData["name"] = "";
+    playerData["race"] = "";
+    playerData["class"] = "";
+    playerData["sex"] = "";
+
+    playerData["str"] = 0;
+    playerData["dex"] = 0;
+    playerData["int"] = 0;
+    playerData["cha"] = 0;
+    playerData["con"] = 0;
+    playerData["wis"] = 0;
+
+
 
     Map<String, dynamic> playerDataAdventure = Map();
     playerDataAdventure["adventureId"] = adventureId;
     playerDataAdventure["timestamp"] = FieldValue.serverTimestamp();
+
+    _characterReference = Firestore.instance.collection("adventures").document(adventureId).collection("players").document();
+    playerData["characterId"] = _characterReference.documentID;
+
 
     await Firestore.instance
         .collection("users")
@@ -178,11 +210,7 @@ class AdventureModel extends Model {
         .document()
         .setData(playerDataAdventure);
 
-    await Firestore.instance
-        .collection("adventures")
-        .document(adventureId)
-        .collection("players")
-        .document()
+    await _characterReference
         .setData(playerData);
   }
 
