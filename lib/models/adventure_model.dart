@@ -139,7 +139,15 @@ class AdventureModel extends Model {
         .snapshots();
   }
 
-  playerCharacter(String adventureId,playerId) {
+  Future<DocumentSnapshot>playerCharacter(String adventureId,playerId) {
+    return Firestore.instance
+        .collection("adventures")
+        .document(adventureId)
+        .collection("players")
+        .document(playerId)
+        .get();
+  }
+  playerCharacterStream(String adventureId,playerId) {
     return Firestore.instance
         .collection("adventures")
         .document(adventureId)
@@ -152,7 +160,7 @@ class AdventureModel extends Model {
     return Firestore.instance
         .collection("adventures")
         .document(adventureId)
-        .collection("rolls")
+        .collection("rolls").orderBy("timestamp",descending: true)
         .snapshots();
   }
 
@@ -220,5 +228,14 @@ class AdventureModel extends Model {
         .document(adventureId)
         .collection("players")
         .snapshots();
+  }
+
+  Future<Null> updateCharacterField(String statusField, value, adventureDoc, characterData) async {
+
+    Map<String,dynamic> data = Map();
+    data[statusField] = value;
+    await Firestore.instance.collection("adventures").document(adventureDoc).collection("players").document(characterData).updateData(data);
+
+
   }
 }
