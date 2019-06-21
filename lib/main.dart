@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
       child: ScopedModel(
           model: AdventureModel(),
           child: MaterialApp(
+            theme: ThemeData(
+              accentColor: Color.fromARGB(255, 34, 17, 51),
+            ),
             title: 'RPG Assistant',
             debugShowCheckedModeBanner: false,
             home: SplashScreen(),

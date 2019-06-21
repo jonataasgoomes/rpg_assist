@@ -35,6 +35,8 @@ dependencies:
   transparent_image: ^1.0.0
   intl: ^0.15.7
   flutter_circular_slider : ^2.5.0
+  page_view_indicators: ^1.2.0
+  numberpicker: ^1.0.0
   dots_indicator: ^0.0.5
 
 

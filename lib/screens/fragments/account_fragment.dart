@@ -190,6 +190,7 @@ class AccountFragment extends StatelessWidget {
                                           height: 5,
                                         ),
                                         Container(
+                                          width: 100,
                                           child: Text(
                                             userModel.userData["name"] != null
                                                 ? userModel.userData["name"]
@@ -198,7 +199,7 @@ class AccountFragment extends StatelessWidget {
                                                 TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
-                                            overflow: TextOverflow.clip,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         )
                                       ],
