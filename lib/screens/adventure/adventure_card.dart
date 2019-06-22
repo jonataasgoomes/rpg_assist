@@ -57,9 +57,8 @@ class _AdventureCardState extends State<AdventureCard> {
                               ? adventureDoc["title"]
                               : "adventure without title",
                           style: TextStyle(
-                            fontFamily: "IndieFlower",
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 20,
                           ),
                           maxLines: 1,
                         ),

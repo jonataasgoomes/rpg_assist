@@ -295,7 +295,6 @@ class AccountFragment extends StatelessWidget {
                                                 "Loading ...",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontFamily: "IndieFlower",
                                                     color: Color.fromARGB(
                                                         255, 234, 205, 125),
                                                     fontSize: 20),
@@ -423,7 +422,6 @@ class AccountFragment extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
-                                                  fontFamily: "IndieFlower",
                                                   color: Color.fromARGB(
                                                       255, 234, 205, 125)),
                                             ),

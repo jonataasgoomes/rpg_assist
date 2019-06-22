@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rpg_assist_app/screens/login/login_screen.dart';
 import 'package:rpg_assist_app/screens/splash_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             theme: ThemeData(
               accentColor: Color.fromARGB(255, 34, 17, 51),
+              fontFamily: 'FiraSans'
             ),
             title: 'RPG Assistant',
             debugShowCheckedModeBanner: false,

@@ -59,7 +59,6 @@ class _NewAdventureScreenState extends State<NewAdventureScreen> {
                                 Text(
                                   "Create adventure",
                                   style: TextStyle(
-                                      fontFamily: "IndieFlower",
                                       color: Color.fromARGB(255, 84, 166, 145),
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),

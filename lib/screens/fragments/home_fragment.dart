@@ -63,7 +63,6 @@ class HomeFragment extends StatelessWidget {
                                   "Loading ...",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: "IndieFlower",
                                       color: Color.fromARGB(255, 234, 205, 125),
                                       fontSize: 20),
                                   textAlign: TextAlign.center,
@@ -90,7 +89,6 @@ class HomeFragment extends StatelessWidget {
                                       "Register an adventure!",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: "IndieFlower",
                                           color: Color.fromARGB(
                                               255, 234, 205, 125),
                                           fontSize: 20),

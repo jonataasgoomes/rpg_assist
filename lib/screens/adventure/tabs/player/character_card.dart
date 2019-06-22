@@ -49,7 +49,6 @@ class _CharacterCardState extends State<CharacterCard> {
                               "Loading ...",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "IndieFlower",
                                   color: Color.fromARGB(255, 234, 205, 125),
                                   fontSize: 20),
                               textAlign: TextAlign.center,
@@ -67,7 +66,6 @@ class _CharacterCardState extends State<CharacterCard> {
                   default:
                     if (playerCharacterData.data == null) {
                       return Container(
-                        margin: EdgeInsets.all(50),
                         child: Center(
                           child: Text(
                             "This Character is not available",
@@ -75,19 +73,17 @@ class _CharacterCardState extends State<CharacterCard> {
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: "IndieFlower",
                                 color: Color.fromARGB(255, 6, 223, 176)),
                           ),
                         ),
                       );
                     } else {
                       return Container(
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(top: 30,bottom: 0,left: 5,right: 5),
                         child: ListView(
                           padding: EdgeInsets.all(0),
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -109,16 +105,20 @@ class _CharacterCardState extends State<CharacterCard> {
                               ),
                             ),
                             Container(
+                              color: Colors.black26,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Text(
-                                    "CHARACTER SHEET",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    child: Text(
+                                      "CHARACTER SHEET",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                   Card(
                                     color: Colors.black38,
@@ -170,7 +170,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                         child: Text(
                                                           "+",
                                                           style: TextStyle(
-                                                            fontSize: 15,
+                                                            fontSize: 20,
                                                             fontWeight:
                                                             FontWeight.bold,
                                                             color: Colors.white,
@@ -352,14 +352,14 @@ class _CharacterCardState extends State<CharacterCard> {
                                     color: Colors.black38,
                                     child: Column(
                                       children: <Widget>[
-                                        StatusSlider("hp",Colors.red,adventureDoc, playerCharacterData.data),
-                                        StatusSlider("xp",Colors.green,adventureDoc, playerCharacterData.data),
+                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data),
+                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data),
                                       ],
                                     ),
                                   ),
 
                                   Container(
-                                    height: 280,
+                                    height: 270,
                                     child: GridView.count(
                                       physics: NeverScrollableScrollPhysics(),
                                       padding: EdgeInsets.all(0),

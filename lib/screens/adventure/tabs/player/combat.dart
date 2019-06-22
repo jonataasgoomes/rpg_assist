@@ -53,7 +53,6 @@ class _CombatState extends State<Combat> {
                                 "Loading ...",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "IndieFlower",
                                     color: Color.fromARGB(255, 234, 205, 125),
                                     fontSize: 20),
                                 textAlign: TextAlign.center,
@@ -79,7 +78,6 @@ class _CombatState extends State<Combat> {
                               style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "IndieFlower",
                                   color: Color.fromARGB(255, 6, 223, 176)),
                             ),
                           ),

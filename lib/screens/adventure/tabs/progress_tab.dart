@@ -100,7 +100,6 @@ class _ProgressTabState extends State<ProgressTab> {
                               "Loading ...",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "IndieFlower",
                                   color: Color.fromARGB(255, 234, 205, 125),
                                   fontSize: 20),
                               textAlign: TextAlign.center,

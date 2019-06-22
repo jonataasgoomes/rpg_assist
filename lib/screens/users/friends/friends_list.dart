@@ -69,7 +69,6 @@ class _FriendListState extends State<FriendList> {
                                           "Loading ...",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontFamily: "IndieFlower",
                                               color: Color.fromARGB(
                                                   255, 234, 205, 125),
                                               fontSize: 20),
@@ -241,7 +240,6 @@ class _FriendListState extends State<FriendList> {
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: "IndieFlower",
                                             color: Color.fromARGB(
                                                 255, 234, 205, 125)),
                                       ),

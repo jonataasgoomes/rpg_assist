@@ -54,9 +54,12 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   fonts:
+    - family: FiraSans
+      fonts:
+        - asset: fonts/FiraSans-Regular.ttf
     - family: IndieFlower
       fonts:
-        - asset: fonts/IndieFlower.ttf
+       - asset: fonts/IndieFlower.ttf
 
 
 

@@ -83,7 +83,6 @@ class _StatusCharacterState extends State<StatusCharacter> {
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          fontFamily: "IndieFlower",
                           color: Color.fromARGB(255, 6, 223, 176)),
                     ),
                   ),
@@ -103,7 +102,7 @@ class _StatusCharacterState extends State<StatusCharacter> {
                                 color: Color.fromARGB(255, 34, 17, 51)),
                             textAlign: TextAlign.center,
                           ),
-                          minValue: 0,
+                          minValue: -100,
                           maxValue: 100,
                         );
                       },
@@ -120,6 +119,20 @@ class _StatusCharacterState extends State<StatusCharacter> {
                       },
                     );
                   },
+                  onTap: (){
+                    if(adventureModel.statusSnackBar){
+                      adventureModel.statusSnackBar = false;
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content:Text("Hold to change the value on ${statusField.toUpperCase()}"),
+                      ),
+                    );
+                    Future.delayed(Duration(seconds: 20)).then((_) {
+                      adventureModel.statusSnackBar = true;
+                    });
+                    }else{
+                      print("Waiting some seconds");
+                    }
+                  },
                   child: Card(
                     color: Colors.black38,
                     child: Container(
@@ -133,14 +146,13 @@ class _StatusCharacterState extends State<StatusCharacter> {
                               height: 100,
                               width: 100,
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color.fromARGB(255, 6, 223, 176)),
+                                valueColor: characterData.data[statusField] > 0 ? AlwaysStoppedAnimation<Color>(
+                                    Color.fromARGB(255, 6, 223, 176)): AlwaysStoppedAnimation<Color>(
+                                    Color.fromARGB(255, 0, 255, 0)),
                                 backgroundColor: Colors.black54,
                                 strokeWidth: 5,
                                 value: characterData.data[statusField] != null
-                                    ? characterData.data[statusField]
-                                            .toDouble() /
-                                        100
+                                    ? characterData.data[statusField].toDouble()/100
                                     : 0,
                               ),
                             ),

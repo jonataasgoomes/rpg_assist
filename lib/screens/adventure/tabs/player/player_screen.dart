@@ -40,8 +40,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
           actions: <Widget>[PopupMenuButton(itemBuilder: (_) {})],
         ),
-        body: _buildBody()
-    );
+        body: _buildBody());
   }
 
   _buildBody() {
@@ -61,7 +60,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
         ),
         _buildPageView(),
         _buildCircleIndicator(),
-
       ],
     );
   }
@@ -69,26 +67,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
   _buildPageView() {
     return Container(
       margin: EdgeInsets.only(top: 5),
-      child: PageView(
-        controller: _pageController,
-        onPageChanged: (int index) {
-          _currentPageNotifier.value = index;
-        },
-        children: <Widget>[
-          CharacterCard(
-              adventureDoc, userPlayerData, userLogged, playerData),
-          Combat(adventureDoc, userLogged),
-          Messages(),
-        ],
+      child: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (int index) {
+            _currentPageNotifier.value = index;
+          },
+          children: <Widget>[
+            CharacterCard(adventureDoc, userPlayerData, userLogged, playerData),
+            Combat(adventureDoc, userLogged),
+            Messages(),
+          ],
+        ),
       ),
     );
   }
 
   _buildCircleIndicator() {
-    return Positioned(
-      left: 0.0,
-      right: 0.0,
-      bottom: 0.0,
+    return Align(
+      alignment: Alignment.topCenter,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: CirclePageIndicator(
@@ -100,7 +97,4 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     );
   }
-
-
-
 }

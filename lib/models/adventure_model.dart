@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/widgets/popup_menu.dart';
@@ -10,6 +9,7 @@ class AdventureModel extends Model {
   bool isLoading = false;
   bool editMode = false;
   bool isDescending = false;
+  bool statusSnackBar = true;
 
   Map<String, dynamic> adventureData;
   Map<String, dynamic> sessionData;
@@ -27,6 +27,24 @@ class AdventureModel extends Model {
       } else {
         isDescending = false;
       }
+    }
+  }
+
+  void choiceActionAdventure(String choice, adventureId, playerId, userId, ) {
+    if (choice == PopupMenuPlayer.Edit) {
+        print("editar player");
+    } else if (choice == PopupMenuPlayer.Leave) {
+      print("Sair da aventura: $adventureId, o player: $playerId");
+
+    }else if(choice == PopupMenuMaster.Edit){
+      print("editar player do master");
+    }else if(choice == PopupMenuMaster.Master){
+      print("tranferencia do master");
+    }else if(choice == PopupMenuMaster.Remove){
+      print("Remover da aventura: $adventureId, o player: $playerId ");
+
+      _removePlayerFromAdventure(adventureId, playerId, userId);
+
     }
   }
 
@@ -73,7 +91,7 @@ class AdventureModel extends Model {
         .collection("users")
         .document(userId)
         .collection("adventures")
-        .document()
+        .document(playerDataAdventure["adventureId"])
         .setData(playerDataAdventure);
   }
 
@@ -215,7 +233,7 @@ class AdventureModel extends Model {
         .collection("users")
         .document(userId)
         .collection("adventures")
-        .document()
+        .document(adventureId)
         .setData(playerDataAdventure);
 
     await _characterReference
@@ -238,4 +256,18 @@ class AdventureModel extends Model {
 
 
   }
+
+  Future<Null>_removePlayerFromAdventure(String adventureId, playerId, userId) async {
+
+    await Firestore.instance.collection("adventures").document(adventureId).collection("players").document(playerId).delete();
+    _removeAdventureFromUser(adventureId, playerId, userId);
+
+  }
+
+  Future<Null>_removeAdventureFromUser(String adventureId, playerId, userId) async {
+
+    await Firestore.instance.collection("users").document(userId).collection("adventures").document(adventureId).delete();
+
+  }
+
 }

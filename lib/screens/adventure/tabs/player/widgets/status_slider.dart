@@ -8,7 +8,7 @@ class StatusSlider extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final DocumentSnapshot playerData;
   final String sliderField;
-  final MaterialColor color;
+  final Color color;
 
   StatusSlider(
     this.sliderField,
@@ -26,7 +26,7 @@ class _StatusSliderState extends State<StatusSlider> {
   final DocumentSnapshot adventureDoc;
   final DocumentSnapshot playerData;
   final String sliderField;
-  final MaterialColor color;
+  final Color color;
 
   _StatusSliderState(
       this.sliderField, this.color, this.adventureDoc, this.playerData);
@@ -72,7 +72,6 @@ class _StatusSliderState extends State<StatusSlider> {
                               sliderField.toUpperCase(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "IndieFlower",
                                   fontSize: 30,
                                   color: Colors.white),
                             ),
@@ -98,7 +97,6 @@ class _StatusSliderState extends State<StatusSlider> {
                                 _value.toInt().toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "IndieFlower",
                                     fontSize: 30,
                                     color: Colors.white),
                               ),
@@ -128,12 +126,12 @@ class _StatusSliderState extends State<StatusSlider> {
                     margin: EdgeInsets.only(
                         left: 20, right: 20, top: 10, bottom: 10),
                     child: StreamBuilder<double>(
-                      initialData: adventureData.data["hp"].toDouble(),
+                      initialData: adventureData.data[sliderField].toDouble(),
                       stream: _streamHpController.stream,
                       builder: (context, sliderSnapshot) {
                         return Container(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
                                 sliderField.toUpperCase(),
@@ -174,16 +172,13 @@ class _StatusSliderState extends State<StatusSlider> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: 40,
-                                child: Text(
-                                  sliderSnapshot.data != adventureData.data[sliderField]?
-                                  adventureData.data[sliderField].toString() : sliderSnapshot.data.toInt().toString() ,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colors.white),
-                                ),
+                              Text(
+                                sliderSnapshot.data != adventureData.data[sliderField]?
+                                adventureData.data[sliderField].toString() : sliderSnapshot.data.toInt().toString() ,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
                               ),
                             ],
                           ),

@@ -32,7 +32,7 @@ class CharacterView extends StatelessWidget {
                 ),
               ),
             ),
-            CharacterCard(adventureDoc, userPlayerData, userLogged,playerData),
+            CharacterCard(adventureDoc,userPlayerData,userLogged,playerData),
           ]
       )
     );

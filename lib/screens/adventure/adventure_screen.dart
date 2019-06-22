@@ -53,9 +53,8 @@ class _AdventureScreenState extends State<AdventureScreen>
                   child: Text(
                     adventureDoc["title"],
                     style: TextStyle(
-                      fontFamily: "IndieFlower",
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 20,
                     ),
                   ),
                 )
