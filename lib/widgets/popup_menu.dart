@@ -9,12 +9,12 @@ class PopupMenu{
 }
 
 class PopupMenuPlayer{
-  static const String Edit = "Edit info";
+  static const String EditPlayer = "Edit info";
   static const String Leave = "Leave";
 
 
   static const List<String> choices = <String>[
-    Edit,
+    EditPlayer,
     Leave,
 
   ];
@@ -23,12 +23,12 @@ class PopupMenuPlayer{
 class PopupMenuMaster{
   static const String Master = "Make master";
   static const String Remove = "Remove";
-  static const String Edit = "Edit info";
+  static const String EditMaster = "Edit info";
 
 
   static const List<String> choices = <String>[
     Master,
-    Edit,
+    EditMaster,
     Remove,
   ];
 }

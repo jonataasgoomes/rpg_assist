@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:rpg_assist_app/screens/adventure/adventure_card.dart';
@@ -24,19 +25,72 @@ class HomeFragment extends StatelessWidget {
     return ScopedModelDescendant<UserModel>(
         builder: (context, child, userModel) {
       return Scaffold(
-        floatingActionButton: Container(
-            width: 80.0,
-            height: 80.0,
-            child: FloatingActionButton(
-              backgroundColor: Colors.transparent,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => NewAdventureScreen()));
-              },
+        floatingActionButton: Stack(
+          children: <Widget>[
+            Visibility(
+              visible: !userModel.editMode,
               child: Container(
-                child: Image.asset("images/new_adventure.png"),
+                width: 80.0,
+                height: 80.0,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.transparent,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NewAdventureScreen()));
+                  },
+                  child: Container(
+                    child: Image.asset("images/new_adventure.png"),
+                  ),
+                ),
               ),
-            )),
+            ),
+            Visibility(
+              visible: userModel.editMode,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: EdgeInsets.only(top: 30,left: 30),
+                  width: 60.0,
+                  height: 60.0,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor:
+                    Color.fromARGB(255, 234, 205, 125),
+                    onPressed: null,
+                    child: Container(
+                      child: Icon(
+                        FontAwesomeIcons.pencilAlt,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: userModel.editMode,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 30),
+                  width: 60.0,
+                  height: 60.0,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: Color.fromARGB(255, 234, 205, 125),
+                    onPressed: null,
+                    child: Container(
+                      child: Icon(
+                        FontAwesomeIcons.check,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         body: Stack(
           children: <Widget>[
             _buildBodyBack(),
@@ -110,20 +164,20 @@ class HomeFragment extends StatelessWidget {
                                   adventureSnapshot.data.documents.length,
                               itemBuilder: (context, index) {
                                 return FutureBuilder<DocumentSnapshot>(
-                                  future: adventureModel.adventuresCard(adventureSnapshot.data.documents[index]["adventureId"]),
+                                  future: adventureModel.adventuresCard(
+                                      adventureSnapshot.data.documents[index]
+                                          ["adventureId"]),
                                   builder: (context, adventureCard) {
-                                    switch(adventureCard.connectionState){
+                                    switch (adventureCard.connectionState) {
                                       case ConnectionState.waiting:
                                         return Container();
                                       default:
-                                        if(adventureCard.hasError){
+                                        if (adventureCard.hasError) {
                                           Text("Error");
-                                        }
-                                        else{
-
-
-
-                                          return AdventureCard(adventureCard.data,userModel.userData);
+                                        } else {
+                                          return AdventureCard(
+                                              adventureCard.data,
+                                              userModel.userData);
                                         }
                                     }
                                   },

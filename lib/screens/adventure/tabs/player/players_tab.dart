@@ -5,6 +5,7 @@ import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/player/character_view.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/player/player_screen.dart';
+import 'package:rpg_assist_app/screens/users/friends/friends_list.dart';
 import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -23,7 +24,27 @@ class _PlayersTabState extends State<PlayersTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 226, 226, 225),
+     floatingActionButton: Visibility(
+    visible: adventureDoc["master"] == user["id"],
+      child: Container(
+        width: 80.0,
+        height: 80.0,
+        child: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FriendList(adventureDoc["adventureId"])));
+          },
+          child: Container(
+            child:
+            Image.asset("images/add_player.png"),
+          ),
+        ),
+      ),
+    ),
+      backgroundColor: Colors.transparent,
       body: ScopedModelDescendant<AdventureModel>(
         builder: (context, child, adventureModel) {
           return ListView(
@@ -88,7 +109,7 @@ class _PlayersTabState extends State<PlayersTab> {
                             children: <Widget>[
                               Card(
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
+                                  contentPadding: EdgeInsets.only(right: 20),
                                   leading: Container(
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 25),
@@ -201,153 +222,158 @@ class _PlayersTabState extends State<PlayersTab> {
                                           default:
                                             if (playerSnapshot
                                                 .data.documents.isNotEmpty) {
-                                              return ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemCount: playerSnapshot
-                                                    .data.documents.length,
-                                                itemBuilder: (context, index) {
-                                                  return FutureBuilder<
-                                                      DocumentSnapshot>(
-                                                    future: userModel.userTeste(
-                                                        playerSnapshot
-                                                                .data.documents[
-                                                            index]["userId"]),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      switch (snapshot
-                                                          .connectionState) {
-                                                        case ConnectionState
-                                                            .waiting:
-                                                          return Container();
-                                                        default:
-                                                          if (snapshot
-                                                              .hasError) {
-                                                            Text("Error");
-                                                          } else {
-                                                            return InkWell(
-                                                              onTap: () {
-                                                                if ((adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"])) {
-                                                                  return Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => PlayerScreen(
-                                                                          adventureDoc,
-                                                                          snapshot
-                                                                              .data,
-                                                                          user,
-                                                                          playerSnapshot
-                                                                              .data
-                                                                              .documents[index]),
-                                                                    ),
-                                                                  );
-                                                                } else {
-                                                                  Navigator.push(
+                                              return Container(
+                                                margin: playerSnapshot.data.documents.length >= 4? EdgeInsets.only(bottom: 100): EdgeInsets.only(bottom: 0) ,
+                                                child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemCount: playerSnapshot
+                                                      .data.documents.length,
+                                                  itemBuilder: (context, index) {
+                                                    return FutureBuilder<
+                                                        DocumentSnapshot>(
+                                                      future: userModel.userTeste(
+                                                          playerSnapshot
+                                                                  .data.documents[
+                                                              index]["userId"]),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        switch (snapshot
+                                                            .connectionState) {
+                                                          case ConnectionState
+                                                              .waiting:
+                                                            return Container();
+                                                          default:
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              Text("Error");
+                                                            } else {
+                                                              return InkWell(
+                                                                onTap: () {
+                                                                  if ((adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"])) {
+                                                                    return Navigator
+                                                                        .push(
                                                                       context,
                                                                       MaterialPageRoute(
-                                                                          builder: (context) => CharacterView(
-                                                                              adventureDoc,
-                                                                              snapshot.data,
-                                                                              user,
-                                                                              playerSnapshot.data.documents[index])));
-                                                                }
-                                                              },
-                                                              child: Container(
-                                                                child: Card(
-                                                                  child: Center(
-                                                                    child:
-                                                                        ListTile(
-                                                                      contentPadding:
-                                                                          EdgeInsets.all(
-                                                                              0),
-                                                                      leading:
-                                                                          Container(
-                                                                        margin: EdgeInsets.symmetric(
-                                                                            horizontal:
-                                                                                25),
-                                                                        width:
-                                                                            45.0,
-                                                                        height:
-                                                                            45.0,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                          image:
-                                                                              DecorationImage(
-                                                                            fit:
-                                                                                BoxFit.fill,
-                                                                            image: snapshot.data["photoUrl"] != null
-                                                                                ? NetworkImage(snapshot.data["photoUrl"])
-                                                                                : AssetImage("images/rpg_icon.png"),
+                                                                        builder: (context) => PlayerScreen(
+                                                                            adventureDoc,
+                                                                            snapshot
+                                                                                .data,
+                                                                            user,
+                                                                            playerSnapshot
+                                                                                .data
+                                                                                .documents[index]),
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) => CharacterView(
+                                                                                adventureDoc,
+                                                                                snapshot.data,
+                                                                                user,
+                                                                                playerSnapshot.data.documents[index])));
+                                                                  }
+                                                                },
+                                                                child: Container(
+                                                                  child: Card(
+                                                                    child: Center(
+                                                                      child:
+                                                                          ListTile(
+                                                                        contentPadding:
+                                                                            EdgeInsets.all(
+                                                                                0),
+                                                                        leading:
+                                                                            Container(
+                                                                          margin: EdgeInsets.symmetric(
+                                                                              horizontal:
+                                                                                  25),
+                                                                          width:
+                                                                              45.0,
+                                                                          height:
+                                                                              45.0,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            shape:
+                                                                                BoxShape.circle,
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              fit:
+                                                                                  BoxFit.fill,
+                                                                              image: snapshot.data["photoUrl"] != null
+                                                                                  ? NetworkImage(snapshot.data["photoUrl"])
+                                                                                  : AssetImage("images/rpg_icon.png"),
+                                                                            ),
                                                                           ),
                                                                         ),
+                                                                        title:
+                                                                            Text(
+                                                                          snapshot.data["name"] !=
+                                                                                  null
+                                                                              ? snapshot.data[
+                                                                                  "name"]
+                                                                              : snapshot.data["username"] != null
+                                                                                  ? snapshot.data["username"]
+                                                                                  : snapshot.data["email"],
+                                                                          maxLines:
+                                                                              1,
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style: TextStyle(
+                                                                              fontWeight:
+                                                                                  FontWeight.bold,
+                                                                              fontSize: 15),
+                                                                        ),
+                                                                        trailing: (adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"]) ?
+                                                                            PopupMenuButton<
+                                                                                String>(
+                                                                          onSelected: (String choice){
+                                                                            adventureModel.
+                                                                            choiceActionAdventure(choice,
+                                                                                adventureDoc["adventureId"],
+                                                                                playerSnapshot.data.documents[index]["characterId"],
+                                                                                playerSnapshot.data.documents[index]["userId"],
+                                                                                adventureDoc["master"],
+                                                                                this.context
+                                                                            );
+                                                                          },
+                                                                          itemBuilder:(context) {
+                                                                            if(adventureDoc["master"] == user["id"]){
+                                                                              return PopupMenuMaster.choices.map((choice){
+                                                                                return PopupMenuItem<String>(
+                                                                                  value: choice,
+                                                                                  child: Text(choice),
+                                                                                );
+                                                                              },).toList();
+                                                                            }else if (user["id"] == playerSnapshot.data.documents[index]["userId"]){
+                                                                              return PopupMenuPlayer.choices.map((choice){
+                                                                                return PopupMenuItem<String>(
+                                                                                  value: choice,
+                                                                                  child: Text(choice),
+                                                                                );
+                                                                              },).toList();
+                                                                            }
+                                                                          },
+                                                                        ): IconButton(icon: Icon(Icons.person_outline), onPressed: null),
+                                                                        subtitle:
+                                                                            Text(snapshot.data["masterTitle"] != null ? snapshot.data["masterTitle"] : "",
+                                                                          maxLines:1,
+                                                                          overflow: TextOverflow.ellipsis,),
+                                                                        isThreeLine:
+                                                                            true,
                                                                       ),
-                                                                      title:
-                                                                          Text(
-                                                                        snapshot.data["name"] !=
-                                                                                null
-                                                                            ? snapshot.data[
-                                                                                "name"]
-                                                                            : snapshot.data["username"] != null
-                                                                                ? snapshot.data["username"]
-                                                                                : snapshot.data["email"],
-                                                                        maxLines:
-                                                                            1,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style: TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize: 15),
-                                                                      ),
-                                                                      trailing: (adventureDoc["master"] == user["id"]) | (user["id"] == playerSnapshot.data.documents[index]["userId"]) ?
-                                                                          PopupMenuButton<
-                                                                              String>(
-                                                                        onSelected: (String choice){
-                                                                          adventureModel.
-                                                                          choiceActionAdventure(choice,
-                                                                              adventureDoc["adventureId"],
-                                                                              playerSnapshot.data.documents[index]["characterId"],
-                                                                              playerSnapshot.data.documents[index]["userId"],
-                                                                          );
-                                                                        },
-                                                                        itemBuilder:(context) {
-                                                                          if(adventureDoc["master"] == user["id"]){
-                                                                            return PopupMenuMaster.choices.map((choice){
-                                                                              return PopupMenuItem<String>(
-                                                                                value: choice,
-                                                                                child: Text(choice),
-                                                                              );
-                                                                            },).toList();
-                                                                          }else if (user["id"] == playerSnapshot.data.documents[index]["userId"]){
-                                                                            return PopupMenuPlayer.choices.map((choice){
-                                                                              return PopupMenuItem<String>(
-                                                                                value: choice,
-                                                                                child: Text(choice),
-                                                                              );
-                                                                            },).toList();
-                                                                          }
-                                                                        },
-                                                                      ): IconButton(icon: Icon(Icons.person_outline), onPressed: null),
-                                                                      subtitle:
-                                                                          Text(snapshot.data["masterTitle"] != null ? snapshot.data["masterTitle"] : "",
-                                                                        maxLines:1,
-                                                                        overflow: TextOverflow.ellipsis,),
-                                                                      isThreeLine:
-                                                                          true,
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            );
-                                                          }
-                                                      }
-                                                    },
-                                                  );
-                                                },
+                                                              );
+                                                            }
+                                                        }
+                                                      },
+                                                    );
+                                                  },
+                                                ),
                                               );
                                             } else {
                                               return Container(

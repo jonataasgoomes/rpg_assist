@@ -114,7 +114,7 @@ class _FriendListState extends State<FriendList> {
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceEvenly,
+                                                                .spaceAround,
                                                         children: <Widget>[
                                                           Container(
                                                             width: 50.0,
@@ -136,36 +136,36 @@ class _FriendListState extends State<FriendList> {
                                                                     )),
                                                           ),
                                                           Flexible(
-                                                            child: Text(
-                                                              snapshot.data["name"] !=
-                                                                      null
-                                                                  ? snapshot
-                                                                          .data[
-                                                                      "name"]
-                                                                  : snapshot.data["username"] !=
-                                                                          null
-                                                                      ? snapshot.data[
-                                                                          "username"]
-                                                                      : snapshot
-                                                                          .data["email"],
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      15),
+                                                            child: Container(
+                                                              width: 150,
+                                                              child: Text(
+                                                                snapshot.data["name"] !=
+                                                                        null
+                                                                    ? snapshot
+                                                                            .data[
+                                                                        "name"]
+                                                                    : snapshot.data["username"] !=
+                                                                            null
+                                                                        ? snapshot.data[
+                                                                            "username"]
+                                                                        : snapshot
+                                                                            .data["email"],
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 20),
                                                             width: 100,
                                                             child: RaisedButton(
                                                               shape:

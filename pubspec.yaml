@@ -37,6 +37,7 @@ dependencies:
   flutter_circular_slider : ^2.5.0
   page_view_indicators: ^1.2.0
   numberpicker: ^1.0.0
+  page_transition: ^1.1.0
   dots_indicator: ^0.0.5
 
 

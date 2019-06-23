@@ -108,11 +108,11 @@ class _StatusSliderState extends State<StatusSlider> {
                   ),
                 );
               default:
-                if (adventureData.data == null) {
+                if (!adventureData.data.exists) {
                   return Container(
                     child: Center(
                       child: Text(
-                        "data error",
+                        "This character doesn´t exist",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 30,
@@ -129,6 +129,9 @@ class _StatusSliderState extends State<StatusSlider> {
                       initialData: adventureData.data[sliderField].toDouble(),
                       stream: _streamHpController.stream,
                       builder: (context, sliderSnapshot) {
+                        if(sliderSnapshot.data == null){
+                          return Container();
+                        }else
                         return Container(
                           child: Row(
                             mainAxisAlignment:  MainAxisAlignment.spaceBetween,

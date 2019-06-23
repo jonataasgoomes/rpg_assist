@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
-import 'package:rpg_assist_app/screens/adventure/adventure_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'adventure_screen.dart';
 
 class AdventureCard extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
@@ -42,10 +44,8 @@ class _AdventureCardState extends State<AdventureCard> {
               color: Colors.transparent,
               child: InkWell(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                        builder: (context) =>
-                            AdventureScreen(adventureDoc, user)));
+                  //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdventureScreen(adventureDoc, user)));
+                    Navigator.push(context, PageTransition(child:  AdventureScreen(adventureDoc, user), type: PageTransitionType.rightToLeft));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 40, top: 20, right: 40),
@@ -102,7 +102,7 @@ class _AdventureCardState extends State<AdventureCard> {
                     visible: (adventureModel.editMode & (adventureDoc["master"] == user["id"])),
                     child: GestureDetector(
                       onTap: (){
-                        print(adventureDoc["adventureId"]);
+                        adventureModel.removeAllPlayersAdventure(adventureId: adventureDoc["adventureId"], masterId: adventureDoc["master"]);
                       },
                       child: Image.asset("images/btn_delete.png"),
                     ),

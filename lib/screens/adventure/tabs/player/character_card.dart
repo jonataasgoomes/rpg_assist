@@ -64,7 +64,7 @@ class _CharacterCardState extends State<CharacterCard> {
                       ],
                     ));
                   default:
-                    if (playerCharacterData.data == null) {
+                    if (!playerCharacterData.data.exists) {
                       return Container(
                         child: Center(
                           child: Text(

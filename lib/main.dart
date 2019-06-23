@@ -19,7 +19,11 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             theme: ThemeData(
               accentColor: Color.fromARGB(255, 34, 17, 51),
-              fontFamily: 'FiraSans'
+              fontFamily: 'FiraSans',
+                appBarTheme: AppBarTheme(
+                  color: Color.fromARGB(255, 34, 17, 51),
+                  iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
+                )
             ),
             title: 'RPG Assistant',
             debugShowCheckedModeBanner: false,

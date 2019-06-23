@@ -74,11 +74,11 @@ class _StatusCharacterState extends State<StatusCharacter> {
                 ),
               );
             default:
-              if (characterData.data == null) {
+              if (!characterData.data.exists) {
                 return Container(
                   child: Center(
                     child: Text(
-                      "no data has found",
+                      "No data has found",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 30,

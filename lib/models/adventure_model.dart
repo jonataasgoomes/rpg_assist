@@ -30,21 +30,23 @@ class AdventureModel extends Model {
     }
   }
 
-  void choiceActionAdventure(String choice, adventureId, playerId, userId, ) {
-    if (choice == PopupMenuPlayer.Edit) {
-        print("editar player");
+  void choiceActionAdventure(String choice, adventureId, playerId, userId, masterId, BuildContext context) {
+    if (choice == PopupMenuPlayer.EditPlayer) {
+      print("editar player");
     } else if (choice == PopupMenuPlayer.Leave) {
       print("Sair da aventura: $adventureId, o player: $playerId");
-
-    }else if(choice == PopupMenuMaster.Edit){
-      print("editar player do master");
+      _removePlayerFromAdventure(adventureId, playerId, userId,masterId).then( (_){
+        Navigator.of(context).pop();
+      });
     }else if(choice == PopupMenuMaster.Master){
       print("tranferencia do master");
+      _changeMasterAdventure(adventureId, playerId,masterId).then((a){
+            print(a);
+      });
+
     }else if(choice == PopupMenuMaster.Remove){
       print("Remover da aventura: $adventureId, o player: $playerId ");
-
-      _removePlayerFromAdventure(adventureId, playerId, userId);
-
+      _removePlayerFromAdventure(adventureId, playerId, userId,masterId);
     }
   }
 
@@ -225,7 +227,7 @@ class AdventureModel extends Model {
     playerDataAdventure["adventureId"] = adventureId;
     playerDataAdventure["timestamp"] = FieldValue.serverTimestamp();
 
-    _characterReference = Firestore.instance.collection("adventures").document(adventureId).collection("players").document();
+    _characterReference = Firestore.instance.collection("adventures").document(adventureId).collection("players").document(userId);
     playerData["characterId"] = _characterReference.documentID;
 
 
@@ -248,6 +250,26 @@ class AdventureModel extends Model {
         .snapshots();
   }
 
+  Future<QuerySnapshot> adventuresPlayersList({@required String adventureId})async {
+    return await Firestore.instance
+        .collection("adventures")
+        .document(adventureId)
+        .collection("players")
+        .getDocuments();
+  }
+
+  Future<Null> removeAllPlayersAdventure({@required String adventureId, @required masterId})async{
+    adventuresPlayersList(adventureId: adventureId).then((query){
+      query.documents.toList().forEach((document)async{
+        await Firestore.instance.collection("users").document(document["userId"]).collection("adventures").document(adventureId).delete();
+      });
+    });
+    await Firestore.instance.collection("users").document(masterId).collection("adventures").document(adventureId).delete();
+    await Firestore.instance.collection("adventures").document(adventureId).delete();
+
+
+  }
+
   Future<Null> updateCharacterField(String statusField, value, adventureDoc, characterData) async {
 
     Map<String,dynamic> data = Map();
@@ -257,16 +279,28 @@ class AdventureModel extends Model {
 
   }
 
-  Future<Null>_removePlayerFromAdventure(String adventureId, playerId, userId) async {
+  Future<Null>_removePlayerFromAdventure(String adventureId, playerId, userId, masterId) async {
 
     await Firestore.instance.collection("adventures").document(adventureId).collection("players").document(playerId).delete();
-    _removeAdventureFromUser(adventureId, playerId, userId);
+    if(playerId != masterId){
+      _removeAdventureFromUser(adventureId, playerId, userId);
+    }
+
 
   }
 
   Future<Null>_removeAdventureFromUser(String adventureId, playerId, userId) async {
 
     await Firestore.instance.collection("users").document(userId).collection("adventures").document(adventureId).delete();
+
+  }
+
+  Future<Null>_changeMasterAdventure (String adventureId,playerId,masterId) async {
+
+    Map<String, dynamic> data = Map();
+    data["master"] = playerId;
+
+    await Firestore.instance.collection("adventures").document(adventureId).updateData(data);
 
   }
 
