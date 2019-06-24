@@ -35,7 +35,7 @@ class AdventureModel extends Model {
   void choiceActionAdventure(String choice, adventureId, playerId, userId, masterId, BuildContext context) {
     if (choice == PopupMenuPlayer.EditPlayer) {
 
-      Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: EditPlayerView()));
+      Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: EditPlayerView(adventureId,playerId)));
 
       print("editar player");
     } else if (choice == PopupMenuPlayer.Leave) {
@@ -245,6 +245,12 @@ class AdventureModel extends Model {
 
     await _characterReference
         .setData(playerData);
+  }
+
+  Future<Null> updateCharacter(String adventureId,userId, Map<String,dynamic> characterData) async {
+
+    await Firestore.instance.collection("adventures").document(adventureId).collection("players").document(userId).updateData(characterData);
+
   }
 
   adventuresPlayers({@required String adventureId}) {

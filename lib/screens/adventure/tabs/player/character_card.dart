@@ -146,7 +146,7 @@ class _CharacterCardState extends State<CharacterCard> {
                                                           image: DecorationImage(
                                                             fit: BoxFit.fill,
                                                             image: AssetImage(
-                                                                "images/dwarf-helmet.png"),
+                                                                "images/race0.png"),
                                                           )),
                                                     ),
                                                     Visibility(
