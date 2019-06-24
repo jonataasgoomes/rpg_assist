@@ -223,7 +223,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                             if (playerSnapshot
                                                 .data.documents.isNotEmpty) {
                                               return Container(
-                                                margin: playerSnapshot.data.documents.length >= 4? EdgeInsets.only(bottom: 100): EdgeInsets.only(bottom: 0) ,
+                                                margin: playerSnapshot.data.documents.length >= 1? EdgeInsets.only(bottom: 100): EdgeInsets.only(bottom: 0) ,
                                                 child: ListView.builder(
                                                   shrinkWrap: true,
                                                   physics:

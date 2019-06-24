@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/edit_player_view.dart';
 import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -32,6 +34,9 @@ class AdventureModel extends Model {
 
   void choiceActionAdventure(String choice, adventureId, playerId, userId, masterId, BuildContext context) {
     if (choice == PopupMenuPlayer.EditPlayer) {
+
+      Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: EditPlayerView()));
+
       print("editar player");
     } else if (choice == PopupMenuPlayer.Leave) {
       print("Sair da aventura: $adventureId, o player: $playerId");
