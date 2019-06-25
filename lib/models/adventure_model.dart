@@ -34,8 +34,11 @@ class AdventureModel extends Model {
 
   void choiceActionAdventure(String choice, adventureId, playerId, userId, masterId, BuildContext context) {
     if (choice == PopupMenuPlayer.EditPlayer) {
+      playerCharacter(adventureId, playerId).then((characterDocument){
 
-      Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: EditPlayerView(adventureId,playerId)));
+        Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: EditPlayerView(adventureId,characterDocument)));
+
+      });
 
       print("editar player");
     } else if (choice == PopupMenuPlayer.Leave) {
@@ -219,6 +222,12 @@ class AdventureModel extends Model {
     playerData["class"] = "";
     playerData["sex"] = "";
 
+
+    //Maneira que eu achei para verificar atributos do player na tela de edição
+    playerData["raceNumber"] = 404;
+    playerData["classNumber"] = 404;
+    playerData["sexNumber"] = 404;
+
     playerData["str"] = 0;
     playerData["dex"] = 0;
     playerData["int"] = 0;
@@ -250,6 +259,7 @@ class AdventureModel extends Model {
   Future<Null> updateCharacter(String adventureId,userId, Map<String,dynamic> characterData) async {
 
     await Firestore.instance.collection("adventures").document(adventureId).collection("players").document(userId).updateData(characterData);
+
 
   }
 
