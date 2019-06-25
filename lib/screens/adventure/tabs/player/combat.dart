@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
-import 'package:rpg_assist_app/models/user_model.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/player/widgets/dice_roll.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -82,60 +81,35 @@ class _CombatState extends State<Combat> {
                                   color: Color.fromARGB(255, 6, 223, 176)),
                             ),
                           ),
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: rolls.data.documents.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: userPlayerData["photoUrl"] !=
-                                                    null
-                                                ? NetworkImage(
-                                                    userPlayerData["photoUrl"])
-                                                : AssetImage(
-                                                    "images/rpg_icon.png"),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    rolls.data.documents[index]["userId"]
-                                            .toString() +
-                                        " rolled " +
-                                        rolls.data.documents[index]["result"]
-                                            .toString(),
+                        );
+                      } else {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: rolls.data.documents.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    rolls.data.documents[index]["userId"],
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      rolls.data.documents[index]["timestamp"]
-                                          .toString(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          });
-                    }
-                }
-              },
-            );
-          },
-        )
-      ],
+                                  Text(
+                                    rolls.data.documents[index]["result"].toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              );
+                            });
+                      }
+                  }
+                },
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
