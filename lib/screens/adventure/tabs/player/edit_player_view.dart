@@ -18,7 +18,7 @@ class _EditPlayerViewState extends State<EditPlayerView> {
   final String _adventureId;
   final DocumentSnapshot _playerCharacter;
   int _selectedItemRace, _selectedItemClass, _selectedItemSex;
-  List<String> _race = ["Darf", "Elf", "Human"];
+  List<String> _race = ["Dwarf", "Elf", "Human"];
   List<String> _class = ["Warrior", "Archer", "Mage"];
   List<String> _sex = ["Male", "Female"];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
