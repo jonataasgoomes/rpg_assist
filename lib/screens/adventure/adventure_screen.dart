@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/player/players_tab.dart';
-import 'package:rpg_assist_app/screens/adventure/tabs/progress_tab.dart';
-import 'package:rpg_assist_app/screens/users/friends/friends_list.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/progress/progress_tab.dart';
 
-import 'new_session_screen.dart';
+
 
 class AdventureScreen extends StatefulWidget {
   final DocumentSnapshot adventureDoc;

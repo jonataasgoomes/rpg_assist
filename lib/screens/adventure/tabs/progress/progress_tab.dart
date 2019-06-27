@@ -3,9 +3,12 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
+import 'package:rpg_assist_app/screens/adventure/new_session_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../new_session_screen.dart';
+import 'combat.dart';
+
+
 
 class ProgressTab extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -140,41 +143,48 @@ class _ProgressTabState extends State<ProgressTab> {
                         default:
                           return Column(
                               children: snapshot.data.documents.map((document) {
-                                return Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Divider(
-                                        color: Colors.black,
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            document["date"] != null
-                                                ? DateFormat.Md()
-                                                .format(document["date"])
-                                                : "",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Combat(adventureDoc,document["sessionId"],user)));
+
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Divider(
+                                          color: Colors.black,
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              document["date"] != null
+                                                  ? DateFormat.Md()
+                                                  .format(document["date"])
+                                                  : "",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text(
-                                            document["title"] != null
-                                                ? document["title"]
-                                                : "No title session",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 18,
+                                            SizedBox(
+                                              width: 20,
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            Text(
+                                              document["title"] != null
+                                                  ? document["title"]
+                                                  : "No title session",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               }).toList());

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'character_card.dart';
-import 'combat.dart';
 import 'messages.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 
@@ -75,7 +74,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
           },
           children: <Widget>[
             CharacterCard(adventureDoc, userPlayerData, userLogged, playerData),
-            Combat(adventureDoc, userLogged),
             Messages(),
           ],
         ),
@@ -91,7 +89,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         child: CirclePageIndicator(
           dotColor: Colors.white,
           selectedDotColor: Color.fromARGB(255, 6, 223, 176),
-          itemCount: 3,
+          itemCount: 2,
           currentPageNotifier: _currentPageNotifier,
         ),
       ),

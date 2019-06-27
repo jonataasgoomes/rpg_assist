@@ -119,7 +119,7 @@ class AdventureModel extends Model {
 
     if (sessionData["date"] == null) sessionData["date"] = DateTime.now();
 
-    _sessionReference = Firestore.instance.collection("sessions").document();
+    _sessionReference = Firestore.instance.collection("adventures").document(adventureId).collection("sessions").document();
 
     sessionData["sessionId"] = _sessionReference.documentID;
 
@@ -162,7 +162,7 @@ class AdventureModel extends Model {
   //Busca todas as sessions de uma aventura
   sessionsAdventure(adventureData) {
     return Firestore.instance
-        .collection("sessions")
+        .collection("adventures").document(adventureData["adventureId"]).collection("sessions")
         .where("adventure", isEqualTo: adventureData["adventureId"])
         .snapshots();
   }
@@ -184,15 +184,15 @@ class AdventureModel extends Model {
         .snapshots();
   }
 
-  rollsAdventure(String adventureId) {
+  rollsAdventure(String adventureId,String sessionId) {
     return Firestore.instance
         .collection("adventures")
-        .document(adventureId)
+        .document(adventureId).collection("sessions").document(sessionId)
         .collection("rolls").orderBy("timestamp",descending: true)
         .snapshots();
   }
 
-  Future<Null> rollDice(String adventureId, String userId, int result) async {
+  Future<Null> rollDice(String adventureId,String sessionId, String userId, int result) async {
     Map<String, dynamic> rollData = Map();
 
     rollData["userId"] = userId;
@@ -201,7 +201,7 @@ class AdventureModel extends Model {
 
     await Firestore.instance
         .collection("adventures")
-        .document(adventureId)
+        .document(adventureId).collection("sessions").document(sessionId)
         .collection("rolls")
         .document()
         .setData(rollData);
