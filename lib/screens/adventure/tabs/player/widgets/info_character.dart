@@ -168,16 +168,21 @@ class _InfoCharacterState extends State<InfoCharacter> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text(
-                              playerCharacterData.data[
-                              'name'] !=
-                                  null
-                                  ? playerCharacterData
-                                  .data['name']
-                                  .toString()
-                                  : "",
-                              style: TextStyle(
-                                  color: Colors.white)),
+                          Container(
+                            width: 65,
+                            child: Text(
+                                playerCharacterData.data[
+                                'name'] !=
+                                    null
+                                    ? playerCharacterData
+                                    .data['name']
+                                    .toString()
+                                    : "",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: Colors.white)),
+                          ),
                         ],
                       ),
                       Row(

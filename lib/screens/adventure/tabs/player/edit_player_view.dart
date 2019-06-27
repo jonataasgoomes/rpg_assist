@@ -99,8 +99,8 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                                     hintStyle: TextStyle(color: Colors.white)
                                 ),
                                 validator: (value){
-                                  if(value.length > 6){
-                                    return 'Maximum size is 6';
+                                  if(value.length > 14){
+                                    return 'Maximum size is 14';
                                   }else if (value.isEmpty){
                                     return 'Enter a character name';
                                   }else

@@ -429,6 +429,7 @@ class _CombatState extends State<Combat> {
                                                                       children: <Widget>[
                                                                         Text( playerDoc.data["name"] == null ?
                                                                         "Master" : "Mestre ${playerDoc.data["name"]}",
+                                                                          maxLines: 2,
                                                                           style: const TextStyle(
                                                                             fontSize: 20.0,
                                                                           ),
@@ -559,6 +560,7 @@ class _CombatState extends State<Combat> {
                                                                       children: <Widget>[
                                                                         Text(
                                                                           playerDoc.data["name"] == ""? "Unnamed" :playerDoc.data["name"],
+                                                                          maxLines: 2,
                                                                           style: const TextStyle(
                                                                             fontSize: 20.0,
                                                                           ),
