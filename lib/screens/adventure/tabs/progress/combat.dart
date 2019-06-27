@@ -122,7 +122,7 @@ class _CombatState extends State<Combat> {
                               );
                             } else {
                               return ListView.builder(
-                                itemExtent: 100.0,
+                                itemExtent: 113.0,
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: rolls.data.documents.length,
@@ -180,10 +180,9 @@ class _CombatState extends State<Combat> {
                                               );
                                             case ConnectionState.done:
                                               if (playerDoc.hasError) {
-                                                return Text("Error");
+                                                return Text("Data Error");
                                               }if(!playerDoc.data.exists){
-
-                                                if(rolls.data.documents[index]["userId"] == adventureDoc["master"]){
+                                                if(adventureDoc["master"] == rolls.data.documents[index]["userId"]){
                                                   return Card(
                                                     color: Colors.white54,
                                                     margin: EdgeInsets.fromLTRB(10, 5, 10,0),
@@ -223,7 +222,7 @@ class _CombatState extends State<Combat> {
                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                       children: <Widget>[
                                                                         Text(
-                                                                        "Master",
+                                                                          "Master",
                                                                           style: const TextStyle(
                                                                             fontSize: 20.0,
                                                                           ),
@@ -239,7 +238,6 @@ class _CombatState extends State<Combat> {
                                                                 Expanded(
                                                                   flex: 2,
                                                                   child: Wrap(
-
                                                                     alignment: WrapAlignment.spaceEvenly,
                                                                     direction: Axis.horizontal,
                                                                     children: <Widget>[
@@ -264,7 +262,7 @@ class _CombatState extends State<Combat> {
                                                     ),
                                                   );
                                                 }else{
-                                                  Card(
+                                                  return Card(
                                                     color: Colors.white54,
                                                     margin: EdgeInsets.fromLTRB(10, 5, 10,0),
                                                     child: Padding(
@@ -344,263 +342,264 @@ class _CombatState extends State<Combat> {
                                                     ),
                                                   );
                                                 }
-
-                                              }
-                                              else if(rolls.data.documents[index]["userId"] == adventureDoc["master"]){
-                                                return Card(
-                                                  color: Colors.white54,
-                                                  margin: EdgeInsets.fromLTRB(10, 5, 10,0),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(5),
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          flex: 0,
-                                                          child: Container(
-                                                            width: 65.0,
-                                                            height: 65.0,
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                fit: BoxFit.fill,
-                                                                image:AssetImage(
-                                                                    "images/crowns.png"),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 0,
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              Container(
-                                                                width: 25.0,
-                                                                height: 25.0,
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  color: Colors.black12,
-                                                                  shape: BoxShape.circle,
-                                                                  image: DecorationImage(
-                                                                    fit: BoxFit.fill,
-                                                                    image: playerDoc
-                                                                        .data["classNumber"] != 404
-                                                                        ? AssetImage(
-                                                                        "images/class${playerDoc
-                                                                            .data["classNumber"]}.png")
-                                                                        : AssetImage(
-                                                                        "images/rpg_icon.png"),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                width: 25.0,
-                                                                height: 25.0,
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  image: DecorationImage(
-                                                                    fit: BoxFit.fill,
-                                                                    image: playerDoc
-                                                                        .data["sexNumber"] != 404
-                                                                        ? AssetImage(
-                                                                        "images/sex${playerDoc
-                                                                            .data["sexNumber"]}.png")
-                                                                        : AssetImage(
-                                                                        "images/rpg_icon.png"),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                flex:2,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8),
-                                                                  child: Column(
-                                                                    mainAxisSize: MainAxisSize.min,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: <Widget>[
-                                                                      Text( playerDoc.data["name"] == null ?
-                                                                        "Master" : "Mestre ${playerDoc.data["name"]}",
-                                                                        style: const TextStyle(
-                                                                          fontSize: 20.0,
-                                                                        ),
-                                                                      ),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Wrap(
-
-                                                                  alignment: WrapAlignment.spaceEvenly,
-                                                                  direction: Axis.horizontal,
-                                                                  children: <Widget>[
-                                                                    Padding(
-                                                                      padding: EdgeInsets.all(5.0),
-                                                                      child: Text("Roll:",
-                                                                        style: TextStyle(fontSize: 30),
-                                                                      ),
-                                                                    ),
-                                                                    Text(rolls.data.documents[index]["result"].toString(),
-                                                                      style: TextStyle(fontSize: 40),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
                                               }else{
-                                                return Card(
-                                                  color: Colors.white54,
-                                                  margin: EdgeInsets.fromLTRB(10, 5, 10,0),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(5.0),
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          flex: 0,
-                                                          child: Container(
-                                                            width: 65.0,
-                                                            height: 65.0,
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                fit: BoxFit.fill,
-                                                                image: playerDoc
-                                                                    .data["raceNumber"] != 404
-                                                                    ? AssetImage(
-                                                                    "images/race${playerDoc
-                                                                        .data["raceNumber"]}.png")
-                                                                    : AssetImage(
-                                                                    "images/rpg_icon.png"),
+                                                if(adventureDoc["master"] == rolls.data.documents[index]["userId"]){
+                                                  return Card(
+                                                    color: Colors.white54,
+                                                    margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(5),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Container(
+                                                              width: 65.0,
+                                                              height: 65.0,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                  fit: BoxFit.fill,
+                                                                  image:AssetImage(
+                                                                      "images/crowns.png"),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 0,
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              Container(
-                                                                width: 25.0,
-                                                                height: 25.0,
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  color: Colors.black12,
-                                                                  shape: BoxShape.circle,
-                                                                  image: DecorationImage(
-                                                                    fit: BoxFit.fill,
-                                                                    image: playerDoc
-                                                                        .data["classNumber"] != 404
-                                                                        ? AssetImage(
-                                                                        "images/class${playerDoc
-                                                                            .data["classNumber"]}.png")
-                                                                        : AssetImage(
-                                                                        "images/rpg_icon.png"),
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  width: 25.0,
+                                                                  height: 25.0,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    color: Colors.black12,
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.fill,
+                                                                      image: playerDoc
+                                                                          .data["classNumber"] != 404
+                                                                          ? AssetImage(
+                                                                          "images/class${playerDoc
+                                                                              .data["classNumber"]}.png")
+                                                                          : AssetImage(
+                                                                          "images/rpg_icon.png"),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              Container(
-                                                                width: 25.0,
-                                                                height: 25.0,
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  image: DecorationImage(
-                                                                    fit: BoxFit.fill,
-                                                                    image: playerDoc
-                                                                        .data["sexNumber"] != 404
-                                                                        ? AssetImage(
-                                                                        "images/sex${playerDoc
-                                                                            .data["sexNumber"]}.png")
-                                                                        : AssetImage(
-                                                                        "images/rpg_icon.png"),
+                                                                Container(
+                                                                  width: 25.0,
+                                                                  height: 25.0,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.fill,
+                                                                      image: playerDoc
+                                                                          .data["sexNumber"] != 404
+                                                                          ? AssetImage(
+                                                                          "images/sex${playerDoc
+                                                                              .data["sexNumber"]}.png")
+                                                                          : AssetImage(
+                                                                          "images/rpg_icon.png"),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                flex:2,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8.0),
-                                                                  child: Column(
-                                                                    mainAxisSize: MainAxisSize.min,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  flex:2,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: <Widget>[
+                                                                        Text( playerDoc.data["name"] == null ?
+                                                                        "Master" : "Mestre ${playerDoc.data["name"]}",
+                                                                          style: const TextStyle(
+                                                                            fontSize: 20.0,
+                                                                          ),
+                                                                        ),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child: Wrap(
+
+                                                                    alignment: WrapAlignment.spaceEvenly,
+                                                                    direction: Axis.horizontal,
                                                                     children: <Widget>[
-                                                                      Text(
-                                                                        playerDoc.data["name"] == ""? "Unnamed" :playerDoc.data["name"],
-                                                                        style: const TextStyle(
-                                                                          fontSize: 20.0,
+                                                                      Padding(
+                                                                        padding: EdgeInsets.all(5.0),
+                                                                        child: Text("Roll:",
+                                                                          style: TextStyle(fontSize: 30),
                                                                         ),
                                                                       ),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      Text(rolls.data.documents[index]["result"].toString(),
+                                                                        style: TextStyle(fontSize: 40),
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Wrap(
 
-                                                                  alignment: WrapAlignment.spaceEvenly,
-                                                                  direction: Axis.horizontal,
-                                                                  children: <Widget>[
-                                                                    Padding(
-                                                                      padding: EdgeInsets.all(5.0),
-                                                                      child: Text("Roll:",
-                                                                        style: TextStyle(fontSize: 30),
-                                                                      ),
-                                                                    ),
-                                                                    Text(rolls.data.documents[index]["result"].toString(),
-                                                                      style: TextStyle(fontSize: 40),
-                                                                    ),
-                                                                  ],
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                }else{
+                                                  return Card(
+                                                    color: Colors.white54,
+                                                    margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(5.0),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Container(
+                                                              width: 65.0,
+                                                              height: 65.0,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                  fit: BoxFit.fill,
+                                                                  image: playerDoc
+                                                                      .data["raceNumber"] != 404
+                                                                      ? AssetImage(
+                                                                      "images/race${playerDoc
+                                                                          .data["raceNumber"]}.png")
+                                                                      : AssetImage(
+                                                                      "images/rpg_icon.png"),
                                                                 ),
                                                               ),
-
-                                                            ],
+                                                            ),
                                                           ),
-                                                        )
-                                                      ],
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  width: 25.0,
+                                                                  height: 25.0,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    color: Colors.black12,
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.fill,
+                                                                      image: playerDoc
+                                                                          .data["classNumber"] != 404
+                                                                          ? AssetImage(
+                                                                          "images/class${playerDoc
+                                                                              .data["classNumber"]}.png")
+                                                                          : AssetImage(
+                                                                          "images/rpg_icon.png"),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  width: 25.0,
+                                                                  height: 25.0,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.fill,
+                                                                      image: playerDoc
+                                                                          .data["sexNumber"] != 404
+                                                                          ? AssetImage(
+                                                                          "images/sex${playerDoc
+                                                                              .data["sexNumber"]}.png")
+                                                                          : AssetImage(
+                                                                          "images/rpg_icon.png"),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  flex:2,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.all(8.0),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: <Widget>[
+                                                                        Text(
+                                                                          playerDoc.data["name"] == ""? "Unnamed" :playerDoc.data["name"],
+                                                                          style: const TextStyle(
+                                                                            fontSize: 20.0,
+                                                                          ),
+                                                                        ),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child: Wrap(
+
+                                                                    alignment: WrapAlignment.spaceEvenly,
+                                                                    direction: Axis.horizontal,
+                                                                    children: <Widget>[
+                                                                      Padding(
+                                                                        padding: EdgeInsets.all(5.0),
+                                                                        child: Text("Roll:",
+                                                                          style: TextStyle(fontSize: 30),
+                                                                        ),
+                                                                      ),
+                                                                      Text(rolls.data.documents[index]["result"].toString(),
+                                                                        style: TextStyle(fontSize: 40),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                }
+
                                               }
                                           }
                                         },
