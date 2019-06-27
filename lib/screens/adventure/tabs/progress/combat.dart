@@ -182,87 +182,171 @@ class _CombatState extends State<Combat> {
                                               if (playerDoc.hasError) {
                                                 return Text("Error");
                                               }if(!playerDoc.data.exists){
-                                                return Card(
-                                                  color: Colors.white54,
-                                                  margin: EdgeInsets.fromLTRB(10, 5, 10,0),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(5),
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          flex: 0,
-                                                          child: Container(
-                                                            margin: EdgeInsets.only(right: 25),
-                                                            width: 65.0,
-                                                            height: 65.0,
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                fit: BoxFit.fill,
-                                                                image:AssetImage(
-                                                                    "images/rip_player.png"),
+
+                                                if(rolls.data.documents[index]["userId"] == adventureDoc["master"]){
+                                                  return Card(
+                                                    color: Colors.white54,
+                                                    margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(5),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Container(
+                                                              margin: EdgeInsets.only(right: 25),
+                                                              width: 65.0,
+                                                              height: 65.0,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                  fit: BoxFit.fill,
+                                                                  image:AssetImage(
+                                                                      "images/crowns.png"),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                flex:2,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8),
-                                                                  child: Column(
-                                                                    mainAxisSize: MainAxisSize.min,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  flex:2,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: <Widget>[
+                                                                        Text(
+                                                                        "Master",
+                                                                          style: const TextStyle(
+                                                                            fontSize: 20.0,
+                                                                          ),
+                                                                        ),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child: Wrap(
+
+                                                                    alignment: WrapAlignment.spaceEvenly,
+                                                                    direction: Axis.horizontal,
                                                                     children: <Widget>[
-                                                                      Text(
-                                                                        "RIP",
-                                                                        style: const TextStyle(
-                                                                          fontSize: 20.0,
+                                                                      Padding(
+                                                                        padding: EdgeInsets.all(5.0),
+                                                                        child: Text("Roll:",
+                                                                          style: TextStyle(fontSize: 30),
                                                                         ),
                                                                       ),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
-                                                                      rolls.data.documents[index]["timestamp"] != null?
-                                                                      Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      Text(rolls.data.documents[index]["result"].toString(),
+                                                                        style: TextStyle(fontSize: 40),
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              Expanded(
-                                                                flex: 2,
-                                                                child: Wrap(
 
-                                                                  alignment: WrapAlignment.spaceEvenly,
-                                                                  direction: Axis.horizontal,
-                                                                  children: <Widget>[
-                                                                    Padding(
-                                                                      padding: EdgeInsets.all(5.0),
-                                                                      child: Text("Roll:",
-                                                                        style: TextStyle(fontSize: 30),
-                                                                      ),
-                                                                    ),
-                                                                    Text(rolls.data.documents[index]["result"].toString(),
-                                                                      style: TextStyle(fontSize: 40),
-                                                                    ),
-                                                                  ],
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                }else{
+                                                  Card(
+                                                    color: Colors.white54,
+                                                    margin: EdgeInsets.fromLTRB(10, 5, 10,0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(5),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 0,
+                                                            child: Container(
+                                                              margin: EdgeInsets.only(right: 25),
+                                                              width: 65.0,
+                                                              height: 65.0,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                  fit: BoxFit.fill,
+                                                                  image:AssetImage(
+                                                                      "images/rip_player.png"),
                                                                 ),
                                                               ),
-
-                                                            ],
+                                                            ),
                                                           ),
-                                                        )
-                                                      ],
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  flex:2,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.all(8),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: <Widget>[
+                                                                        Text(
+                                                                          "RIP",
+                                                                          style: const TextStyle(
+                                                                            fontSize: 20.0,
+                                                                          ),
+                                                                        ),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.yMMMd().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                        rolls.data.documents[index]["timestamp"] != null?
+                                                                        Text(DateFormat.jms().format(rolls.data.documents[index]["timestamp"]).toString()): Text("Loading ..."),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child: Wrap(
+
+                                                                    alignment: WrapAlignment.spaceEvenly,
+                                                                    direction: Axis.horizontal,
+                                                                    children: <Widget>[
+                                                                      Padding(
+                                                                        padding: EdgeInsets.all(5.0),
+                                                                        child: Text("Roll:",
+                                                                          style: TextStyle(fontSize: 30),
+                                                                        ),
+                                                                      ),
+                                                                      Text(rolls.data.documents[index]["result"].toString(),
+                                                                        style: TextStyle(fontSize: 40),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                }
+
                                               }
-                                              if(rolls.data.documents[index]["userId"] == adventureDoc["master"]){
+                                              else if(rolls.data.documents[index]["userId"] == adventureDoc["master"]){
                                                 return Card(
                                                   color: Colors.white54,
                                                   margin: EdgeInsets.fromLTRB(10, 5, 10,0),
