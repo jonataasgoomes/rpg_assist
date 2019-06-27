@@ -73,7 +73,7 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(
-                        top: 20, left: 20, right: 20, bottom: 80),
+                        left: 20, right: 20),
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -103,7 +103,6 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                                     return 'Maximum size is 6';
                                   }else if (value.isEmpty){
                                     return 'Enter a character name';
-
                                   }else
                                     return null;
                                 },

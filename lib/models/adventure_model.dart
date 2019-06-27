@@ -7,7 +7,7 @@ import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AdventureModel extends Model {
-  DocumentReference _adventureReference, _sessionReference, _characterReference;
+  DocumentReference _adventureReference, _sessionReference, _characterReference, _rollReference;
   bool isLoading = false;
   bool editMode = false;
   bool isDescending = false;
@@ -74,6 +74,7 @@ class AdventureModel extends Model {
     notifyListeners();
 
     adventureData["master"] = userId;
+    adventureData["summary"] = "";
     adventureData["progress"] = null;
     adventureData["nextSession"] = null;
     adventureData["photoNumber"] = photoNumber.toString();
@@ -114,8 +115,10 @@ class AdventureModel extends Model {
 
     isLoading = true;
     notifyListeners();
+
     sessionData["adventure"] = adventureId;
     sessionData["timestamp"] = FieldValue.serverTimestamp();
+    sessionData["status"] = 0;
 
     if (sessionData["date"] == null) sessionData["date"] = DateTime.now();
 
@@ -163,7 +166,7 @@ class AdventureModel extends Model {
   sessionsAdventure(adventureData) {
     return Firestore.instance
         .collection("adventures").document(adventureData["adventureId"]).collection("sessions")
-        .where("adventure", isEqualTo: adventureData["adventureId"])
+        .where("adventure", isEqualTo: adventureData["adventureId"]).orderBy("date",descending: false)
         .snapshots();
   }
 
@@ -194,17 +197,21 @@ class AdventureModel extends Model {
 
   Future<Null> rollDice(String adventureId,String sessionId, String userId, int result) async {
     Map<String, dynamic> rollData = Map();
-
+    rollData["timestamp"] = FieldValue.serverTimestamp();
     rollData["userId"] = userId;
     rollData["result"] = result;
-    rollData["timestamp"] = FieldValue.serverTimestamp();
 
-    await Firestore.instance
+
+    _rollReference = Firestore.instance
         .collection("adventures")
         .document(adventureId).collection("sessions").document(sessionId)
         .collection("rolls")
-        .document()
-        .setData(rollData);
+        .document();
+
+
+
+    await
+        _rollReference.setData(rollData);
   }
 
   Future<Null> addPlayersOnAdventure(
