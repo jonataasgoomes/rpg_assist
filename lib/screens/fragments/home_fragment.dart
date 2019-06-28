@@ -9,6 +9,7 @@ import 'package:rpg_assist_app/screens/adventure/new_adventure_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomeFragment extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKeyAdventure = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     Widget _buildBodyBack() => Container(
@@ -25,6 +26,7 @@ class HomeFragment extends StatelessWidget {
     return ScopedModelDescendant<UserModel>(
         builder: (context, child, userModel) {
       return Scaffold(
+        key: _scaffoldKeyAdventure,
         floatingActionButton: Stack(
           children: <Widget>[
             Visibility(
@@ -177,7 +179,7 @@ class HomeFragment extends StatelessWidget {
                                         } else {
                                           return AdventureCard(
                                               adventureCard.data,
-                                              userModel.userData);
+                                              userModel.userData, _scaffoldKeyAdventure);
                                         }
                                     }
                                   },

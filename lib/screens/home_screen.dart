@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           adventureModel.choiceAction(choice);
                         });
                       }, itemBuilder: (context) {
-                        return PopupMenu.choices.map((choice) {
+                        return PopupMenuAdventure.choices.map((choice) {
                           return PopupMenuItem<String>(
                             value: choice,
                             child: Text(choice),

@@ -22,7 +22,7 @@ class UserModel extends Model {
 
 
   void choiceAction(String choice) {
-    if (choice == PopupMenu.Edit) {
+    if (choice == PopupMenuAdventure.Edit) {
       if (editMode == false) {
         editMode = true;
       } else {
@@ -67,6 +67,7 @@ class UserModel extends Model {
     }
     if (user == null) {
       user = await _gSignIn.signIn();
+      isLoading = false;
     }
     if (await _auth.currentUser() != null) {
       isLoading = false;
@@ -74,7 +75,14 @@ class UserModel extends Model {
       await _loadCurrentUser();
     }
     if (await _auth.currentUser() == null) {
+      if(user == null){
+        isLoading = false;
+        notifyListeners();
+        return null;
+      }
       GoogleSignInAuthentication authentication = await user.authentication;
+
+
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           accessToken: authentication.accessToken,

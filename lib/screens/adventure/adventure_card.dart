@@ -10,18 +10,20 @@ import 'adventure_screen.dart';
 class AdventureCard extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> user;
+  final GlobalKey<ScaffoldState> _scaffoldKeyAdventure;
 
-  AdventureCard(this.adventureDoc, this.user);
+
+  AdventureCard(this.adventureDoc, this.user,this._scaffoldKeyAdventure);
 
   @override
-  _AdventureCardState createState() => _AdventureCardState(adventureDoc, user);
+  _AdventureCardState createState() => _AdventureCardState(adventureDoc, user,_scaffoldKeyAdventure);
 }
 
 class _AdventureCardState extends State<AdventureCard> {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> user;
-
-  _AdventureCardState(this.adventureDoc, this.user);
+  final GlobalKey<ScaffoldState> _scaffoldKeyAdventure;
+  _AdventureCardState(this.adventureDoc, this.user,this._scaffoldKeyAdventure);
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +103,34 @@ class _AdventureCardState extends State<AdventureCard> {
                   child: Visibility(
                     visible: (adventureModel.editMode & (adventureDoc["master"] == user["id"])),
                     child: GestureDetector(
-                      onTap: (){
-                        adventureModel.removeAllPlayersAdventure(adventureId: adventureDoc["adventureId"], masterId: adventureDoc["master"]);
+                      onTap: () async {
+                          final bool result = await showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: Text("confirm delete".toUpperCase()),
+                                  content: Text("Are you sure you wish to delete this adventure? this is irreversible! And all data will be erased "),
+                                  actions: <Widget>[
+                                    FlatButton(onPressed: () => Navigator.of(context).pop(false),
+                                        child: const Text("CANCEL")
+                                    ),
+
+                                    FlatButton(
+                                      onPressed: () => Navigator.of(context).pop(true),
+                                      child: const Text("DELETE",style: TextStyle(color: Colors.red),),)
+                                  ],
+                                );
+                              }
+                          );
+                          if (result){
+                            adventureModel.removeAllPlayersAdventure(adventureId: adventureDoc["adventureId"], masterId: adventureDoc["master"]).then((e){
+                              _scaffoldKeyAdventure.currentState.showSnackBar(SnackBar(content: Text("Successfully removed")));
+                            });
+                          }else{
+                            return result;
+                          }
+
+
                       },
                       child: Image.asset("images/btn_delete.png"),
                     ),

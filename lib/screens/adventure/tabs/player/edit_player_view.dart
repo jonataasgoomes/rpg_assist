@@ -18,8 +18,8 @@ class _EditPlayerViewState extends State<EditPlayerView> {
   final String _adventureId;
   final DocumentSnapshot _playerCharacter;
   int _selectedItemRace, _selectedItemClass, _selectedItemSex;
-  List<String> _race = ["Dwarf", "Elf", "Human"];
-  List<String> _class = ["Warrior", "Archer", "Mage"];
+  List<String> _race = ["Dwarf", "Elf", "Human","Werewolf","Orc","Mecha", "Golem","Reptile","Skull","Ogre","Vampire","Fishman","Troll"];
+  List<String> _class = ["Knight", "Ranger", "Mage","Wizzard","Pyromancer","Assassin","Warlock"];
   List<String> _sex = ["Male", "Female"];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey  = GlobalKey<FormState>();
@@ -121,68 +121,76 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                           color: Colors.black26,
                           child: GridView.count(
                             physics: NeverScrollableScrollPhysics(),
-                            childAspectRatio: 0.8,
+                            childAspectRatio: 2.2,
                             shrinkWrap: true,
-                            padding: EdgeInsets.all(0),
-                            crossAxisCount: 3,
-                            children: List.generate(
-                              3,
-                              (index) {
-                                return Center(
-                                  child: Card(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      splashColor:
-                                          Color.fromARGB(255, 6, 223, 176),
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedItemRace = index;
-                                        });
-                                      },
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                    _selectedItemRace == index
-                                                        ? Color.fromARGB(
-                                                            255, 6, 223, 176)
-                                                        : Colors.transparent),
-                                            child: Container(
-                                              margin: EdgeInsets.all(5),
-                                              height: 70,
-                                              width: 70,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: AssetImage(
-                                                      "images/race$index.png"),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            crossAxisCount: 1,
+                            children: <Widget>[
+                              Center(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  children: List.generate(
+                                    13,
+                                        (index) {
+                                      return Center(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            splashColor:
+                                            Color.fromARGB(255, 6, 223, 176),
+                                            onTap: () {
+                                              setState(() {
+                                                _selectedItemRace = index;
+                                              });
+                                            },
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.all(5),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                      _selectedItemRace == index
+                                                          ? Color.fromARGB(
+                                                          255, 6, 223, 176)
+                                                          : Colors.transparent),
+                                                  child: Container(
+                                                    margin: EdgeInsets.all(5),
+                                                    height: 70,
+                                                    width: 70,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "images/race$index.png"),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                Text(
+                                                  _race[index],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: _selectedItemRace == index
+                                                        ? Color.fromARGB(
+                                                        255, 6, 223, 176)
+                                                        : Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            _race[index],
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: _selectedItemRace == index
-                                                  ? Color.fromARGB(
-                                                      255, 6, 223, 176)
-                                                  : Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Text(
@@ -196,73 +204,74 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                           color: Colors.black26,
                           child: GridView.count(
                             physics: NeverScrollableScrollPhysics(),
-                            childAspectRatio: 0.8,
+                            childAspectRatio: 2.2,
                             shrinkWrap: true,
-                            padding: EdgeInsets.all(0),
-                            crossAxisCount: 3,
-                            children: List.generate(
-                              3,
-                              (index) {
-                                return Center(
-                                  child: Container(
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        splashColor:
-                                            Color.fromARGB(255, 234, 205, 125),
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedItemClass = index;
-                                          });
-                                        },
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: _selectedItemClass ==
-                                                          index
-                                                      ? Color.fromARGB(
-                                                          255, 234, 205, 125)
-                                                      : Colors.transparent),
-                                              child: Container(
-                                                margin: EdgeInsets.all(5),
-                                                height: 70,
-                                                width: 70,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.contain,
-                                                    image: AssetImage(
-                                                        "images/class$index.png"),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            crossAxisCount: 1,
+                            children: <Widget>[
+                              Center(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  children: List.generate(
+                                    7,
+                                        (index) {
+                                      return Center(
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            splashColor:
+                                            Color.fromARGB(255, 6, 223, 176),
+                                            onTap: () {
+                                              setState(() {
+                                                _selectedItemClass = index;
+                                              });
+                                            },
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.all(5),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                      _selectedItemClass == index
+                                                          ? Color.fromARGB(255, 234, 205, 125)
+                                                          : Colors.transparent),
+                                                  child: Container(
+                                                    margin: EdgeInsets.all(5),
+                                                    height: 70,
+                                                    width: 70,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: AssetImage(
+                                                            "images/class$index.png"),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                _class[index],
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                Text(
+                                                  _class[index],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
                                                     fontSize: 15,
-                                                    color: _selectedItemClass ==
-                                                            index
-                                                        ? Color.fromARGB(
-                                                            255, 234, 205, 125)
-                                                        : Colors.white),
-                                              ),
+                                                    color: _selectedItemClass == index
+                                                        ? Color.fromARGB(255, 234, 205, 125)
+                                                        : Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Text(

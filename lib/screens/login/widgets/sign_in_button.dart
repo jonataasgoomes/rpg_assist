@@ -110,6 +110,7 @@ class _SignInButtonState extends State<SignInButton> {
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
     ));
+    UserModel().isLoading = false;
   }
 
   void _onSuccess() {

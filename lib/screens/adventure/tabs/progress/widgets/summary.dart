@@ -28,12 +28,16 @@ class _SummaryState extends State<Summary> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        adventureDoc["summary"] != ""
-                            ? adventureDoc["summary"]
-                            : "Add summary on this adventure ",
-                        maxLines: seeMore,
-                        overflow: TextOverflow.ellipsis,
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            adventureDoc["summary"] != ""
+                                ? adventureDoc["summary"]
+                                : "Add summary on this adventure ",
+                            maxLines: seeMore,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ],
                   ),

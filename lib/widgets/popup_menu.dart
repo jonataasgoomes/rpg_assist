@@ -1,10 +1,18 @@
-class PopupMenu{
-  static const String Edit = "Edit";
+class PopupMenuAdventure{
+  static const String Edit = "Edit Mode";
   static const String Order = "Order";
 
   static const List<String> choices = <String>[
     Edit,
     Order
+  ];
+}
+
+class PopupMenu{
+  static const String Edit = "Edit Mode";
+
+  static const List<String> choices = <String>[
+    Edit,
   ];
 }
 

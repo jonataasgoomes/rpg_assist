@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           model: AdventureModel(),
           child: MaterialApp(
             theme: ThemeData(
+              primaryColor: Color.fromARGB(255, 34, 17, 51),
               accentColor: Color.fromARGB(255, 34, 17, 51),
               fontFamily: 'FiraSans',
                 appBarTheme: AppBarTheme(

@@ -150,6 +150,74 @@ class _ProgressTabState extends State<ProgressTab> {
                                                             : AssetImage("images/rpg_icon.png"),
                                                       ),),
                                                 ),),
+                                              Expanded(
+                                                flex: 0,
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(left: 10),
+                                                      height: 30,
+                                                      child: Visibility(
+                                                        visible: (adventureModel.editMode &
+                                                        (adventureDoc["master"] == user["id"])),
+                                                        child: GestureDetector(
+                                                            onTap: () async {
+                                                              final bool result = await showDialog(
+                                                                  context: context,
+                                                                  builder: (context) {
+                                                                    return Container(
+                                                                      margin: EdgeInsets.symmetric(vertical: 100,horizontal: 50),
+                                                                      color: Colors.white,
+                                                                    );
+                                                                  });
+                                                              if (result) {
+                                                                return true;
+                                                              } else {
+                                                                return false;
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              child: Icon(Icons.mode_edit),
+                                                            )
+                                                        ),
+                                                      ),),),
+                                              Expanded(
+                                                flex: 0,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(left: 10),
+                                                  height: 30,
+                                                  child: Visibility(
+                                                    visible: (adventureModel.editMode &
+                                                    (adventureDoc["master"] == user["id"])),
+                                                    child: GestureDetector(
+                                                        onTap: () async {
+                                                          final bool result = await showDialog(
+                                                              context: context,
+                                                              builder: (context){
+                                                                return AlertDialog(
+                                                                  title: Text("confirm delete".toUpperCase()),
+                                                                  content: Text("Are you sure you wish to delete this session? this is irreversible! And all data will be erased "),
+                                                                  actions: <Widget>[
+                                                                    FlatButton(onPressed: () => Navigator.of(context).pop(false),
+                                                                        child: const Text("CANCEL")
+                                                                    ),
+
+                                                                    FlatButton(
+                                                                      onPressed: () => Navigator.of(context).pop(true),
+                                                                      child: const Text("DELETE",style: TextStyle(color: Colors.red),),)
+                                                                  ],
+                                                                );
+                                                              }
+                                                          );
+                                                          if (result){
+
+                                                          }else{
+                                                            return result;
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(Icons.close),
+                                                        )
+                                                    ),
+                                                  ),),),
 
                                             ],
                                           )
