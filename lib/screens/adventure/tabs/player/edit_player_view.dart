@@ -368,7 +368,7 @@ class _EditPlayerViewState extends State<EditPlayerView> {
 
                                     if (_formKey.currentState.validate()) {
 
-                                      final snackBar = SnackBar(content: Text('Processing Data'));
+                                      final snackBar = SnackBar(content: Text('Select all atributes'));
                                       _scaffoldKey.currentState.showSnackBar(snackBar);
 
                                       print("Race: ${_race[_selectedItemRace]} Class: ${_class[_selectedItemClass]} Sex: ${_sex[_selectedItemSex]}");
@@ -385,7 +385,7 @@ class _EditPlayerViewState extends State<EditPlayerView> {
                                       characterData["class"] = _class[_selectedItemClass];
                                       characterData["sex"] = _sex[_selectedItemSex];
 
-                                      adventureModel.updateCharacter(_adventureId,_playerCharacter["userId"], characterData);
+                                      adventureModel.updateCharacter(_adventureId,_playerCharacter["characterId"], characterData);
 
 
                                       Navigator.pop(context);

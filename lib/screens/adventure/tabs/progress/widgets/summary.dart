@@ -30,12 +30,14 @@ class _SummaryState extends State<Summary> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text(
-                            adventureDoc["summary"] != ""
-                                ? adventureDoc["summary"]
-                                : "Add summary on this adventure ",
-                            maxLines: seeMore,
-                            overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: Text(
+                              adventureDoc["summary"] != ""
+                                  ? adventureDoc["summary"]
+                                  : "Add summary on this adventure ",
+                              maxLines: seeMore,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

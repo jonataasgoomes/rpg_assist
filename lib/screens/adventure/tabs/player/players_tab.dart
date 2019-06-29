@@ -174,7 +174,7 @@ class _PlayersTabState extends State<PlayersTab> {
                               ScopedModelDescendant<UserModel>(
                                 builder: (context, child, userModel) {
                                   return StreamBuilder(
-                                      stream: adventureModel.adventuresPlayers(
+                                      stream: adventureModel.adventuresPlayersLive(
                                           adventureId:
                                               adventureDoc["adventureId"]),
                                       builder: (context, playerSnapshot) {
@@ -291,9 +291,9 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                               horizontal:
                                                                                   25),
                                                                           width:
-                                                                              45.0,
+                                                                              50.0,
                                                                           height:
-                                                                              45.0,
+                                                                              50.0,
                                                                           decoration:
                                                                               BoxDecoration(
                                                                             shape:
@@ -302,21 +302,17 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                                 DecorationImage(
                                                                               fit:
                                                                                   BoxFit.fill,
-                                                                              image: snapshot.data["photoUrl"] != null
-                                                                                  ? NetworkImage(snapshot.data["photoUrl"])
-                                                                                  : AssetImage("images/rpg_icon.png"),
+                                                                              image: playerSnapshot.data.documents[index]["raceNumber"]!= 404
+                                                                                  ? AssetImage("images/race${playerSnapshot.data.documents[index]["raceNumber"]}.png")
+                                                                                  : AssetImage("images/person.png"),
                                                                             ),
                                                                           ),
                                                                         ),
                                                                         title:
                                                                             Text(
-                                                                          snapshot.data["name"] !=
-                                                                                  null
-                                                                              ? snapshot.data[
-                                                                                  "name"]
-                                                                              : snapshot.data["username"] != null
-                                                                                  ? snapshot.data["username"]
-                                                                                  : snapshot.data["email"],
+                                                                          playerSnapshot.data.documents[index]["name"] != ""
+                                                                              ? playerSnapshot.data.documents[index]["name"]
+                                                                              : "",
                                                                           maxLines:
                                                                               1,
                                                                           overflow:
@@ -358,7 +354,7 @@ class _PlayersTabState extends State<PlayersTab> {
                                                                           },
                                                                         ): IconButton(icon: Icon(Icons.person_outline), onPressed: null),
                                                                         subtitle:
-                                                                            Text(snapshot.data["masterTitle"] != null ? snapshot.data["masterTitle"] : "",
+                                                                            Text(snapshot.data["name"] != null ? snapshot.data["name"] : "",
                                                                           maxLines:1,
                                                                           overflow: TextOverflow.ellipsis,),
                                                                         isThreeLine:

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/screens/adventure/new_session_screen.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/progress/widgets/character_selection.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/progress/widgets/summary.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -92,9 +93,20 @@ class _ProgressTabState extends State<ProgressTab> {
                               mainAxisSize: MainAxisSize.min,
                                 children: snapshot.data.documents.map((document) {
                                   return InkWell(
-                                    onTap: document["status"] != 0 || adventureDoc["master"] == user["id"]? (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Combat(adventureDoc,document["sessionId"],user,document["status"])));
-                                    }:null,
+                                    onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return Container(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    margin: EdgeInsets.symmetric(vertical: 248,horizontal: 50),
+                                                    color: Colors.white,
+                                                    child: Container(
+                                                      alignment: Alignment.center,
+                                                        child: CharacterSelection(adventureDoc, document["sessionId"],document["status"], user)),
+                                                  );
+                                                });
+                                            },
                                     child: Container(
                                       child: Column(
                                         children: <Widget>[

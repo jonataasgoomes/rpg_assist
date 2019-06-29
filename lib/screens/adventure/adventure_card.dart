@@ -139,6 +139,51 @@ class _AdventureCardState extends State<AdventureCard> {
             );
           },
         ),
+        ScopedModelDescendant<AdventureModel>(
+          builder: (context,child,adventureModel){
+            return Positioned(
+              right: 20,
+              top: 25,
+              child: Container(
+                  height: 30,
+                  child: Visibility(
+                    visible: (adventureModel.editMode & (adventureDoc["master"] != user["id"])),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final bool result = await showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: Text("confirm delete".toUpperCase()),
+                                content: Text("Are you sure you wish to leave this adventure? If you want to go back, talk to the master."),
+                                actions: <Widget>[
+                                  FlatButton(onPressed: () => Navigator.of(context).pop(false),
+                                      child: const Text("CANCEL")
+                                  ),
+
+                                  FlatButton(
+                                    onPressed: () => Navigator.of(context).pop(true),
+                                    child: const Text("DELETE",style: TextStyle(color: Colors.red),),)
+                                ],
+                              );
+                            }
+                        );
+                        if (result){
+                          adventureModel.removeAdventureFromUser(adventureDoc["adventureId"], user["id"]).then((e){
+                            _scaffoldKeyAdventure.currentState.showSnackBar(SnackBar(content: Text("Successfully removed")));
+                          });
+                        }else{
+                          return result;
+                        }
+
+                      },
+                      child: Icon(Icons.close),
+                    ),
+                  )
+              ),
+            );
+          },
+        ),
       ],
     );
   }

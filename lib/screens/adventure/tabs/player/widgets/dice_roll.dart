@@ -9,24 +9,24 @@ import 'package:scoped_model/scoped_model.dart';
 class DiceRoll extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> userLogged;
-  final String sessionId;
+  final String sessionId, characterId;
 
-  DiceRoll(this.adventureDoc,this.sessionId ,this.userLogged);
+  DiceRoll(this.adventureDoc,this.sessionId,this.characterId ,this.userLogged,);
   @override
-  _DiceRollState createState() => _DiceRollState(adventureDoc,sessionId,userLogged);
+  _DiceRollState createState() => _DiceRollState(adventureDoc,sessionId,characterId,userLogged);
 }
 
 class _DiceRollState extends State<DiceRoll> {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> userLogged;
-  final String sessionId;
+  final String sessionId, characterId;
   Random seed = Random();
   int rand = 0;
   String anim = "Spin1";
   bool isPaused = true;
   bool animating = false;
 
-  _DiceRollState(this.adventureDoc,this.sessionId,this.userLogged);
+  _DiceRollState(this.adventureDoc,this.sessionId,this.characterId,this.userLogged);
   @override
   Widget build(BuildContext context) {
     return           Container(
@@ -53,7 +53,7 @@ class _DiceRollState extends State<DiceRoll> {
               isPaused: isPaused,
               callback: (string) {
                 adventureModel.rollDice(
-                    adventureDoc["adventureId"],sessionId ,userLogged["id"], rand);
+                    adventureDoc["adventureId"],sessionId,characterId ,userLogged["id"], rand);
                 setState(
                       () {
                     anim = null;

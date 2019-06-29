@@ -35,8 +35,15 @@ class AdventureModel extends Model {
     }
   }
 
+
+
+  /*------------------------------------------------------------------------------------------------------*/
+
   Future choiceActionAdventure(String choice, adventureId, playerId, userId,
       masterId, BuildContext context) async {
+
+
+
     if (choice == PopupMenuPlayer.EditPlayer) {
       playerCharacter(adventureId, playerId).then((characterDocument) {
         Navigator.push(
@@ -46,7 +53,9 @@ class AdventureModel extends Model {
                 child: EditPlayerView(adventureId, characterDocument)));
       });
 
-      print("editar player");
+
+
+
     } else if (choice == PopupMenuPlayer.Leave) {
       final bool result = await showDialog(
           context: context,
@@ -54,7 +63,7 @@ class AdventureModel extends Model {
             return AlertDialog(
               title: Text("CONFIRM"),
               content: Text(
-                  "Are you sure you wish leave this adventure?"),
+                  "Are you sure you wish kill this character to adventure?"),
               actions: <Widget>[
                 FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -62,7 +71,7 @@ class AdventureModel extends Model {
                 FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   child: const Text(
-                    "LEAVE",
+                    "KILL",
                     style: TextStyle(color: Colors.red),
                   ),
                 )
@@ -77,19 +86,25 @@ class AdventureModel extends Model {
       } else {
         return result;
       }
+
+
+
     } else if (choice == PopupMenuMaster.Master) {
       print("tranferencia do master");
-      _changeMasterAdventure(adventureId, playerId, masterId).then((a) {
+      _changeMasterAdventure(adventureId, userId, masterId).then((a) {
         print(a);
       });
+
+
+
     } else if (choice == PopupMenuMaster.Remove) {
       final bool result = await showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text("CONFIRM"),
+              title: Text("CONFIRM DEATH"),
               content: Text(
-                  "Are you sure you wish remove this player?"),
+                  "Are you sure you wish kill this player character? This action will kill him!!"),
               actions: <Widget>[
                 FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -97,7 +112,7 @@ class AdventureModel extends Model {
                 FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   child: const Text(
-                    "YES",
+                    "KILL",
                     style: TextStyle(color: Colors.red),
                   ),
                 )
@@ -107,13 +122,14 @@ class AdventureModel extends Model {
       if (result) {
         _removePlayerFromAdventure(adventureId, playerId, userId, masterId)
             .then((_) {
-          Navigator.of(context).pop();
         });
       } else {
         return result;
       }
     }
   }
+
+  /*------------------------------------------------------------------------------------------------------*/
 
   Future<Null> registerAdventure(
       {@required Map<String, dynamic> adventureData,
@@ -264,10 +280,11 @@ class AdventureModel extends Model {
   }
 
   Future<Null> rollDice(
-      String adventureId, String sessionId, String userId, int result) async {
+      String adventureId, String sessionId, String userId,String characterId, int result) async {
     Map<String, dynamic> rollData = Map();
     rollData["timestamp"] = FieldValue.serverTimestamp();
     rollData["userId"] = userId;
+    rollData["characterId"] = characterId;
     rollData["result"] = result;
 
     _rollReference = Firestore.instance
@@ -286,6 +303,8 @@ class AdventureModel extends Model {
     Map<String, dynamic> playerData = Map();
 
     playerData["userId"] = userId;
+    
+    playerData["status"] = 0;
 
     playerData["hp"] = 0;
     playerData["xp"] = 0;
@@ -316,7 +335,8 @@ class AdventureModel extends Model {
         .collection("adventures")
         .document(adventureId)
         .collection("players")
-        .document(userId);
+        .document();
+
     playerData["characterId"] = _characterReference.documentID;
 
     await Firestore.instance
@@ -339,11 +359,11 @@ class AdventureModel extends Model {
         .updateData(characterData);
   }
 
-  adventuresPlayers({@required String adventureId}) {
+  adventuresPlayersLive({@required String adventureId}) {
     return Firestore.instance
         .collection("adventures")
         .document(adventureId)
-        .collection("players")
+        .collection("players").where("status", isEqualTo: 0)
         .snapshots();
   }
 
@@ -356,10 +376,13 @@ class AdventureModel extends Model {
         .getDocuments();
   }
 
-  Future<Null> removeAllPlayersAdventure(
-      {@required String adventureId, @required masterId}) async {
+  Future<Null> removeAllPlayersAdventure({@required String adventureId, @required masterId}) async {
+
+
     adventuresPlayersList(adventureId: adventureId).then((query) {
+
       query.documents.toList().forEach((document) async {
+
         await Firestore.instance
             .collection("users")
             .document(document["userId"])
@@ -367,6 +390,7 @@ class AdventureModel extends Model {
             .document(adventureId)
             .delete();
       });
+
     });
     await Firestore.instance
         .collection("users")
@@ -392,21 +416,34 @@ class AdventureModel extends Model {
         .updateData(data);
   }
 
+
+
+  /*Busca todos os characters do player na aventura*/
+  Future<QuerySnapshot> allPlayerCharacter(String adventureId, String userId)async{
+    return await Firestore.instance.collection("adventures").document(adventureId).collection("players")
+        .where("userId", isEqualTo: userId)
+        .where("status", isEqualTo: 0)
+        .getDocuments();
+
+  }
+
+
+
   Future<Null> _removePlayerFromAdventure(
       String adventureId, playerId, userId, masterId) async {
+      Map<String,dynamic> data = Map();
+      data["status"] = 1;
+
     await Firestore.instance
         .collection("adventures")
         .document(adventureId)
         .collection("players")
         .document(playerId)
-        .delete();
-    if (playerId != masterId) {
-      _removeAdventureFromUser(adventureId, playerId, userId);
-    }
+        .updateData(data);
   }
 
-  Future<Null> _removeAdventureFromUser(
-      String adventureId, playerId, userId) async {
+  Future<Null> removeAdventureFromUser(
+      String adventureId, userId) async {
     await Firestore.instance
         .collection("users")
         .document(userId)
