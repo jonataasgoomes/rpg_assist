@@ -36,12 +36,68 @@ class _CharacterSelectionState extends State<CharacterSelection> {
           return Container(
             color: Colors.black,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   "Select you character",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+                Visibility(
+                  visible: adventureDoc["master"] ==
+                      userLogged["id"],
+                  child: Flexible(
+                    flex: 0,
+                    child: Center(
+                      child: Card(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor:
+                          Color.fromARGB(255, 6, 223, 176),
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Combat(adventureDoc, sessionId, sessionStatus,userLogged["id"],userLogged)));
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(
+                                        255, 6, 223, 176)),
+                                child: Container(
+                                  margin: EdgeInsets.all(5),
+                                  height: 70,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                          "images/crowns.png"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Master",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(
+                                        255, 6, 223, 176)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   child: FutureBuilder<QuerySnapshot>(
@@ -54,73 +110,22 @@ class _CharacterSelectionState extends State<CharacterSelection> {
                               color: Colors.white,
                             );
                           default:
+                            if(characterSnapshot.data.documents.length == 0){
+                              return Text(
+                                "You doesn´t have any character",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white, fontSize: 15),
+                              );
+                            }
                             return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Visibility(
-                                  visible: adventureDoc["master"] ==
-                                      userLogged["id"],
-                                  child: Flexible(
-                                    flex: 0,
-                                    child: Center(
-                                      child: Card(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          splashColor:
-                                              Color.fromARGB(255, 6, 223, 176),
-                                          onTap: () {},
-                                          onLongPress: () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Combat(adventureDoc, sessionId, sessionStatus,userLogged["id"],userLogged)));
-                                          },
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color.fromARGB(
-                                                        255, 6, 223, 176)),
-                                                child: Container(
-                                                  margin: EdgeInsets.all(5),
-                                                  height: 70,
-                                                  width: 70,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: AssetImage(
-                                                          "images/crowns.png"),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                "Master",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color.fromARGB(
-                                                        255, 6, 223, 176)),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                                 Visibility(
                                   visible: characterSnapshot.data.documents.length != 0 ,
                                   child: Flexible(
                                     child: Container(
                                       child: GridView.count(
                                         physics: NeverScrollableScrollPhysics(),
-                                        childAspectRatio: adventureDoc["master"] == userLogged["id"]? 1:2,
+                                        childAspectRatio: 2,
                                         shrinkWrap: true,
                                         padding:
                                             EdgeInsets.symmetric(horizontal: 10),
@@ -140,8 +145,7 @@ class _CharacterSelectionState extends State<CharacterSelection> {
                                                       child: InkWell(
                                                         splashColor: Color.fromARGB(
                                                             255, 6, 223, 176),
-                                                        onTap: () {},
-                                                        onLongPress: () {
+                                                        onTap: () {
                                                           Navigator.pushReplacement(
                                                               context,
                                                               MaterialPageRoute(
@@ -187,13 +191,14 @@ class _CharacterSelectionState extends State<CharacterSelection> {
                                                                       DecorationImage(
                                                                     fit:
                                                                         BoxFit.fill,
-                                                                    image: AssetImage(
-                                                                        "images/race${characterSnapshot.data.documents[index]["raceNumber"]}.png"),
+                                                                    image: characterSnapshot.data.documents[index]["raceNumber"] == 404?
+                                                                    AssetImage("images/person.png")
+                                                                        :AssetImage("images/race${characterSnapshot.data.documents[index]["raceNumber"]}.png"),
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            Text(
+                                                            Text(characterSnapshot.data.documents[index]["name"] == ""? "Unamed" :
                                                               characterSnapshot.data
                                                                       .documents[
                                                                   index]["name"],

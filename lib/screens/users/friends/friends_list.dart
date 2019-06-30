@@ -183,11 +183,11 @@ class _FriendListState extends State<FriendList> {
                                                                       176),
                                                               onPressed: () {
                                                                 adventureModel.addPlayersOnAdventure(adventureId: adventureId,
-                                                                userId: snapshot.data["id"]);
+                                                                userId: snapshot.data["id"]).then((e){
+                                                                  Navigator.pop(context);
+                                                                });
 
-                                                                Navigator.pop(context);
-
-
+                                                                
                                                               },
                                                               child: Text(
                                                                 "ADD",

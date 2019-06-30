@@ -92,7 +92,7 @@ class AdventureModel extends Model {
     } else if (choice == PopupMenuMaster.Master) {
       print("tranferencia do master");
       _changeMasterAdventure(adventureId, userId, masterId).then((a) {
-        print(a);
+        Navigator.pop(context);
       });
 
 
@@ -451,6 +451,22 @@ class AdventureModel extends Model {
         .document(adventureId)
         .delete();
   }
+  Future<Null> removeSessionAdventure(String adventureId, String sessionId) async{
+
+    await Firestore.instance.collection("adventures").document(adventureId).collection("sessions").document(sessionId).delete();
+
+  }
+
+  Future<Null> changeSessionStatus(sessionStatus,sessionId,adventureId)async{
+    Map<String,dynamic> data = Map();
+
+    data["status"] = sessionStatus;
+
+    await Firestore.instance.collection("adventures").document(adventureId).collection("sessions").document(sessionId).updateData(data);
+
+  }
+
+
 
   Future<Null> _changeMasterAdventure(
       String adventureId, playerId, masterId) async {

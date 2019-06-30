@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
 import 'package:rpg_assist_app/screens/adventure/new_session_screen.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/progress/widgets/character_selection.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/progress/widgets/session_edit.dart';
 import 'package:rpg_assist_app/screens/adventure/tabs/progress/widgets/summary.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -25,12 +26,14 @@ class ProgressTab extends StatefulWidget {
 class _ProgressTabState extends State<ProgressTab> {
   final Map<String, dynamic> user;
   final DocumentSnapshot adventureDoc;
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   _ProgressTabState(this.user, this.adventureDoc);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: Visibility(
     visible: adventureDoc["master"] == user["id"],
       child: Container(
@@ -94,18 +97,32 @@ class _ProgressTabState extends State<ProgressTab> {
                                 children: snapshot.data.documents.map((document) {
                                   return InkWell(
                                     onTap: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    margin: EdgeInsets.symmetric(vertical: 248,horizontal: 50),
-                                                    color: Colors.white,
-                                                    child: Container(
-                                                      alignment: Alignment.center,
-                                                        child: CharacterSelection(adventureDoc, document["sessionId"],document["status"], user)),
-                                                  );
-                                                });
+
+                                      if(document["status"] == 1){
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                padding: EdgeInsets.all(8.0),
+                                                margin: EdgeInsets.symmetric(vertical: 200,horizontal: 50),
+                                                color: Colors.white,
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    child: CharacterSelection(adventureDoc, document["sessionId"],document["status"], user)),
+                                              );
+                                            });
+                                      }else if(document["status"] == 0){
+                                        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("This session is not available")));
+
+                                      }else{
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Combat(adventureDoc,document["sessionId"], document["status"],user["id"],user)));
+                                      }
+
+
+
                                             },
                                     child: Container(
                                       child: Column(
@@ -172,19 +189,18 @@ class _ProgressTabState extends State<ProgressTab> {
                                                         (adventureDoc["master"] == user["id"])),
                                                         child: GestureDetector(
                                                             onTap: () async {
-                                                              final bool result = await showDialog(
+                                                              showDialog(
                                                                   context: context,
                                                                   builder: (context) {
                                                                     return Container(
-                                                                      margin: EdgeInsets.symmetric(vertical: 100,horizontal: 50),
-                                                                      color: Colors.white,
+                                                                      padding: EdgeInsets.all(8.0),
+                                                                      margin: EdgeInsets.symmetric(vertical: 200,horizontal: 40),
+                                                                      color: Colors.black,
+                                                                      child: Container(
+                                                                          alignment: Alignment.center,
+                                                                          child: SessionEdit(document["sessionId"],adventureDoc["adventureId"])),
                                                                     );
                                                                   });
-                                                              if (result) {
-                                                                return true;
-                                                              } else {
-                                                                return false;
-                                                              }
                                                             },
                                                             child: Container(
                                                               child: Icon(Icons.mode_edit),
@@ -220,7 +236,7 @@ class _ProgressTabState extends State<ProgressTab> {
                                                               }
                                                           );
                                                           if (result){
-
+                                                                adventureModel.removeSessionAdventure(adventureDoc["adventureId"],document["sessionId"]);
                                                           }else{
                                                             return result;
                                                           }
