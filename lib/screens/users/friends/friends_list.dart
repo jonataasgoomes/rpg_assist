@@ -187,7 +187,7 @@ class _FriendListState extends State<FriendList> {
                                                                   Navigator.pop(context);
                                                                 });
 
-                                                                
+
                                                               },
                                                               child: Text(
                                                                 "ADD",
