@@ -13,7 +13,8 @@ class SignUpButton extends StatelessWidget {
             builder: (context,child,model){
               if(model.isLoading)
                 return Container();
-              return Row(
+              return Wrap(
+                direction: Axis.horizontal,
                 children: <Widget>[
                   FlatButton(
                     onPressed: () {

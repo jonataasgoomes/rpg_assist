@@ -54,7 +54,6 @@ class _UsersScreenState extends State<UsersScreen> {
                                 "Loading ...",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "IndieFlower",
                                     color: Color.fromARGB(255, 234, 205, 125),
                                     fontSize: 20),
                                 textAlign: TextAlign.center,
@@ -87,7 +86,6 @@ class _UsersScreenState extends State<UsersScreen> {
                                     "No found users",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: "IndieFlower",
                                         color:
                                             Color.fromARGB(255, 234, 205, 125),
                                         fontSize: 20),

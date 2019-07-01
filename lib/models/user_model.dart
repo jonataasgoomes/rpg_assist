@@ -1,9 +1,10 @@
+import 'package:rpg_assist_app/widgets/popup_menu.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:async/async.dart';
+
 
 class UserModel extends Model {
   final GoogleSignIn _gSignIn = GoogleSignIn();
@@ -15,7 +16,22 @@ class UserModel extends Model {
 
   Map<String, dynamic> userData = Map();
 
+  bool editMode = false;
+
   bool isLoading = false;
+
+
+  void choiceAction(String choice) {
+    if (choice == PopupMenuAdventure.Edit) {
+      if (editMode == false) {
+        editMode = true;
+      } else {
+        editMode = false;
+      }
+    }
+  }
+
+
 
   @override
   void addListener(VoidCallback listener) {
@@ -51,6 +67,7 @@ class UserModel extends Model {
     }
     if (user == null) {
       user = await _gSignIn.signIn();
+      isLoading = false;
     }
     if (await _auth.currentUser() != null) {
       isLoading = false;
@@ -58,7 +75,14 @@ class UserModel extends Model {
       await _loadCurrentUser();
     }
     if (await _auth.currentUser() == null) {
+      if(user == null){
+        isLoading = false;
+        notifyListeners();
+        return null;
+      }
       GoogleSignInAuthentication authentication = await user.authentication;
+
+
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           accessToken: authentication.accessToken,

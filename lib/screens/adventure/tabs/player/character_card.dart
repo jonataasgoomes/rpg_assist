@@ -1,616 +1,167 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:rpg_assist_app/models/adventure_model.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/widgets/info_character.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/widgets/status_character.dart';
+import 'package:rpg_assist_app/screens/adventure/tabs/player/widgets/status_slider.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CharacterCard extends StatefulWidget {
   final DocumentSnapshot adventureDoc, userPlayerData, playerData;
   final Map<String, dynamic> userLogged;
 
-  CharacterCard(this.adventureDoc, this.userPlayerData,this.userLogged,this.playerData);
+  CharacterCard(
+      this.adventureDoc, this.userPlayerData, this.userLogged, this.playerData);
 
   @override
   _CharacterCardState createState() =>
-      _CharacterCardState(adventureDoc, userPlayerData, userLogged,playerData);
+      _CharacterCardState(adventureDoc, userPlayerData, userLogged, playerData);
 }
 
 class _CharacterCardState extends State<CharacterCard> {
-  final DocumentSnapshot adventureDoc, userPlayerData,playerData;
+  final DocumentSnapshot adventureDoc, userPlayerData, playerData;
   final Map<String, dynamic> userLogged;
 
-  _CharacterCardState(this.adventureDoc, this.userPlayerData, this.userLogged,this.playerData);
+  _CharacterCardState(
+      this.adventureDoc, this.userPlayerData, this.userLogged, this.playerData);
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<AdventureModel>(
-      builder: (context,child,adventureModel){
+      builder: (context, child, adventureModel) {
         return Scaffold(
           backgroundColor: Colors.transparent,
-          body: ListView(
-            padding: EdgeInsets.all(0),
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 25),
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: userPlayerData["photoUrl"] != null
-                                ? NetworkImage(userPlayerData["photoUrl"])
-                                : AssetImage("images/rpg_icon.png"),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(
-                      "CHARACTER SHEET",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "IndieFlower",
-                          fontSize: 20,
-                          color: Colors.white),
-                    ),
-                    Card(
-                      color: Colors.black38,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.all(10),
-                                        width: 80.0,
-                                        height: 80.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: AssetImage(
-                                                  "images/dwarf-helmet.png"),
-                                            )),
-                                      ),
-                                      Visibility(
-                                        visible: ((adventureDoc["master"] == userLogged["id"])|(userLogged["id"] == playerData["userId"])),
-                                        child: Container(
-                                          margin:
-                                          EdgeInsets.only(left: 65, top: 70),
-                                          width: 20,
-                                          height: 20,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.blue,
-                                          ),
-                                          child: Text(
-                                            "+",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text("NAME: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("RACE: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("CLASS: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("SEX: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text("AWAFUL",
-                                            style: TextStyle(color: Colors.white)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("DWARF",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("WARRIOR",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text("MALE",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: 90,
-                                  height: 80,
-                                  color: Colors.white10,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "LEVEL",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      Text( playerData["level"] != null? playerData["level"].toString():
-                                        "50",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 45),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Card(
-                      elevation: 10,
-                      color: Colors.black38,
-                      child: Container(
-                        height: 130,
-                        margin: EdgeInsets.only(left: 20, right: 20),
+          body: Container(
+            child: FutureBuilder<DocumentSnapshot>(
+              future: adventureModel.playerCharacter(
+                  adventureDoc["adventureId"], playerData["characterId"]),
+              builder: (context, playerCharacterData) {
+                switch (playerCharacterData.connectionState) {
+                  case ConnectionState.waiting:
+                    return Container(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                            margin: EdgeInsets.only(top: 70),
+                            child: Text(
+                              "Loading ...",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 234, 205, 125),
+                                  fontSize: 20),
+                              textAlign: TextAlign.center,
+                            )),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          width: 80,
+                          height: 80,
+                          alignment: Alignment.center,
+                          child: FlareActor("assets/Dice_Loading.flr",
+                              animation: "loading"),
+                        )
+                      ],
+                    ));
+                  default:
+                    if (!playerCharacterData.data.exists) {
+                      return Container(
+                        child: Center(
+                          child: Text(
+                            "This Character is not available",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 6, 223, 176)),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        margin: EdgeInsets.only(top: 30,bottom: 0,left: 5,right: 5),
+                        child: ListView(
+                          padding: EdgeInsets.all(0),
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    "HP",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "IndieFlower",
-                                        fontSize: 30,
-                                        color: Colors.white),
-                                  ),
-                                  SliderTheme(
-                                    data: Theme.of(context).sliderTheme.copyWith(
-                                        trackHeight: 10,
-                                        activeTrackColor: Colors.red,
-                                        inactiveTrackColor: Colors.white30,
-                                        thumbColor: Colors.white,
-                                        thumbShape: RoundSliderThumbShape(
-                                            enabledThumbRadius: 10)),
-                                    child: Flexible(
-                                      child: Slider(
-                                          min: 0,
-                                          max: 100,
-                                          value: 50,
-                                          onChanged: (t) {}),
-                                    ),
-                                  ),
-                                  Text(
-                                    "50",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "IndieFlower",
-                                        fontSize: 30,
-                                        color: Colors.white),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 25),
+                                    width: 70.0,
+                                    height: 70.0,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: userPlayerData["photoUrl"] != null
+                                              ? NetworkImage(
+                                                  userPlayerData["photoUrl"])
+                                              : AssetImage("images/rpg_icon.png"),
+                                        )),
                                   ),
                                 ],
                               ),
                             ),
                             Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              color: Colors.black26,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Text(
-                                    "XP",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "IndieFlower",
-                                        fontSize: 30,
-                                        color: Colors.white),
-                                  ),
-                                  SliderTheme(
-                                    data: Theme.of(context).sliderTheme.copyWith(
-                                        trackHeight: 10,
-                                        activeTrackColor:
-                                        Color.fromARGB(255, 6, 223, 176),
-                                        inactiveTrackColor: Colors.white30,
-                                        thumbColor: Colors.white,
-                                        thumbShape: RoundSliderThumbShape(
-                                            enabledThumbRadius: 10)),
-                                    child: Flexible(
-                                      child: Slider(
-                                          min: 0,
-                                          max: 100,
-                                          value: 50,
-                                          onChanged: (t) {}),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    child: Text(
+                                      "CHARACTER SHEET",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.white),
                                     ),
                                   ),
-                                  Text(
-                                    "50",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "IndieFlower",
-                                        fontSize: 30,
-                                        color: Colors.white),
+                                  Card(
+                                    color: Colors.black38,
+                                    child: InfoCharacter(adventureDoc,playerData,playerCharacterData.data,userLogged),
                                   ),
+                                  Card(
+                                    elevation: 10,
+                                    color: Colors.black38,
+                                    child: Column(
+                                      children: <Widget>[
+                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data),
+                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 270,
+                                    child: GridView.count(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      padding: EdgeInsets.all(0),
+                                      crossAxisCount: 3,
+                                      children: <Widget>[
+                                        StatusCharacter("str", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("dex", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("int", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("cha", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("con", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("wis", adventureDoc, playerCharacterData.data),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: 280,
-                      child: GridView.count(
-                        padding: EdgeInsets.all(0),
-                        crossAxisCount: 3,
-                        children: <Widget>[
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "STR",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "DEX",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "INT",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "CHA",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "CON",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          Card(
-                            color: Colors.black38,
-                            child: Container(
-                              child: Stack(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white10,
-                                          shape: BoxShape.circle),
-                                      height: 100,
-                                      width: 100,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 6, 223, 176)),
-                                        backgroundColor: Colors.black54,
-                                        strokeWidth: 5,
-                                        value: .5,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                "50",
-                                                style: TextStyle(
-                                                    color: Colors.white, fontSize: 50),
-                                              ),
-                                              Text(
-                                                "WIS",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
+                      );
+                    }
+                }
+              },
+            ),
           ),
         );
       },

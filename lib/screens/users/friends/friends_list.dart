@@ -69,7 +69,6 @@ class _FriendListState extends State<FriendList> {
                                           "Loading ...",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontFamily: "IndieFlower",
                                               color: Color.fromARGB(
                                                   255, 234, 205, 125),
                                               fontSize: 20),
@@ -115,7 +114,7 @@ class _FriendListState extends State<FriendList> {
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceEvenly,
+                                                                .spaceAround,
                                                         children: <Widget>[
                                                           Container(
                                                             width: 50.0,
@@ -137,36 +136,36 @@ class _FriendListState extends State<FriendList> {
                                                                     )),
                                                           ),
                                                           Flexible(
-                                                            child: Text(
-                                                              snapshot.data["name"] !=
-                                                                      null
-                                                                  ? snapshot
-                                                                          .data[
-                                                                      "name"]
-                                                                  : snapshot.data["username"] !=
-                                                                          null
-                                                                      ? snapshot.data[
-                                                                          "username"]
-                                                                      : snapshot
-                                                                          .data["email"],
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      15),
+                                                            child: Container(
+                                                              width: 150,
+                                                              child: Text(
+                                                                snapshot.data["name"] !=
+                                                                        null
+                                                                    ? snapshot
+                                                                            .data[
+                                                                        "name"]
+                                                                    : snapshot.data["username"] !=
+                                                                            null
+                                                                        ? snapshot.data[
+                                                                            "username"]
+                                                                        : snapshot
+                                                                            .data["email"],
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        15),
+                                                              ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 20),
                                                             width: 100,
                                                             child: RaisedButton(
                                                               shape:
@@ -184,9 +183,9 @@ class _FriendListState extends State<FriendList> {
                                                                       176),
                                                               onPressed: () {
                                                                 adventureModel.addPlayersOnAdventure(adventureId: adventureId,
-                                                                userId: snapshot.data["id"]);
-
-                                                                Navigator.pop(context);
+                                                                userId: snapshot.data["id"]).then((e){
+                                                                  Navigator.pop(context);
+                                                                });
 
 
                                                               },
@@ -241,7 +240,6 @@ class _FriendListState extends State<FriendList> {
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: "IndieFlower",
                                             color: Color.fromARGB(
                                                 255, 234, 205, 125)),
                                       ),
