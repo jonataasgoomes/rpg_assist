@@ -130,8 +130,8 @@ class _CharacterCardState extends State<CharacterCard> {
                                     color: Colors.black38,
                                     child: Column(
                                       children: <Widget>[
-                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data),
-                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data),
+                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data,userLogged["id"]),
                                       ],
                                     ),
                                   ),

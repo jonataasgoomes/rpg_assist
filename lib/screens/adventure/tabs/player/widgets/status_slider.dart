@@ -7,6 +7,7 @@ import 'dart:async';
 class StatusSlider extends StatefulWidget {
   final DocumentSnapshot adventureDoc;
   final DocumentSnapshot playerData;
+  final String userLogged;
   final String sliderField;
   final Color color;
 
@@ -15,11 +16,12 @@ class StatusSlider extends StatefulWidget {
     this.color,
     this.adventureDoc,
     this.playerData,
+      this.userLogged
   );
 
   @override
   _StatusSliderState createState() =>
-      _StatusSliderState(sliderField, color, adventureDoc, playerData);
+      _StatusSliderState(sliderField, color, adventureDoc, playerData,userLogged);
 }
 
 class _StatusSliderState extends State<StatusSlider> {
@@ -27,9 +29,9 @@ class _StatusSliderState extends State<StatusSlider> {
   final DocumentSnapshot playerData;
   final String sliderField;
   final Color color;
-
+  final String userLogged;
   _StatusSliderState(
-      this.sliderField, this.color, this.adventureDoc, this.playerData);
+      this.sliderField, this.color, this.adventureDoc, this.playerData,this.userLogged);
 
   double _value = 0, _xp = 0;
   final StreamController<double> _streamXpController =
@@ -174,10 +176,10 @@ class _StatusSliderState extends State<StatusSlider> {
                                           .document(playerData["characterId"])
                                           .updateData(aMap);
                                     },
-                                    onChanged: (value) {
+                                    onChanged:  adventureDoc["master"] == userLogged || playerData["userId"] == userLogged ? (value) {
                                       _value = value;
                                       _streamHpController.sink.add(_value);
-                                    },
+                                    }: null,
                                   ),
                                 ),
                               ),
