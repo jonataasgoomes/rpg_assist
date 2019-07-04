@@ -74,7 +74,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           },
           children: <Widget>[
             CharacterCard(adventureDoc, userPlayerData, userLogged, playerData),
-            Messages(),
+//            Messages(),
           ],
         ),
       ),
@@ -89,7 +89,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         child: CirclePageIndicator(
           dotColor: Colors.white,
           selectedDotColor: Color.fromARGB(255, 6, 223, 176),
-          itemCount: 2,
+          itemCount: 1,
           currentPageNotifier: _currentPageNotifier,
         ),
       ),
