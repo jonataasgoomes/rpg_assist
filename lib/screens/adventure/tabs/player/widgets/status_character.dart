@@ -5,22 +5,22 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class StatusCharacter extends StatefulWidget {
-  final String statusField;
+  final String statusField, userLogged;
   final DocumentSnapshot adventureDoc, characterData;
 
-  StatusCharacter(this.statusField, this.adventureDoc, this.characterData);
+  StatusCharacter(this.statusField, this.adventureDoc, this.characterData,this.userLogged);
 
   @override
   _StatusCharacterState createState() =>
-      _StatusCharacterState(statusField, adventureDoc, characterData);
+      _StatusCharacterState(statusField, adventureDoc, characterData,userLogged);
 }
 
 class _StatusCharacterState extends State<StatusCharacter> {
   DocumentSnapshot adventureDoc, characterData;
-  String statusField;
+  String statusField, userLogged;
 
   _StatusCharacterState(
-      this.statusField, this.adventureDoc, this.characterData);
+      this.statusField, this.adventureDoc, this.characterData,this.userLogged);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class _StatusCharacterState extends State<StatusCharacter> {
               } else {
                 return InkWell(
                   highlightColor: Colors.red,
-                  onLongPress: () {
+                  onLongPress: adventureDoc["master"] == userLogged || characterData.data["userId"] == userLogged ? () {
                     return showDialog(
                       context: context,
                       builder: (context) {
@@ -118,8 +118,8 @@ class _StatusCharacterState extends State<StatusCharacter> {
                         print(value);
                       },
                     );
-                  },
-                  onTap: (){
+                  }: null,
+                  onTap: adventureDoc["master"] == userLogged || characterData.data["userId"] == userLogged ? (){
                     if(adventureModel.statusSnackBar){
                       adventureModel.statusSnackBar = false;
                     Scaffold.of(context).showSnackBar(
@@ -132,7 +132,7 @@ class _StatusCharacterState extends State<StatusCharacter> {
                     }else{
                       print("Waiting some seconds");
                     }
-                  },
+                  }:null,
                   child: Card(
                     color: Colors.black38,
                     child: Container(

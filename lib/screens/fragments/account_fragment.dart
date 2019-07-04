@@ -13,10 +13,7 @@ class AccountFragment extends StatelessWidget {
     Widget _buildBodyBack() => Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 34, 17, 51),
-              Color.fromARGB(255, 44, 100, 124)
-            ],
+            colors: [Color.fromARGB(255, 34, 17, 51), Color.fromARGB(255, 44, 100, 124)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           )),
@@ -31,8 +28,7 @@ class AccountFragment extends StatelessWidget {
               height: 70,
               child: FloatingActionButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => UsersScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => UsersScreen()));
                   },
                   backgroundColor: Color.fromARGB(255, 6, 223, 176),
                   child: Icon(
@@ -51,8 +47,7 @@ class AccountFragment extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         StreamBuilder<QuerySnapshot>(
-                            stream:
-                                userModel.nFriends(userModel.userData["id"]),
+                            stream: userModel.nFriends(userModel.userData["id"]),
                             builder: (context, snapshot) {
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
@@ -63,12 +58,7 @@ class AccountFragment extends StatelessWidget {
                                       color: Colors.transparent,
                                       child: InkWell(
                                         onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      FriendsRequestScreen(
-                                                          snapshot.data
-                                                              .documents)));
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => FriendsRequestScreen(snapshot.data.documents)));
                                         },
                                         child: Container(
                                           child: Column(
@@ -84,34 +74,20 @@ class AccountFragment extends StatelessWidget {
                                                         width: 50.0,
                                                         height: 50.0,
                                                         decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            image: DecorationImage(
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                                image: AssetImage(
-                                                                    "images/rpg_icon.png"))),
+                                                            shape: BoxShape.circle, image: DecorationImage(fit: BoxFit.fill, image: AssetImage("images/rpg_icon.png"))),
                                                       ),
                                                       Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: 35),
+                                                        margin: EdgeInsets.only(left: 35),
                                                         width: 20,
                                                         height: 20,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
                                                           color: Colors.red,
                                                         ),
                                                         child: Text(
-                                                          snapshot.data
-                                                              .documents.length
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                          snapshot.data.documents.length.toString(),
+                                                          style: TextStyle(color: Colors.white),
                                                         ),
                                                       )
                                                     ],
@@ -120,23 +96,15 @@ class AccountFragment extends StatelessWidget {
                                                     width: 10,
                                                   ),
                                                   Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: <Widget>[
                                                       Text(
                                                         "Friend requests",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                                       ),
                                                       Text(
                                                         "approve or ignore requests",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                        style: TextStyle(color: Colors.white),
                                                       ),
                                                     ],
                                                   )
@@ -160,8 +128,7 @@ class AccountFragment extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.all(15),
@@ -176,13 +143,7 @@ class AccountFragment extends StatelessWidget {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                   fit: BoxFit.fill,
-                                                  image: userModel.userData[
-                                                              "photoUrl"] !=
-                                                          null
-                                                      ? NetworkImage(userModel
-                                                          .userData["photoUrl"])
-                                                      : AssetImage(
-                                                          "images/rpg_icon.png"),
+                                                  image: userModel.userData["photoUrl"] != null ? NetworkImage(userModel.userData["photoUrl"]) : AssetImage("images/rpg_icon.png"),
                                                 )),
                                           ),
                                         ),
@@ -192,11 +153,8 @@ class AccountFragment extends StatelessWidget {
                                         Container(
                                           width: 100,
                                           child: Text(
-                                            userModel.userData["name"] != null
-                                                ? userModel.userData["name"]
-                                                : "",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            userModel.userData["name"] != null ? userModel.userData["name"] : "",
+                                            style: TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -206,8 +164,7 @@ class AccountFragment extends StatelessWidget {
                                     ),
                                   ),
                                   StreamBuilder<QuerySnapshot>(
-                                    stream: userModel.userFriendsLive(
-                                        userModel.userData["id"]),
+                                    stream: userModel.userFriendsLive(userModel.userData["id"]),
                                     builder: (context, friends) {
                                       if (userModel.userData != null) {
                                         return Column(
@@ -216,21 +173,8 @@ class AccountFragment extends StatelessWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: <Widget>[
-                                                Text("Friends: ",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
-                                                Text(
-                                                    friends.data != null
-                                                        ? (friends
-                                                                .data
-                                                                .documents
-                                                                .length)
-                                                            .toString()
-                                                        : "0",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
+                                                Text("Friends: ", style: TextStyle(color: Colors.white, fontSize: 15)),
+                                                Text(friends.data != null ? (friends.data.documents.length).toString() : "0", style: TextStyle(color: Colors.white, fontSize: 15)),
                                                 SizedBox(
                                                   width: 10,
                                                 ),
@@ -239,19 +183,16 @@ class AccountFragment extends StatelessWidget {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Container(
-                                              child: RaisedButton(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                ),
-                                                color: Color.fromARGB(
-                                                    255, 6, 223, 176),
-                                                onPressed: () {},
-                                                child: Text("Edit profile"),
-                                              ),
-                                            ),
+//                                            Container(
+//                                              child: RaisedButton(
+//                                                shape: RoundedRectangleBorder(
+//                                                  borderRadius: BorderRadius.circular(5.0),
+//                                                ),
+//                                                color: Color.fromARGB(255, 6, 223, 176),
+//                                                onPressed: () {},
+//                                                child: Text("Edit profile"),
+//                                              ),
+//                                            ),
                                           ],
                                         );
                                       }
@@ -263,9 +204,7 @@ class AccountFragment extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(bottom: 20),
                               child: Text(
-                                userModel.userData["masterTitle"] != null
-                                    ? userModel.userData["masterTitle"]
-                                    : "You do not have a phrase.",
+                                userModel.userData["masterTitle"] != null ? userModel.userData["masterTitle"] : "You do not have a phrase.",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -277,27 +216,20 @@ class AccountFragment extends StatelessWidget {
                               ),
                             ),
                             StreamBuilder(
-                                stream: userModel
-                                    .userFriendsLive(userModel.userData["id"]),
+                                stream: userModel.userFriendsLive(userModel.userData["id"]),
                                 builder: (context, snapshot) {
                                   switch (snapshot.connectionState) {
                                     case ConnectionState.waiting:
                                       return Container(
                                           child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
                                               margin: EdgeInsets.only(top: 70),
                                               child: Text(
                                                 "Loading ...",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 234, 205, 125),
-                                                    fontSize: 20),
+                                                style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 234, 205, 125), fontSize: 20),
                                                 textAlign: TextAlign.center,
                                               )),
                                           Container(
@@ -305,9 +237,7 @@ class AccountFragment extends StatelessWidget {
                                             width: 80,
                                             height: 80,
                                             alignment: Alignment.center,
-                                            child: FlareActor(
-                                                "assets/Dice_Loading.flr",
-                                                animation: "loading"),
+                                            child: FlareActor("assets/Dice_Loading.flr", animation: "loading"),
                                           )
                                         ],
                                       ));
@@ -315,19 +245,13 @@ class AccountFragment extends StatelessWidget {
                                       if (snapshot.data.documents.isNotEmpty) {
                                         return ListView.builder(
                                           shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              snapshot.data.documents.length,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: snapshot.data.documents.length,
                                           itemBuilder: (context, index) {
-                                            return FutureBuilder<
-                                                DocumentSnapshot>(
-                                              future: userModel.userTeste(
-                                                  snapshot.data.documents[index]
-                                                      ["friend"]),
+                                            return FutureBuilder<DocumentSnapshot>(
+                                              future: userModel.userTeste(snapshot.data.documents[index]["friend"]),
                                               builder: (context, snapshot) {
-                                                switch (
-                                                    snapshot.connectionState) {
+                                                switch (snapshot.connectionState) {
                                                   case ConnectionState.waiting:
                                                     return Container();
                                                   default:
@@ -340,48 +264,30 @@ class AccountFragment extends StatelessWidget {
                                                             height: 10,
                                                           ),
                                                           Row(
-                                                            children: <
-                                                                Widget>[
+                                                            children: <Widget>[
                                                               Container(
                                                                 width: 50.0,
                                                                 height: 50.0,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                        shape: BoxShape
-                                                                            .circle,
-                                                                        image:
-                                                                            DecorationImage(
-                                                                          fit:
-                                                                              BoxFit.fill,
-                                                                          image: snapshot.data["photoUrl"] != null
-                                                                              ? NetworkImage(snapshot.data["photoUrl"])
-                                                                              : AssetImage("images/rpg_icon.png"),
-                                                                        )),
+                                                                decoration: BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.fill,
+                                                                      image: snapshot.data["photoUrl"] != null
+                                                                          ? NetworkImage(snapshot.data["photoUrl"])
+                                                                          : AssetImage("images/rpg_icon.png"),
+                                                                    )),
                                                               ),
                                                               SizedBox(
                                                                 width: 10,
                                                               ),
                                                               Flexible(
                                                                 child: Text(
-                                                                  snapshot.data["name"] !=
-                                                                          null
-                                                                      ? snapshot.data[
-                                                                          "name"]
-                                                                      : snapshot.data["username"] != null
-                                                                          ? snapshot.data["username"]
-                                                                          : snapshot.data["email"],
-                                                                  maxLines:
-                                                                      1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight: FontWeight
-                                                                          .bold,
-                                                                      fontSize:
-                                                                          15),
+                                                                  snapshot.data["name"] != null
+                                                                      ? snapshot.data["name"]
+                                                                      : snapshot.data["username"] != null ? snapshot.data["username"] : snapshot.data["email"],
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                                                                 ),
                                                               )
                                                             ],
@@ -392,16 +298,9 @@ class AccountFragment extends StatelessWidget {
                                                           SizedBox(
                                                             height: 0.3,
                                                             child: Center(
-                                                              child:
-                                                                  Container(
-                                                                margin: EdgeInsetsDirectional
-                                                                    .only(
-                                                                        start:
-                                                                            1.0,
-                                                                        end:
-                                                                            1.0),
-                                                                color: Colors
-                                                                    .white,
+                                                              child: Container(
+                                                                margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+                                                                color: Colors.white,
                                                               ),
                                                             ),
                                                           ),
@@ -419,11 +318,7 @@ class AccountFragment extends StatelessWidget {
                                           child: Center(
                                             child: Text(
                                               "You do not have any friends yet",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 234, 205, 125)),
+                                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 234, 205, 125)),
                                             ),
                                           ),
                                         );

@@ -67,37 +67,6 @@ class _SignInButtonState extends State<SignInButton> {
                 ),
               ),
             ),
-            Container(
-              width: 250.0,
-              child: Align(
-                alignment: Alignment.center,
-                child: RaisedButton(
-                  onPressed: () {
-                    model.signOutGoogle();
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: Color.fromRGBO(59, 89, 152, 1.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.facebook,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        "Sign in with Facebook",
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ],
         );
       },

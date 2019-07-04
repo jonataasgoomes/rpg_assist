@@ -270,7 +270,7 @@ class _InfoCharacterState extends State<InfoCharacter> {
                           children: <Widget>[
                             InkWell(
                               highlightColor: Colors.red,
-                              onLongPress: (){
+                              onLongPress: adventureDoc["master"] == userLogged["id"] || playerCharacterData.data["userId"] == userLogged["id"] ? (){
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -299,7 +299,7 @@ class _InfoCharacterState extends State<InfoCharacter> {
                                   },
                                 );
 
-                              },
+                              }:null,
                               child: Card(
                                 color: Colors.white10,
                                 child: Container(
