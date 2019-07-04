@@ -79,8 +79,11 @@ class _StatusSliderState extends State<StatusSlider> {
                               data: Theme.of(context).sliderTheme.copyWith(
                                   trackHeight: 10,
                                   activeTrackColor: color,
+                                  disabledActiveTrackColor: color,
+                                  disabledInactiveTrackColor: Colors.white30,
                                   inactiveTrackColor: Colors.white30,
                                   thumbColor: Colors.white,
+                                  disabledThumbColor: Colors.white,
                                   thumbShape: RoundSliderThumbShape(
                                       enabledThumbRadius: 10)),
                               child: Flexible(
@@ -147,8 +150,11 @@ class _StatusSliderState extends State<StatusSlider> {
                                 data: Theme.of(context).sliderTheme.copyWith(
                                     trackHeight: 10,
                                     activeTrackColor: color,
+                                    disabledActiveTrackColor: color,
+                                    disabledInactiveTrackColor: Colors.white30,
                                     inactiveTrackColor: Colors.white30,
                                     thumbColor: Colors.white,
+                                    disabledThumbColor: Colors.white,
                                     thumbShape: RoundSliderThumbShape(
                                         enabledThumbRadius: 10)),
                                 child: Flexible(
