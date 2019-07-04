@@ -131,6 +131,13 @@ class AdventureModel extends Model {
 
   /*------------------------------------------------------------------------------------------------------*/
 
+
+  Future<Null> updateAdventure (Map<String,dynamic> adventureData, String adventureId) async{
+
+   Firestore.instance.collection("adventures").document(adventureId).updateData(adventureData);
+
+  }
+
   Future<Null> registerAdventure(
       {@required Map<String, dynamic> adventureData,
       @required VoidCallback onSuccess,
@@ -337,6 +344,8 @@ class AdventureModel extends Model {
         .collection("players")
         .document();
 
+
+
     playerData["characterId"] = _characterReference.documentID;
 
     await Firestore.instance
@@ -348,6 +357,65 @@ class AdventureModel extends Model {
 
     await _characterReference.setData(playerData);
   }
+
+
+
+  Future<Null> addPlayersOnAdventureMaster(
+      {@required String adventureId, @required userId}) async {
+    Map<String, dynamic> playerData = Map();
+
+    playerData["userId"] = userId;
+
+    playerData["status"] = 0;
+
+    playerData["hp"] = 0;
+    playerData["xp"] = 0;
+    playerData["level"] = 0;
+
+    playerData["name"] = "";
+    playerData["race"] = "";
+    playerData["class"] = "";
+    playerData["sex"] = "";
+
+    //Maneira que eu achei para verificar atributos do player na tela de edição
+    playerData["raceNumber"] = 404;
+    playerData["classNumber"] = 404;
+    playerData["sexNumber"] = 404;
+
+    playerData["str"] = 0;
+    playerData["dex"] = 0;
+    playerData["int"] = 0;
+    playerData["cha"] = 0;
+    playerData["con"] = 0;
+    playerData["wis"] = 0;
+
+    Map<String, dynamic> playerDataAdventure = Map();
+    playerDataAdventure["adventureId"] = adventureId;
+    playerDataAdventure["timestamp"] = FieldValue.serverTimestamp();
+
+    _characterReference = Firestore.instance
+        .collection("adventures")
+        .document(adventureId)
+        .collection("players")
+        .document(userId);
+
+
+
+    playerData["characterId"] = _characterReference.documentID;
+
+    await Firestore.instance
+        .collection("users")
+        .document(userId)
+        .collection("adventures")
+        .document(adventureId)
+        .setData(playerDataAdventure);
+
+    await _characterReference.setData(playerData);
+  }
+
+
+
+
 
   Future<Null> updateCharacter(
       String adventureId, userId, Map<String, dynamic> characterData) async {
@@ -472,6 +540,9 @@ class AdventureModel extends Model {
       String adventureId, playerId, masterId) async {
     Map<String, dynamic> data = Map();
     data["master"] = playerId;
+
+
+    addPlayersOnAdventureMaster(adventureId: adventureId, userId: masterId);
 
     await Firestore.instance
         .collection("adventures")

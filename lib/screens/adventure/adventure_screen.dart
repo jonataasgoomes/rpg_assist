@@ -22,7 +22,9 @@ class _AdventureScreenState extends State<AdventureScreen>
     with SingleTickerProviderStateMixin {
   final DocumentSnapshot adventureDoc;
   final Map<String, dynamic> user;
-
+  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final _adventureTitleController = TextEditingController();
+  final _adventureSummaryController = TextEditingController();
   _AdventureScreenState(this.adventureDoc, this.user);
 
   @override
@@ -146,36 +148,155 @@ class _AdventureScreenState extends State<AdventureScreen>
                             visible: (adventureModel.editMode &
                                 (adventureDoc["master"] == user["id"])),
                             child: GestureDetector(
-                              onTap: () async {
-                                final bool result = await showDialog(
+                              onTap: () {
+                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return Container(
-                                        margin: EdgeInsets.symmetric(vertical: 100,horizontal: 50),
-                                        color: Colors.white,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                FlatButton(onPressed: () => Navigator.of(context).pop(false),
-                                                    child: const Text("CANCEL")
+                                      return ScopedModelDescendant<UserModel>(
+                                        builder: (context,child,userModel){
+                                          return Scaffold(
+                                              appBar: AppBar(
+                                                backgroundColor: Color.fromARGB(255, 34, 17, 51),
+                                                title: Image.asset(
+                                                  "images/logo.png",
+                                                  height: 20,
                                                 ),
+                                                centerTitle: true,
+                                                iconTheme: IconThemeData(color: Color.fromARGB(255, 234, 205, 125)),
+                                              ),
+                                              floatingActionButton: Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                child: FloatingActionButton(
+                                                  backgroundColor: Color.fromRGBO(0, 226, 186, 1.0),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Container(
+                                                    child: Icon(Icons.check),
+                                                  ),
+                                                ),
+                                              ),
+                                              floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+                                              body: Container(
+                                                  color: Color.fromARGB(255, 20, 110, 111),
+                                                  child: ScopedModelDescendant<AdventureModel>(
+                                                    builder: (context,child,model){
+                                                      return Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(5), color: Colors.white),
+                                                        margin: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                                                        child: ListView(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              margin: EdgeInsets.only(left: 20,right: 20,top: 50),
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                                children: <Widget>[
+                                                                  Text(
+                                                                    "Edit adventure",
+                                                                    style: TextStyle(
+                                                                        color: Color.fromARGB(255, 84, 166, 145),
+                                                                        fontSize: 20,
+                                                                        fontWeight: FontWeight.bold),
+                                                                  ),
+                                                                  Form(
+                                                                    key: _formKey,
+                                                                    child: Column(
+                                                                      children: <Widget>[
+                                                                        Container(
+                                                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                                                          child: TextFormField(
+                                                                            controller: _adventureTitleController,
+                                                                            style: TextStyle(),
+                                                                            decoration: InputDecoration(
+                                                                                labelText: "Name adventure",
+                                                                                hintStyle: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                ),
+                                                                                contentPadding: EdgeInsets.only(
+                                                                                    top: 30, right: 30, bottom: 10, left: 5)),
+                                                                            validator: (text){
+                                                                              if(text.isEmpty){
+                                                                                return "enter the name of the adventure";
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                                                          child: TextFormField(
+                                                                            controller: _adventureSummaryController,
+                                                                            style: TextStyle(),
+                                                                            decoration: InputDecoration(
+                                                                                labelText: "Sumarry adventure",
+                                                                                hintStyle: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                ),
+                                                                                contentPadding: EdgeInsets.only(
+                                                                                    top: 30, right: 30, bottom: 10, left: 5)),
+                                                                            validator: (text){
+                                                                              if(text.isEmpty){
+                                                                                return "enter the sumarry of the adventure";
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
 
-                                                FlatButton(
-                                                  onPressed: () => Navigator.of(context).pop(true),
-                                                  child: const Text("EDIT",style: TextStyle(color: Colors.green),),)
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                                                  Container(
+                                                                    margin: EdgeInsets.only(top: 20),
+                                                                    child: RaisedButton(
+                                                                      onPressed: () {
+                                                                        if(_formKey.currentState.validate()){
+                                                                          Map<String, dynamic> adventureData = {
+                                                                            "title": _adventureTitleController.text,
+                                                                            "summary": _adventureSummaryController.text,
+                                                                          };
+
+                                                                          model.updateAdventure(adventureData,adventureDoc["adventureId"]);
+
+                                                                          print(adventureDoc["adventureId"]);
+
+                                                                          Navigator.of(context).pop();
+                                                                        }
+
+                                                                      },
+                                                                      color: Color.fromRGBO(0, 226, 186, 1.0),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                        children: <Widget>[
+                                                                          SizedBox(
+                                                                            width: 10.0,
+                                                                          ),
+                                                                          Text(
+                                                                            "Edit",
+                                                                            style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 15.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              letterSpacing: 1.0,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
+                                              )
+                                          );
+                                        },
                                       );
                                     });
-                                if (result) {
-                                  return result;
-                                } else {
-                                  return false;
-                                }
                               },
                               child: Container(
                                 child: Icon(Icons.mode_edit,size: 20,color: Colors.white,),
