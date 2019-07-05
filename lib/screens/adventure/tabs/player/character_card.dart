@@ -130,8 +130,8 @@ class _CharacterCardState extends State<CharacterCard> {
                                     color: Colors.black38,
                                     child: Column(
                                       children: <Widget>[
-                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data),
-                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data),
+                                        StatusSlider("hp",Color.fromARGB(255, 255, 0, 0),adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusSlider("xp",Color.fromARGB(255, 6, 223, 176),adventureDoc, playerCharacterData.data,userLogged["id"]),
                                       ],
                                     ),
                                   ),
@@ -143,12 +143,12 @@ class _CharacterCardState extends State<CharacterCard> {
                                       padding: EdgeInsets.all(0),
                                       crossAxisCount: 3,
                                       children: <Widget>[
-                                        StatusCharacter("str", adventureDoc, playerCharacterData.data),
-                                        StatusCharacter("dex", adventureDoc, playerCharacterData.data),
-                                        StatusCharacter("int", adventureDoc, playerCharacterData.data),
-                                        StatusCharacter("cha", adventureDoc, playerCharacterData.data),
-                                        StatusCharacter("con", adventureDoc, playerCharacterData.data),
-                                        StatusCharacter("wis", adventureDoc, playerCharacterData.data),
+                                        StatusCharacter("str", adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusCharacter("dex", adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusCharacter("int", adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusCharacter("cha", adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusCharacter("con", adventureDoc, playerCharacterData.data,userLogged["id"]),
+                                        StatusCharacter("wis", adventureDoc, playerCharacterData.data,userLogged["id"]),
                                       ],
                                     ),
                                   )

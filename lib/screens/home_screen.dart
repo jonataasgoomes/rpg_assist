@@ -22,10 +22,10 @@ class InfoTile {
 class HomeScreen extends StatefulWidget {
   final drawerItems = [
     InfoTile(Icons.view_list, "Adventures"),
-    InfoTile(Icons.library_books, "Books"),
+//    InfoTile(Icons.library_books, "Books"),
     InfoTile(Icons.person_outline, "Account"),
-    InfoTile(Icons.notifications, "Notifications"),
-    InfoTile(Icons.settings, "Settings"),
+//    InfoTile(Icons.notifications, "Notifications"),
+//    InfoTile(Icons.settings, "Settings"),
   ];
 
   @override
@@ -40,14 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (pos) {
       case 0:
         return HomeFragment();
+//      case 1:
+//        return BooksFragment();
       case 1:
-        return BooksFragment();
-      case 2:
         return AccountFragment();
-      case 3:
-        return NotificationsFragment();
-      case 4:
-        return SettingsFragment();
+//      case 3:
+//        return NotificationsFragment();
+//      case 4:
+//        return SettingsFragment();
 
       default:
         return new Text("Error");
